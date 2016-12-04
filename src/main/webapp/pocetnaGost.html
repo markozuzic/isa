@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Početna</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="js/pocetnaGost.js"></script>
+<link rel="stylesheet" type="text/css" href="css/loginStyle.css">
+
+
+</head>
+<body>
+
+	<div class="container" data-ng-app="myApp">
+
+		<ul class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+			<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+			<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+			<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div id="home" class="tab-pane fade in active">
+
+				<!------------------------------------------------ MOJ NALOG ------------------------------------------------->
+				<h3>Moj nalog</h3>
+
+				<div data-ng-controller="homePageController">
+
+					<div class="container">
+					  <div class="row">
+					  
+					  	<div class="col-md-1 pull-right">
+					  		<button class="btn" data-ng-click="clickEdit()">
+								<span data-ng-class="{'glyphicon-pencil': isReadOnly, 'glyphicon-ok' : !isReadOnly}"
+								class="glyphicon "></span>
+							</button>
+					  	</div>
+					  
+					  	<div class="col-md-11">
+						  <form>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
+									<input id="ime" type="text" class="form-control" data-ng-model="ime" placeholder="Ime"
+									data-ng-readonly="isReadOnly"><br/>
+							</div>
+
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
+									<input id="prezime" type="text" class="form-control" data-ng-model="prezime" placeholder="Prezime" 
+									data-ng-readonly="isReadOnly"><br />
+							</div>
+							
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span> 
+									<input id="email" type="text" class="form-control" data-ng-model="email" placeholder="Email" 
+									data-ng-readonly="isReadOnly"><br />
+							</div>
+						  </form>
+						 </div>
+						</div>
+
+
+						<!---------------------------- MODAL LOZINKA ------------------------------>
+						<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalLozinka">Promeni lozinku</button>
+
+						<!-- Modal -->
+						<div id="modalLozinka" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+
+								<!-- Modal content-->
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Izmena lozinke</h4>
+									</div>
+									<div class="modal-body">
+									  <div class="input-group">
+										<form>
+											<input class="form-control" type="password" placeholder="Stara lozinka" data-ng-model="staraLozinka"/>
+											
+											<input class="form-control" type="password" placeholder="Nova lozinka" data-ng-model="novaLozinka"/>
+											<input class="form-control" type="password" placeholder="Ponovite novu lozinku" data-ng-model="novaLozinka2"/>
+										</form>
+									  </div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal" data-ng-click="promeniLozinku()">Promeni</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+
+
+					</div>
+				
+				
+
+				</div>
+				<div id="menu1" class="tab-pane fade">
+					<h3>Prijatelji</h3>
+					
+				</div>
+				<div id="menu2" class="tab-pane fade">
+					<h3>Menu 2</h3>
+					<p>Sed ut perspiciatis unde omnis iste natus error sit
+						voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+				</div>
+				<div id="menu3" class="tab-pane fade">
+					<h3>Menu 3</h3>
+					<p>Eaque ipsa quae ab illo inventore veritatis et quasi
+						architecto beatae vitae dicta sunt explicabo.</p>
+				</div>
+			</div>
+		</div>
+		</div>
+</body>
+</html>
