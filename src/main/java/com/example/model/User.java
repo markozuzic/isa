@@ -69,6 +69,7 @@ public class User {
 		return password;
 	}
 
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + ", password="
@@ -78,7 +79,4 @@ public class User {
 	public Long getId() {
 		return id;
 	}
-	
-	
-	
 }

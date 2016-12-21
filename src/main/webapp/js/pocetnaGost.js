@@ -1,6 +1,6 @@
 var app = angular.module('myApp', [])
 
-app.controller('homePageController', function($scope, $http) {
+app.controller('homePageController', function($scope, $http, $window) {
     
 	var user = "";
 	angular.element(document).ready(function () {
@@ -16,7 +16,73 @@ app.controller('homePageController', function($scope, $http) {
 			}, function(response) {
 				alert(response.statusText);
 		});
+        
+        $http.get('/user/getAllUsers').then(function(response) {
+		   $scope.allUsers = response.data;
+		}, function(response) {
+			alert(response.statusText);
+	   });
+        
+        $http.get('/user/getFriends').then(function(response) {
+        	$scope.friends = response.data;
+ 		}, function(response) {
+ 			alert(response.statusText);
+ 	    });
+        
+        $http.get('/user/getPendingRequests').then(function(response) {
+        	$scope.pendingRequests = response.data;
+ 		}, function(response) {
+ 			alert(response.statusText);
+ 	   });
+        
+        $http.get('/user/getFriendSuggestions').then(function(response) {
+ 		   $scope.friendSuggestions = response.data;
+ 		}, function(response) {
+ 			alert(response.statusText);
+ 	   });
 	});
+	
+	$scope.dodajPrijatelja = function(event) {
+		var dp = document.getElementById(event.target.id).getAttribute("name");
+		$http.get('/user/addFriend/'+dp).then(function(response) {
+			$window.location.reload();
+			toastr.success("Zahtev poslat!");
+		}, function(response) {
+			alert(response.statusText);
+		});
+	}
+	
+	$scope.prihvatiPrijatelja = function(event) {
+		var pp = document.getElementById(event.target.id).getAttribute("name");
+		$http.get('/user/acceptFriendRequest/'+pp).then(function(response) {
+			$window.location.reload();
+			toastr.success("Zahtev prihvacen!");
+		}, function(response) {
+			alert(response.statusText);
+		});
+	}
+	
+	$scope.odbijPrijatelja = function(event) {
+		var op = document.getElementById(event.target.id).getAttribute("name");
+		$http.get('/user/denyFriendRequest/'+op).then(function(response) {
+			$window.location.reload();
+			toastr.info("Zahtev odbijen!");
+		}, function(response) {
+			alert(response.statusText);
+			$window.location.reload();
+		});
+	}
+	
+	$scope.obrisiPrijatelja = function(event) {
+		var obp = document.getElementById(event.target.id).getAttribute("name");
+		$http.get('/user/removeFriend/'+obp).then(function(response) {
+			$window.location.reload();
+			toastr.info("Prijatelj obrisan.");
+		}, function(response) {
+			alert(response.statusText);
+		});
+	}
+	
 	
 	$scope.clickEdit = function() {
 		if ($scope.isReadOnly == true) {
@@ -74,4 +140,13 @@ app.controller('homePageController', function($scope, $http) {
 			
 		}
 	}
+	
+	$scope.filterFn = function(user) {
+		var check = user.name.concat(" "+user.surname);
+		if(check.includes($scope.searchKeyword))
+	    {
+	        return true; 
+	    }
+		return false;
+	};
 });

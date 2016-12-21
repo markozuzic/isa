@@ -26,19 +26,19 @@
 	<div class="container" data-ng-app="myApp">
 
 		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-			<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+			<li class="active"><a data-toggle="tab" href="#home">Nalog</a></li>
+			<li><a data-toggle="tab" href="#menu1">Prijatelji</a></li>
 			<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
 			<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
 		</ul>
 
-		<div class="tab-content">
+		<div class="tab-content" data-ng-controller="homePageController">
 			<div id="home" class="tab-pane fade in active">
 
 				<!------------------------------------------------ MOJ NALOG ------------------------------------------------->
 				<h3>Moj nalog</h3>
 
-				<div data-ng-controller="homePageController">
+				<div >
 
 					<div class="container">
 					  <div class="row">
@@ -50,7 +50,7 @@
 							</button>
 					  	</div>
 					  
-					  	<div class="col-md-11">
+						<div class="col-md-11">
 						  <form>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
@@ -109,23 +109,76 @@
 
 					</div>
 				
-				
+				 
 
 				</div>
-				<div id="menu1" class="tab-pane fade">
-					<h3>Prijatelji</h3>
-					
+				
+			</div>
+			<div id="menu1" class="tab-pane fade">
+				<div class="containter">
+					<div class="row">
+						<div class="col-md-6 center-block">
+							<h3>Moji prijatelji</h3>
+							<table class="table table-hover">
+								<tr data-ng-repeat="x in friends">
+									<td>{{x.name + " " + x.surname}}
+										
+									</td>
+									<td>
+										<button class="btn btn-danger" id="obp+{{x.id}}" name="{{x.id}}"  data-ng-click="obrisiPrijatelja($event)">
+											<span class="glyphicon glyphicon-minus"></span>
+										</button>
+									</td>
+								</tr>
+							</table>
+							
+							<hr>
+							
+							<h3>Zahtevi</h3>
+							<table class="table table-hover">
+								<tr data-ng-repeat="x in pendingRequests">
+									<td>{{x.name + " " + x.surname}}
+										
+									</td>
+									<td>
+										<button class="btn btn-success" id="pp+{{x.id}}" name="{{x.id}}" data-ng-click="prihvatiPrijatelja($event)">
+											<span class="glyphicon glyphicon-ok"></span>
+										</button>
+										<button class="btn btn-danger" id="op+{{x.id}}" name="{{x.id}}" data-ng-click="odbijPrijatelja($event)">
+											<span class="glyphicon glyphicon-remove"></span>
+										</button>
+									</td>
+								</tr>
+							</table>
+						
+						
+							<hr>
+							<input type="text" class="form-control ng-valid ng-dirty" placeholder="Pretraga" data-ng-model="searchKeyword">
+							<table class="table table-bordered">
+								<tr data-ng-repeat="x in friendSuggestions | filter:filterFn | filter:searchKeyword">
+									<td>{{x.name + " " + x.surname}}
+										
+									</td>
+									<td>
+										<button class="btn btn-primary" id="dp+{{x.id}}" name="{{x.id}}" data-ng-click="dodajPrijatelja($event)">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
 				</div>
-				<div id="menu2" class="tab-pane fade">
-					<h3>Menu 2</h3>
-					<p>Sed ut perspiciatis unde omnis iste natus error sit
-						voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-				</div>
-				<div id="menu3" class="tab-pane fade">
-					<h3>Menu 3</h3>
-					<p>Eaque ipsa quae ab illo inventore veritatis et quasi
-						architecto beatae vitae dicta sunt explicabo.</p>
-				</div>
+			</div>
+			<div id="menu2" class="tab-pane fade">
+				<h3>Menu 2</h3>
+				<p>Sed ut perspiciatis unde omnis iste natus error sit
+					voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+			</div>
+			<div id="menu3" class="tab-pane fade">
+				<h3>Menu 3</h3>
+				<p>Eaque ipsa quae ab illo inventore veritatis et quasi
+					architecto beatae vitae dicta sunt explicabo.</p>
 			</div>
 		</div>
 		</div>
