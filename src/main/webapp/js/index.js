@@ -10,11 +10,11 @@ app.controller('personCtrl', function($scope, $window, $http) {
 	   var user = formToJSON("" , "", $scope.email, $scope.lozinka);
 	   $http.post('/user/login', user).then(function(response) {
 		   if(response.data == "EmailError") {
-			   alert("Uneli ste pogresnu email adresu");
+			   toastr.error("Uneli ste pogresnu email adresu!");
 		   } else if (response.data == "PasswordError") {
-			   alert("Uneli ste pogresnu lozinku");
+			   toastr.error("Uneli ste pogresnu lozinku!");
 		   } else {
-			   alert("Uspesno logovanje!");
+			   toastr.success("Uspesno logovanje!");
 		   }
 		}, function(response) {
 			alert(response.data);
