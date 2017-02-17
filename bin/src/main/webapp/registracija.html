@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Registracija</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="js/index.js"></script>
+<link rel="stylesheet" type="text/css" href="css/loginStyle.css">
+</head>
+<body>
+	<div class="login-block">
+		<div data-ng-app="myApp" data-ng-controller="registerCtrl">
+			<input type="text" placeholder="Ime" data-ng-model="ime">
+			<input type="text" placeholder="Prezime" data-ng-model="prezime"><br>
+			<input type="text" placeholder="E-mail adresa" data-ng-model="email">
+			<input type="password" placeholder="Lozinka" data-ng-model="lozinka"><br>
+			<input type="password" placeholder="Ponovite lozinku" data-ng-model="lozinka2"><br>
+			<br>
+			<button data-ng-click="clickRegistrujSe()" class="btn btn-danger center-block">Registruj se!</button>
+		</div>
+	</div>
+	
+	<script>
+	var app = angular.module('myApp', []);
+	app.controller('registerCtrl', function($scope, $http) {
+	   $scope.clickRegistrujSe = function() {
+		  $http({
+		        method : "POST",
+		        url : "/user/register",
+		        data : formToJSON($scope.ime, $scope.prezime, $scope.email, $scope.lozinka),
+		    }).then(function mySuccess(response) {
+		    	alert(response.data);
+		    }, function myError(response) {
+		    	alert(response.statusText);
+		    });
+		 };
+	});
+	
+	function formToJSON(name, surname, email, password) {
+		return JSON.stringify({
+			"name" : name,
+			"surname" : surname,
+			"email" : email,
+			"password" : password
+		});
+	}
+	</script>
+</body>
+</html>
