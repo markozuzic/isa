@@ -126,7 +126,7 @@
 									</td>
 									<td>
 										<button class="btn btn-danger" id="obp+{{x.id}}" name="{{x.id}}"  data-ng-click="obrisiPrijatelja($event)">
-											<span class="glyphicon glyphicon-minus"></span>
+											<i class="glyphicon glyphicon-minus"  data-ng-click="obrisiPrijatelja($event)"></i>
 										</button>
 									</td>
 								</tr>
@@ -142,10 +142,10 @@
 									</td>
 									<td>
 										<button class="btn btn-success" id="pp+{{x.id}}" name="{{x.id}}" data-ng-click="prihvatiPrijatelja($event)">
-											<span class="glyphicon glyphicon-ok"></span>
+											<span class="glyphicon glyphicon-ok" data-ng-click="prihvatiPrijatelja($event)"></span>
 										</button>
 										<button class="btn btn-danger" id="op+{{x.id}}" name="{{x.id}}" data-ng-click="odbijPrijatelja($event)">
-											<span class="glyphicon glyphicon-remove"></span>
+											<span class="glyphicon glyphicon-remove" data-ng-click="odbijPrijatelja($event)"></span>
 										</button>
 									</td>
 								</tr>
@@ -161,7 +161,7 @@
 									</td>
 									<td>
 										<button class="btn btn-primary" id="dp+{{x.id}}" name="{{x.id}}" data-ng-click="dodajPrijatelja($event)">
-											<span class="glyphicon glyphicon-plus"></span>
+											<span class="glyphicon glyphicon-plus" data-ng-click="dodajPrijatelja($event)"></span>
 										</button>
 									</td>
 								</tr>

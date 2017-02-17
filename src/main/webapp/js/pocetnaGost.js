@@ -44,16 +44,18 @@ app.controller('homePageController', function($scope, $http, $window) {
 	
 	$scope.dodajPrijatelja = function(event) {
 		var dp = document.getElementById(event.target.id).getAttribute("name");
+		toastr.success("KLIKNUO!");
 		$http.get('/user/addFriend/'+dp).then(function(response) {
-			$window.location.reload();
+			//$window.location.reload();
 			toastr.success("Zahtev poslat!");
 		}, function(response) {
-			alert(response.statusText);
+			alert(response.data);
 		});
 	}
 	
 	$scope.prihvatiPrijatelja = function(event) {
 		var pp = document.getElementById(event.target.id).getAttribute("name");
+		toastr.success("KLIKNUO!");
 		$http.get('/user/acceptFriendRequest/'+pp).then(function(response) {
 			$window.location.reload();
 			toastr.success("Zahtev prihvacen!");
@@ -64,6 +66,7 @@ app.controller('homePageController', function($scope, $http, $window) {
 	
 	$scope.odbijPrijatelja = function(event) {
 		var op = document.getElementById(event.target.id).getAttribute("name");
+		toastr.success("KLIKNUO!");
 		$http.get('/user/denyFriendRequest/'+op).then(function(response) {
 			$window.location.reload();
 			toastr.info("Zahtev odbijen!");
@@ -75,6 +78,7 @@ app.controller('homePageController', function($scope, $http, $window) {
 	
 	$scope.obrisiPrijatelja = function(event) {
 		var obp = document.getElementById(event.target.id).getAttribute("name");
+		toastr.success("KLIKNUO!");
 		$http.get('/user/removeFriend/'+obp).then(function(response) {
 			$window.location.reload();
 			toastr.info("Prijatelj obrisan.");
