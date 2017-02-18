@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.User;
+import com.example.model.Visit;
 import com.example.service.UserService;
 
 @Transactional
@@ -133,6 +134,14 @@ public class UserController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<User> getFriendSuggestions(){
 	    return userService.getFriendSuggestions();
+    }
+    
+    @RequestMapping(
+    		value = "/user/getVisits",
+    		method = RequestMethod.GET,
+    		produces = MediaType.APPLICATION_JSON_VALUE)
+    public Collection<Visit> getVisits(){
+    	return userService.getVisitsForUser();
     }
     
 }

@@ -2,15 +2,10 @@ var app = angular.module('myApp', [])
 
 app.controller('homePageController', function($scope, $http, $window) {
     
-	
-	
 	var user = "";
 	angular.element(document).ready(function () {
 		
 		$scope.isReadOnly = true;
-		$scope.sortType     = 'name'; // set the default sort type
-		$scope.sortReverse  = false;  // set the default sort order
-		$scope.searchTerm   = '';     // set the default search/filter term
 		
         $http.get('/user/getLoggedInUser').then(function(response) {
 			   user = response.data;
@@ -44,25 +39,14 @@ app.controller('homePageController', function($scope, $http, $window) {
  		   $scope.friendSuggestions = response.data;
  		}, function(response) {
  			alert(response.statusText);
- 	    });
-        
-        $http.get('/user/getFriendSuggestions').then(function(response) {
-  		   $scope.friendSuggestions = response.data;
-  		}, function(response) {
-  			alert(response.statusText);
-  	    });
-        
-        $http.get('/user/getVisits').then(function(response) {
-   		   $scope.visits = response.data;
-   		}, function(response) {
-   			alert(response.statusText);
-   	    });
-        
+ 	   });
 	});
 	
 	$scope.dodajPrijatelja = function(event) {
 		var dp = document.getElementById(event.target.id).getAttribute("name");
+		toastr.success("KLIKNUO!");
 		$http.get('/user/addFriend/'+dp).then(function(response) {
+			//$window.location.reload();
 			toastr.success("Zahtev poslat!");
 		}, function(response) {
 			alert(response.data);
@@ -71,7 +55,9 @@ app.controller('homePageController', function($scope, $http, $window) {
 	
 	$scope.prihvatiPrijatelja = function(event) {
 		var pp = document.getElementById(event.target.id).getAttribute("name");
+		toastr.success("KLIKNUO!");
 		$http.get('/user/acceptFriendRequest/'+pp).then(function(response) {
+			$window.location.reload();
 			toastr.success("Zahtev prihvacen!");
 		}, function(response) {
 			alert(response.statusText);
@@ -80,7 +66,9 @@ app.controller('homePageController', function($scope, $http, $window) {
 	
 	$scope.odbijPrijatelja = function(event) {
 		var op = document.getElementById(event.target.id).getAttribute("name");
+		toastr.success("KLIKNUO!");
 		$http.get('/user/denyFriendRequest/'+op).then(function(response) {
+			$window.location.reload();
 			toastr.info("Zahtev odbijen!");
 		}, function(response) {
 			alert(response.statusText);
@@ -90,6 +78,7 @@ app.controller('homePageController', function($scope, $http, $window) {
 	
 	$scope.obrisiPrijatelja = function(event) {
 		var obp = document.getElementById(event.target.id).getAttribute("name");
+		toastr.success("KLIKNUO!");
 		$http.get('/user/removeFriend/'+obp).then(function(response) {
 			$window.location.reload();
 			toastr.info("Prijatelj obrisan.");
