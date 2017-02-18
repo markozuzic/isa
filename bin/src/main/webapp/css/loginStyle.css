@@ -1,4 +1,7 @@
-
+.glyphicon {
+      pointer-events: all;
+    }
+    
 .login-block {
 	width: 370px;
 	padding: 20px;

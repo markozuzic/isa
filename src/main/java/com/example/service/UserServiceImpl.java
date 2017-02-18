@@ -1,6 +1,8 @@
 package com.example.service;
 
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,9 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.example.model.FriendRequest;
+import com.example.model.Restaurant;
 import com.example.model.User;
+import com.example.model.Visit;
 import com.example.repository.FriendshipRepository;
 import com.example.repository.UserRepository;
+import com.example.repository.VisitRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -26,7 +31,8 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private HttpSession httpSession;
 	
-	
+	@Autowired
+	private VisitRepository visitRepository;
 	
 	@Override
 	public String createUser(User newUser) {
@@ -150,7 +156,17 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String removeFriend(Long friendId) {
 		Long userId = ((User)httpSession.getAttribute("user")).getId();
-		FriendRequest oldRequest = friendshipRepository.findByReceiverIdAndSenderIdAndStatus(userId, friendId, "accepted").get(0);
+		List<FriendRequest> fr1 = friendshipRepository.findByReceiverIdAndSenderIdAndStatus(userId, friendId, "accepted");
+		FriendRequest oldRequest = null;
+		if(fr1.isEmpty()) {
+			List<FriendRequest> fr2 = friendshipRepository.findByReceiverIdAndSenderIdAndStatus(friendId, userId, "accepted");
+			if(!fr2.isEmpty())
+				oldRequest = fr2.get(0);
+		}
+		else {
+			oldRequest = fr1.get(0);
+		}
+		
 		friendshipRepository.delete(oldRequest);
 		return "OK";
 	}
@@ -181,10 +197,27 @@ public class UserServiceImpl implements UserService{
 		return retVal;
 	}
 
+	@Override
+	public String createVisit(Restaurant r, Date d) {
+		User user = (User)httpSession.getAttribute("user");
+		
+	    java.sql.Date sqlDate = new java.sql.Date(d.getTime());
+		
+		Visit v = new Visit(user.getId(), r.getId(), r.getName(), sqlDate);
+		visitRepository.save(v);
+		return "OK";
+	}
+
+	@Override
+	public Collection<Visit> getAllVisits() {
+		return visitRepository.findAll(null).getContent();
+	}
 	
-	
-	
-	
+	@Override
+	public Collection<Visit> getVisitsForUser(){
+		User user = (User)httpSession.getAttribute("user");
+		return visitRepository.findByUserId(user.getId());
+	}
 	
 
 }

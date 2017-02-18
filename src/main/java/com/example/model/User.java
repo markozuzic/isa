@@ -1,13 +1,15 @@
 package com.example.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 @Entity
-@Table
 public class User {
 	@Id
 	@GeneratedValue
@@ -24,6 +26,9 @@ public class User {
 	
 	@Column(nullable = false)
 	private String password;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<Reservation> reservations;
 	
 	public User() {
 		
@@ -78,5 +83,17 @@ public class User {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }
