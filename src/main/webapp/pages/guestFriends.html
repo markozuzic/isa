@@ -1,0 +1,77 @@
+				<div class="row">
+						<div class="col-md-6 center-block">
+							<h3>Moji prijatelji</h3>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										
+										<td>
+											<a data-ng-click="sortType = 'name'">
+												Ime
+												<span data-ng-show="sortType == 'name'" class="fa fa-caret-down"></span>
+											</a>
+										</td>
+										<td>
+											<a data-ng-click="sortType = 'surname'">
+												Prezime
+												<span data-ng-show="sortType == 'surname'" class="fa fa-caret-down"></span>
+											</a>
+										</td>
+										<td></td>
+									</tr>
+								</thead>
+							
+							
+								<tr data-ng-repeat="x in friends | orderBy:sortType:sortReverse">
+									<td>
+										{{x.name}}
+									</td>
+									<td>
+										{{x.surname}}
+									</td>
+									<td>
+										<button class="btn btn-danger" id="obp+{{x.id}}" name="{{x.id}}"  data-ng-click="obrisiPrijatelja($event)">
+											<i class="glyphicon glyphicon-minus"  data-ng-click="obrisiPrijatelja($event)"></i>
+										</button>
+									</td>
+								</tr>
+							</table>
+							
+							<hr>
+							
+							<h3>Zahtevi</h3>
+							<table class="table table-hover">
+								<tr data-ng-repeat="x in pendingRequests">
+									<td>{{x.name + " " + x.surname}}
+										
+									</td>
+									<td>
+										<button class="btn btn-success" id="pp+{{x.id}}" name="{{x.id}}" data-ng-click="prihvatiPrijatelja($event)">
+											<span class="glyphicon glyphicon-ok" data-ng-click="prihvatiPrijatelja($event)"></span>
+										</button>
+										<button class="btn btn-danger" id="op+{{x.id}}" name="{{x.id}}" data-ng-click="odbijPrijatelja($event)">
+											<span class="glyphicon glyphicon-remove" data-ng-click="odbijPrijatelja($event)"></span>
+										</button>
+									</td>
+								</tr>
+							</table>
+						
+						
+							<hr>
+							<input type="text" class="form-control ng-valid ng-dirty" placeholder="Pretraga" data-ng-model="searchKeyword">
+							<table class="table table-bordered">
+								<tr data-ng-repeat="x in friendSuggestions | filter:filterFn | filter:searchKeyword">
+									<td>{{x.name + " " + x.surname}}
+										
+									</td>
+									<td>
+										<button class="btn btn-primary" id="dp+{{x.id}}" name="{{x.id}}" data-ng-click="dodajPrijatelja($event)">
+											<span class="glyphicon glyphicon-plus" data-ng-click="dodajPrijatelja($event)"></span>
+										</button>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				<!-- </div>
+			</div> -->

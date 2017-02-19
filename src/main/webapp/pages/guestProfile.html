@@ -1,0 +1,64 @@
+			<div class="row">
+					  <h3>Moj profil</h3>
+					  	<div class="col-md-1 pull-right">
+					  		<button class="btn" data-ng-click="clickEdit()" data-ng-disabled="{false}">
+								<span data-ng-class="{'glyphicon-pencil': isReadOnly, 'glyphicon-ok' : !isReadOnly}"
+								class="glyphicon "></span>
+							</button>
+					  	</div>
+					  
+						<div class="col-md-11">
+						  <form>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
+									<input id="ime" type="text" class="form-control" data-ng-model="ime" placeholder="Ime"
+									data-ng-readonly="isReadOnly"><br/>
+							</div>
+
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
+									<input id="prezime" type="text" class="form-control" data-ng-model="prezime" placeholder="Prezime" 
+									data-ng-readonly="isReadOnly"><br />
+							</div>
+							
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span> 
+									<input id="email" type="text" class="form-control" data-ng-model="email" placeholder="Email" 
+									data-ng-readonly="isReadOnly"><br />
+							</div>
+						  </form>
+						 </div>
+						</div>
+
+
+						<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalLozinka">Promeni lozinku</button>
+
+						<div id="modalLozinka" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Izmena lozinke</h4>
+									</div>
+									<div class="modal-body">
+									  <div class="input-group">
+										<form>
+											<input class="form-control" type="password" placeholder="Stara lozinka" data-ng-model="staraLozinka"/>
+											
+											<input class="form-control" type="password" placeholder="Nova lozinka" data-ng-model="novaLozinka"/>
+											<input class="form-control" type="password" placeholder="Ponovite novu lozinku" data-ng-model="novaLozinka2"/>
+										</form>
+									  </div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal" data-ng-click="promeniLozinku()">Promeni</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+
+
+					

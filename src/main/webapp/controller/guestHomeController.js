@@ -1,9 +1,9 @@
-var app = angular.module('myApp', [])
+var guestHomeModule = angular.module('guestHome.controller', []);
+ 
 
-app.controller('homePageController', function($scope, $http, $window) {
-    
-	
-	
+guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http',
+  	function ($scope, $location, $http) {
+
 	var user = "";
 	angular.element(document).ready(function () {
 		
@@ -11,6 +11,7 @@ app.controller('homePageController', function($scope, $http, $window) {
 		$scope.sortType     = 'name'; // set the default sort type
 		$scope.sortReverse  = false;  // set the default sort order
 		$scope.searchTerm   = '';     // set the default search/filter term
+		
 		
         $http.get('/user/getLoggedInUser').then(function(response) {
 			   user = response.data;
@@ -164,4 +165,6 @@ app.controller('homePageController', function($scope, $http, $window) {
 	    }
 		return false;
 	};
-});
+	
+	
+}]);

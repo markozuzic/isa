@@ -1,14 +1,18 @@
 package com.example.service;
 
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.example.model.FriendRequest;
@@ -37,6 +41,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String createUser(User newUser) {
 		if (userRepository.findByEmail(newUser.getEmail()).isEmpty()) {
+			
+			
+			//send();
+			
+			
 			userRepository.save(newUser);
 			return "OK";
 		} 
@@ -219,5 +228,24 @@ public class UserServiceImpl implements UserService{
 		return visitRepository.findByUserId(user.getId());
 	}
 	
+	
+	@Autowired
+    private JavaMailSender javaMailSender;
+
+	private void send() {
+        MimeMessage mail = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mail, true);
+            helper.setTo("anja.stef@gmail.com");
+            helper.setReplyTo("someone@localhost");
+            helper.setFrom("someone@localhost");
+            helper.setSubject("Lorem ipsum");
+            helper.setText("Lorem ipsum dolor sit amet [...]");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } finally {}
+        javaMailSender.send(mail);
+        //return helper;
+    }
 
 }

@@ -27,8 +27,6 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private List<Reservation> reservations;
 	
 	public User() {
 		
@@ -85,13 +83,7 @@ public class User {
 		return id;
 	}
 	
-	public List<Reservation> getReservations() {
-		return reservations;
-	}
-
-	public void setReservations(List<Reservation> reservations) {
-		this.reservations = reservations;
-	}
+	
 
 	public void setId(long id) {
 		this.id = id;
