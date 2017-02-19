@@ -1,8 +1,11 @@
 package com.example.service;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Restaurant;
@@ -23,6 +26,12 @@ public class RestaurantServiceImpl implements RestaurantService{
 			return "OK";
 		}
 		return "NameError";
+	}
+
+	@Override
+	public Page<Restaurant> getAllRestaurants() {
+		// TODO Auto-generated method stub
+		return restaurantRepository.findAll(null);
 	}
 
 }

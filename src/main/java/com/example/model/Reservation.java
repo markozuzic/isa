@@ -17,10 +17,6 @@ public class Reservation {
 	@GeneratedValue
 	private long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn
-	private User user;
-	
 	@Column(nullable = false)
 	private long restaurantId;
 	
@@ -32,8 +28,7 @@ public class Reservation {
 	
 	public Reservation() {}
 	
-	public Reservation(User user, long restaurantId, Date dateTime, double length) {
-		this.user = user;
+	public Reservation(long restaurantId, Date dateTime, double length) {
 		this.restaurantId = restaurantId;
 		this.dateTime = dateTime;
 		this.length = length;
@@ -45,14 +40,6 @@ public class Reservation {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public long getRestaurantId() {

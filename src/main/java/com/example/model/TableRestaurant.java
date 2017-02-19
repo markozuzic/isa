@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Table {
+public class TableRestaurant {
 	@Id
 	private int tableNumber;
 	
@@ -22,11 +22,11 @@ public class Table {
 	@Column(nullable = false)
 	private int numberOfChairs;
 	
-	public Table() {
+	public TableRestaurant() {
 		
 	}
 	
-	public Table(int tableNumber, String segment, Restaurant restaurant, int numberOfChairs) {
+	public TableRestaurant(int tableNumber, String segment, Restaurant restaurant, int numberOfChairs) {
 		this.tableNumber = tableNumber;
 		this.segment = segment;
 		this.restaurant = restaurant;
