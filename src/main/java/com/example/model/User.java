@@ -26,8 +26,7 @@ public class User {
 	
 	@Column(nullable = false)
 	private String password;
-	
-	
+
 	public User() {
 		
 	}
@@ -82,8 +81,6 @@ public class User {
 	public Long getId() {
 		return id;
 	}
-	
-	
 
 	public void setId(long id) {
 		this.id = id;

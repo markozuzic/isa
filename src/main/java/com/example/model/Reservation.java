@@ -29,7 +29,7 @@ public class Reservation {
 	
 	public Reservation() {}
 	
-	public Reservation(User user, long restaurantId, Date dateTime, double length) {
+	public Reservation(long restaurantId, Date dateTime, double length) {
 		this.restaurantId = restaurantId;
 		this.dateTime = dateTime;
 		this.length = length;
