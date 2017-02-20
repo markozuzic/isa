@@ -22,9 +22,6 @@ public class Restaurant {
 	private String description;
 	
 	@OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
-	private List<TableRestaurant> tables;
-	
-	@OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
 	private List<MenuItem> menu;
 	
 	@OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
@@ -54,14 +51,6 @@ public class Restaurant {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public List<TableRestaurant> getTables() {
-		return tables;
-	}
-
-	public void setTables(List<TableRestaurant> tables) {
-		this.tables = tables;
 	}
 
 	public List<MenuItem> getMenu() {
