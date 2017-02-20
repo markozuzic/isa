@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.model.Restaurant;
 import com.example.model.TableRestaurant;
 import com.example.repository.RestaurantRepository;
+import com.example.repository.TableRepository;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
@@ -20,6 +21,9 @@ public class RestaurantServiceImpl implements RestaurantService{
 	
 	@Autowired
 	private RestaurantRepository restaurantRepository;
+	
+	@Autowired
+	private TableRepository tableRepository;
 	
 	@Override
 	public String createRestaurant(Restaurant newRestaurant) {
@@ -38,7 +42,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 
 	@Override
 	public List<TableRestaurant> getTables(long id) {
-		return restaurantRepository.findOne(id).getTables();
+		return tableRepository.findByRestaurant(id);
 	}
 
 }

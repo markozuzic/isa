@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.example.model.Restaurant;
 import com.example.model.TableRestaurant;
 
-@Service
 public interface RestaurantService {
 	public String createRestaurant(Restaurant newRestaurant);
 	

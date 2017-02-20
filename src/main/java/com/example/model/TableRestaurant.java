@@ -15,9 +15,8 @@ public class TableRestaurant {
 	@Column(nullable = false)
 	private String segment;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
-	private Restaurant restaurant;
+	@Column(nullable = false)
+	private long restaurant;
 	
 	@Column(nullable = false)
 	private int numberOfChairs;
@@ -32,7 +31,7 @@ public class TableRestaurant {
 		
 	}
 	
-	public TableRestaurant(int tableNumber, String segment, Restaurant restaurant, int numberOfChairs,
+	public TableRestaurant(int tableNumber, String segment, long restaurant, int numberOfChairs,
 						   int x, int y) {
 		this.tableNumber = tableNumber;
 		this.segment = segment;
@@ -58,11 +57,11 @@ public class TableRestaurant {
 		this.segment = segment;
 	}
 
-	public Restaurant getRestaurant() {
+	public long getRestaurant() {
 		return restaurant;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(long restaurant) {
 		this.restaurant = restaurant;
 	}
 
