@@ -40,9 +40,4 @@ public class RestaurantServiceImpl implements RestaurantService{
 		return restaurantRepository.findAll(null);
 	}
 
-	@Override
-	public List<TableRestaurant> getTables(long id) {
-		return tableRepository.findByRestaurant(id);
-	}
-
 }
