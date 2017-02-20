@@ -44,8 +44,8 @@ public class UserServiceImpl implements UserService{
 		if (userRepository.findByEmail(newUser.getEmail()).isEmpty()) {
 			String code = UUID.randomUUID().toString();
 			newUser.setActivationCode(code);
-			newUser.setActivated(false);
-			send(newUser.getEmail(), code);
+			newUser.setActivated(true);
+			//send(newUser.getEmail(), code);
 			userRepository.save(newUser);
 			return "OK";
 		} 

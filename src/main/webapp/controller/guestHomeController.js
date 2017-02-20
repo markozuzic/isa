@@ -69,12 +69,6 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
     		alert(response.statusText);
     	});
         
-        /*$http.get('/restaurant/getAllRestaurants').then(function(response) {
-     	   $scope.tables = response.data;
-     	}, function(response) {
-     		alert(response.statusText);
-     	});*/
-        
 	});
 	
 	$scope.dodajPrijatelja = function(event) {
@@ -217,6 +211,14 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 	} 
 	
 	$scope.drawTables = function() {
+		
+		
+		$http.get('/restaurant/getTables').then(function(response) {
+  	   		$scope.tables = response.data;
+  		}, function(response) {
+  			alert(response.statusText);
+  		});
+		
 		var c=document.getElementById("myCanvas");
 		var ctx=c.getContext("2d");
 		
