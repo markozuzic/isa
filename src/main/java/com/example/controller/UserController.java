@@ -51,7 +51,6 @@ public class UserController {
 		return userService.activateAccount(user);
 	}
 	
-	
 	@RequestMapping(
 			value = "/user/getLoggedInUser",
 			method = RequestMethod.GET,
