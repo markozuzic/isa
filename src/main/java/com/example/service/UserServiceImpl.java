@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -41,11 +42,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String createUser(User newUser) {
 		if (userRepository.findByEmail(newUser.getEmail()).isEmpty()) {
-			
-			
-			//send();
-			
-			
+			String code = UUID.randomUUID().toString();
+			newUser.setActivationCode(code);
+			newUser.setActivated(false);
+			send(newUser.getEmail(), code);
 			userRepository.save(newUser);
 			return "OK";
 		} 
@@ -59,7 +59,11 @@ public class UserServiceImpl implements UserService{
 			return "EmailError";
 		}
 		else {
-			User user  = users.get(0); //jer email mora biti jedinstven
+			User user  = users.get(0);
+			if(!user.isActivated()){
+				return "EmailError";
+			}
+			
 			if(user.getPassword().equals(logger.getPassword())) {
 				httpSession.setAttribute("user", user);
 			} 
@@ -68,6 +72,21 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 		return "OK";
+	}
+	
+	@Override
+	public String activateAccount(User user) {
+		String email = user.getEmail();
+		String code = user.getActivationCode();
+		User userDB = userRepository.findByEmail(email).get(0);
+		
+		if(userDB.getActivationCode().equals(code)){
+			userDB.setActivated(true);
+			userDB.setActivationCode("");
+			userRepository.save(userDB);
+			return "OK";
+		}
+		return "Error";
 	}
 
 	@Override
@@ -232,20 +251,20 @@ public class UserServiceImpl implements UserService{
 	@Autowired
     private JavaMailSender javaMailSender;
 
-	private void send() {
+	private void send(String emailAdress, String code) {
+		
         MimeMessage mail = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
             helper.setTo("anja.stef@gmail.com");
             helper.setReplyTo("someone@localhost");
             helper.setFrom("someone@localhost");
-            helper.setSubject("Lorem ipsum");
-            helper.setText("Lorem ipsum dolor sit amet [...]");
+            helper.setSubject("Activation");
+            helper.setText("http://localhost:8080/#/activateAccount/" + emailAdress+ "/" + code );
         } catch (MessagingException e) {
             e.printStackTrace();
         } finally {}
         javaMailSender.send(mail);
-        //return helper;
     }
 
 }

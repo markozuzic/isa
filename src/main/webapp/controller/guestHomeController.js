@@ -4,6 +4,10 @@ var guestHomeModule = angular.module('guestHome.controller', []);
 guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http',
   	function ($scope, $location, $http) {
 
+	var reserveRestaurant = "";
+
+	$scope.duration="";
+	
 	var user = "";
 	angular.element(document).ready(function () {
 		
@@ -12,7 +16,7 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 		$scope.sortReverse  = false;  // set the default sort order
 		$scope.searchTerm   = '';     // set the default search/filter term
 		
-		
+		$scope.test = "ne radi";
         $http.get('/user/getLoggedInUser').then(function(response) {
 			   user = response.data;
 			   $scope.ime = user.name;
@@ -59,6 +63,18 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
    			alert(response.statusText);
    	    });
         
+        $http.get('/restaurant/getAllRestaurants').then(function(response) {
+    	   $scope.restaurants = response.data;
+    	}, function(response) {
+    		alert(response.statusText);
+    	});
+        
+        /*$http.get('/restaurant/getAllRestaurants').then(function(response) {
+     	   $scope.tables = response.data;
+     	}, function(response) {
+     		alert(response.statusText);
+     	});*/
+        
 	});
 	
 	$scope.dodajPrijatelja = function(event) {
@@ -89,10 +105,9 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 		});
 	}
 	
-	$scope.obrisiPrijatelja = function(event) {
+	$scope.removeFriend = function(event) {
 		var obp = document.getElementById(event.target.id).getAttribute("name");
 		$http.get('/user/removeFriend/'+obp).then(function(response) {
-			$window.location.reload();
 			toastr.info("Prijatelj obrisan.");
 		}, function(response) {
 			alert(response.statusText);
@@ -100,6 +115,7 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 	}
 	
 	
+
 	$scope.clickEdit = function() {
 		if ($scope.isReadOnly == true) {
 			$scope.isReadOnly = false;
@@ -166,5 +182,56 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 		return false;
 	};
 	
+
+	$scope.reserve = function(id) {
+		$scope.reserveRestaurant = id;
+		reserveRestaurant = id;
+		toastr.success(id);
+		$location.path("/guestHome/date");
+	}
 	
+	$scope.initt = function() {
+		$('#datetime').datetimepicker({
+			minDate: new Date(),
+			format: 'DD-MM-YYYY HH:mm'
+			
+		});
+	}
+	
+	$scope.reserveDateNext = function() {
+		var datetime = $('#dateTextField').val();
+		var duration = $scope.duration;
+		if(datetime == ""){
+			toastr.info("Unesite datum i vreme.");
+		} else if ($scope.duration == "undefined"){
+			toastr.info("Unesite trajanje rezervacije.");
+		} else if ($scope.duration == ""){
+			toastr.info("Unesite trajanje rezervacije.");
+		} else if (isNaN($scope.duration)){
+			toastr.error("Trajanje mora biti ceo broj sati!")
+		} else if(!Number.isInteger(+duration)){
+			toastr.error("Trajanje mora biti ceo broj sati!");
+		} else {
+			$location.path("/guestHome/tables");
+		}
+	} 
+	
+	$scope.drawTables = function() {
+		var c=document.getElementById("myCanvas");
+		var ctx=c.getContext("2d");
+		
+		ctx.fillStyle = "red";
+		ctx.rect(20,20,150,100);
+		ctx.stroke();
+		
+		var text = "11";
+		ctx.fill();
+		ctx.fillStyle = "black"; 
+		var font = "bold " + 20 +"px serif";
+		ctx.font = font;
+		ctx.textBaseline = "top";
+		ctx.fillText(text, 25 ,25);	
+	}
 }]);
+
+

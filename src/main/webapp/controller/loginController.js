@@ -4,6 +4,8 @@ var loginModule = angular.module('login.controller', []);
 loginModule.controller('loginController', ['$scope','$location', '$http',
   	function ($scope, $location, $http) {
 
+	$scope.test = "radii";
+	
 	$scope.submitLogin = function () { 
 	
 		$http.post('user/login', $scope.user)

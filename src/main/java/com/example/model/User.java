@@ -1,13 +1,9 @@
 package com.example.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -26,6 +22,12 @@ public class User {
 	
 	@Column(nullable = false)
 	private String password;
+	
+	@Column
+	private boolean isActivated; 
+	
+	@Column
+	private String activationCode;
 
 	public User() {
 		
@@ -84,5 +86,21 @@ public class User {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public boolean isActivated() {
+		return isActivated;
+	}
+
+	public void setActivated(boolean isActivated) {
+		this.isActivated = isActivated;
+	}
+
+	public String getActivationCode() {
+		return activationCode;
+	}
+
+	public void setActivationCode(String activationCode) {
+		this.activationCode = activationCode;
 	}
 }

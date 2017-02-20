@@ -39,8 +39,16 @@ public class UserController {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.TEXT_PLAIN_VALUE)
 	public String logInUser(@RequestBody User user){
-		String response = userService.logInUser(user);
-		return response;
+		return userService.logInUser(user);
+	}
+	
+	@RequestMapping(
+			value = "/user/activateAccount",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_PLAIN_VALUE)
+	public String activateAccount(@RequestBody User user){
+		return userService.activateAccount(user);
 	}
 	
 	
