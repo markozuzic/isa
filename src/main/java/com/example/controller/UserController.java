@@ -43,7 +43,6 @@ public class UserController {
 		return response;
 	}
 	
-	
 	@RequestMapping(
 			value = "/user/getLoggedInUser",
 			method = RequestMethod.GET,

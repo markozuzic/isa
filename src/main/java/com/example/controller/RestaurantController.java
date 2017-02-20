@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Restaurant;
+import com.example.model.TableRestaurant;
 import com.example.service.RestaurantService;
 
 @RestController
@@ -34,5 +36,14 @@ public class RestaurantController {
 			)
 	public Collection<Restaurant> getAllRestaurants() {
 		return restaurantService.getAllRestaurants().getContent();
+	}
+	
+	@RequestMapping(
+			value = "/restaurant/getTables",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public List<TableRestaurant> getTables(long id) {
+		return restaurantService.getTables(id);
 	}
 }

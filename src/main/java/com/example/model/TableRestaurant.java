@@ -22,15 +22,24 @@ public class TableRestaurant {
 	@Column(nullable = false)
 	private int numberOfChairs;
 	
+	@Column(nullable = false)
+	private int x;
+	
+	@Column(nullable = false)
+	private int y;
+	
 	public TableRestaurant() {
 		
 	}
 	
-	public TableRestaurant(int tableNumber, String segment, Restaurant restaurant, int numberOfChairs) {
+	public TableRestaurant(int tableNumber, String segment, Restaurant restaurant, int numberOfChairs,
+						   int x, int y) {
 		this.tableNumber = tableNumber;
 		this.segment = segment;
 		this.restaurant = restaurant;
 		this.numberOfChairs = numberOfChairs;
+		this.x = x;
+		this.y = y;
 	}
 
 	public int getTableNumber() {
@@ -63,6 +72,22 @@ public class TableRestaurant {
 
 	public void setNumberOfChairs(int numberOfChairs) {
 		this.numberOfChairs = numberOfChairs;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 		
 }
