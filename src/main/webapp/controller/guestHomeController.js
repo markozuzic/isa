@@ -213,7 +213,7 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 	$scope.drawTables = function() {
 		
 		
-		$http.get('/restaurant/getTables').then(function(response) {
+		$http.get('/restaurant/getAllTables').then(function(response) {
   	   		$scope.tables = response.data;
   		}, function(response) {
   			alert(response.statusText);
