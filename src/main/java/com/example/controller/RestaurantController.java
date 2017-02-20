@@ -44,6 +44,9 @@ public class RestaurantController {
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
 	public List<TableRestaurant> getTables(long id) {
+		for(TableRestaurant t : restaurantService.getTables(id)){
+			System.out.println(t.getTableNumber());
+		}
 		return restaurantService.getTables(id);
 	}
 }
