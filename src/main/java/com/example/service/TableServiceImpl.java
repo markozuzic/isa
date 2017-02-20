@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,11 @@ public class TableServiceImpl implements TableService {
 			return "OK";
 		}
 		return "Id error";
+	}
+
+	@Override
+	public List<TableRestaurant> findByRestaurant(long id) {
+		return tableRepository.findByRestaurant(id);
 	}
 
 }

@@ -13,5 +13,4 @@ public interface RestaurantService {
 	
 	public Page<Restaurant> getAllRestaurants();
 	
-	public List<TableRestaurant> getTables(long id);
 }
