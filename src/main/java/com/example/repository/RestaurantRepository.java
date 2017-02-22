@@ -17,4 +17,5 @@ public interface RestaurantRepository extends Repository<Restaurant, Long>{
 	public Restaurant findOne(Long id);
 	
 	public Page<Restaurant> findAll(Pageable pageable);
+	
 }

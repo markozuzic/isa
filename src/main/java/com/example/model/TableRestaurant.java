@@ -2,34 +2,43 @@ package com.example.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Table {
+public class TableRestaurant {
 	@Id
 	private int tableNumber;
 	
 	@Column(nullable = false)
 	private String segment;
 	
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private Restaurant restaurant;
+	@Column(nullable = false)
+	private long restaurant;
 	
 	@Column(nullable = false)
 	private int numberOfChairs;
 	
-	public Table() {
+	@Column(nullable = false)
+	private int x;
+	
+	@Column(nullable = false)
+	private int y;
+	
+	public TableRestaurant() {
 		
 	}
 	
-	public Table(int tableNumber, String segment, Restaurant restaurant, int numberOfChairs) {
+	public TableRestaurant(int tableNumber, String segment, long restaurant, int numberOfChairs,
+						   int x, int y) {
 		this.tableNumber = tableNumber;
 		this.segment = segment;
 		this.restaurant = restaurant;
 		this.numberOfChairs = numberOfChairs;
+		this.x = x;
+		this.y = y;
 	}
 
 	public int getTableNumber() {
@@ -48,11 +57,11 @@ public class Table {
 		this.segment = segment;
 	}
 
-	public Restaurant getRestaurant() {
+	public long getRestaurant() {
 		return restaurant;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(long restaurant) {
 		this.restaurant = restaurant;
 	}
 
@@ -62,6 +71,22 @@ public class Table {
 
 	public void setNumberOfChairs(int numberOfChairs) {
 		this.numberOfChairs = numberOfChairs;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 		
 }

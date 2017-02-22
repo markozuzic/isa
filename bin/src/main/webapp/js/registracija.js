@@ -2,7 +2,6 @@ var app = angular.module('myApp', []);
 	app.controller('registerCtrl', function($scope, $http) {
 	   
 	   $scope.clickRegistrujSe = function() {
-		   
 		  if ($scope.email == ""){
 			  toastr.error("E-mail adresa ne moze ostati prazna!");
 		  } else if ($scope.lozinka == "") {
@@ -10,7 +9,6 @@ var app = angular.module('myApp', []);
 		  } else if ($scope.lozinka != $scope.lozinka2) {
 			  toastr.error("Lozinke se ne poklapaju!");
 		  } else {
-			  
 		  $http({
 		        method : "POST",
 		        url : "/user/register",
@@ -24,7 +22,7 @@ var app = angular.module('myApp', []);
 		    	alert(response.statusText);
 		    });
 		 };
-	  }
+		  }
 	});
 	
 	function formToJSON(name, surname, email, password) {

@@ -4,10 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table
 public class User {
 	@Id
 	@GeneratedValue
@@ -24,7 +22,7 @@ public class User {
 	
 	@Column(nullable = false)
 	private String password;
-	
+		
 	public User() {
 		
 	}
@@ -78,5 +76,9 @@ public class User {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
 	}
 }

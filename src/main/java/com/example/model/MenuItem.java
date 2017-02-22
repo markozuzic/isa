@@ -2,13 +2,12 @@ package com.example.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -27,9 +26,12 @@ public class MenuItem {
 	@Column(nullable = false)
 	private double price;
 		
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn
 	private Restaurant restaurant;
+	
+	@ManyToMany(mappedBy = "menuItems", fetch = FetchType.LAZY)
+	private List<Visit> visits;
 	
 	public MenuItem() {
 		
