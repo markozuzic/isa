@@ -22,7 +22,13 @@ public class User {
 	
 	@Column(nullable = false)
 	private String password;
-		
+	
+	@Column
+	private boolean isActivated; 
+	
+	@Column
+	private String activationCode;
+
 	public User() {
 		
 	}
@@ -77,8 +83,24 @@ public class User {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public boolean isActivated() {
+		return isActivated;
+	}
+
+	public void setActivated(boolean isActivated) {
+		this.isActivated = isActivated;
+	}
+
+	public String getActivationCode() {
+		return activationCode;
+	}
+
+	public void setActivationCode(String activationCode) {
+		this.activationCode = activationCode;
 	}
 }
