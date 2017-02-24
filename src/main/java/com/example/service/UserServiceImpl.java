@@ -2,7 +2,6 @@ package com.example.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +16,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.example.model.FriendRequest;
-import com.example.model.Restaurant;
 import com.example.model.User;
 import com.example.model.Visit;
 import com.example.repository.FriendshipRepository;
@@ -223,17 +221,6 @@ public class UserServiceImpl implements UserService{
 		//brisem njega samog
 		retVal.remove(userRepository.findOne(userId));
 		return retVal;
-	}
-
-	@Override
-	public String createVisit(Restaurant r, Date d) {
-		User user = (User)httpSession.getAttribute("user");
-		
-	    java.sql.Date sqlDate = new java.sql.Date(d.getTime());
-		
-		Visit v = new Visit(user.getId(), r.getId(), r.getName(), sqlDate);
-		visitRepository.save(v);
-		return "OK";
 	}
 
 	@Override

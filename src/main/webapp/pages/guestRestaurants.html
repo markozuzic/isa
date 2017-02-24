@@ -10,7 +10,7 @@
 				<td>{{x.name}}</td>
 				<td>{{x.description}}</td>
 				<td>
-					<button class="btn btn-info" data-ng-click="reserve(x.name)">
+					<button class="btn btn-info" data-ng-click="reserve(x.id)">
 						Rezervisi
 					</button>
 				</td>
@@ -18,6 +18,8 @@
 			</tbody>
 		</table>
 	</div>
+	
+	<input type="text" data-ng-model="rest">
 </div>
 
 

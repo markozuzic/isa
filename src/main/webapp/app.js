@@ -1,6 +1,7 @@
 'use-strict';
 
-angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.controller', 'activateAccount.controller'])
+angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.controller', 'activateAccount.controller',
+								'invitation.controller'])
    
 	.config(function($stateProvider, $urlRouterProvider) {
 
@@ -24,6 +25,18 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				url : '/activateAccount/:email/:code',
 				templateUrl : 'pages/activateAccount.html',
 				controller : 'activateAccountController'
+		})
+		
+		.state('invitation', {
+				url : '/invitation/:reservationId/:invitedId',
+				templateUrl: 'pages/invitation.html',
+				controller : 'invitationController'
+		})
+		
+		.state('invitation.order', {
+				url : '/order',
+				templateUrl: 'pages/invitationOrder.html',
+				controller : 'invitationController'
 		})
 		
 		.state('guestHome', {
@@ -59,14 +72,26 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 		})
 		
 		.state('guestHome.date', {
-				url : "/date",
+				url : "/date/:id",
 				templateUrl : 'pages/guestDate.html',
 				controller : 'guestHomeController'
 		})
 		
 		.state('guestHome.tables', {
-				url : "/tables",
+				url : "/tables/:id",
 				templateUrl : 'pages/guestRestaurantsTables.html',
+				controller : 'guestHomeController'
+		})
+		
+		.state('guestHome.confirm', {
+				url : "/confirm/:reservationId",
+				templateUrl : 'pages/guestReservationConfirm.html',
+				controller : 'guestHomeController'
+		})
+		
+		.state('guestHome.order', {
+				url : "/order/:reservationId",
+				templateUrl : 'pages/guestReservationOrder.html',
 				controller : 'guestHomeController'
 		})
 	});

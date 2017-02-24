@@ -30,8 +30,8 @@
 										{{x.surname}}
 									</td>
 									<td>
-										<button class="btn btn-danger" id="obp+{{x.id}}" name="{{x.id}}"  data-ng-click="removeFriend($event)">
-											<i class="glyphicon glyphicon-minus"  data-ng-click="removeFriend($event)"></i>
+										<button class="btn btn-danger" id="obp+{{x.id}}" name="{{x.id}}"  data-ng-click="removeFriend(x.id)">
+											<i class="glyphicon glyphicon-minus"  data-ng-click="removeFriend(x.id)"></i>
 										</button>
 									</td>
 								</tr>
@@ -46,11 +46,11 @@
 										
 									</td>
 									<td>
-										<button class="btn btn-success" id="pp+{{x.id}}" name="{{x.id}}" data-ng-click="prihvatiPrijatelja($event)">
-											<span class="glyphicon glyphicon-ok" data-ng-click="prihvatiPrijatelja($event)"></span>
+										<button class="btn btn-success" data-ng-click="prihvatiPrijatelja(x.id)"  data-ng-hide="x.responded">
+											<span class="glyphicon glyphicon-ok" data-ng-click="prihvatiPrijatelja(x.id)"></span>
 										</button>
-										<button class="btn btn-danger" id="op+{{x.id}}" name="{{x.id}}" data-ng-click="odbijPrijatelja($event)">
-											<span class="glyphicon glyphicon-remove" data-ng-click="odbijPrijatelja($event)"></span>
+										<button class="btn btn-danger" data-ng-click="odbijPrijatelja(x.id)"  data-ng-hide="x.responded">
+											<span class="glyphicon glyphicon-remove" data-ng-click="odbijPrijatelja(x.id)"></span>
 										</button>
 									</td>
 								</tr>
@@ -65,8 +65,8 @@
 										
 									</td>
 									<td>
-										<button class="btn btn-primary" id="dp+{{x.id}}" name="{{x.id}}" data-ng-click="dodajPrijatelja($event)">
-											<span class="glyphicon glyphicon-plus" data-ng-click="dodajPrijatelja($event)"></span>
+										<button class="btn btn-primary" data-ng-click="dodajPrijatelja(x.id)">
+											<span class="glyphicon glyphicon-plus" data-ng-click="dodajPrijatelja(x.id)"></span>
 										</button>
 									</td>
 								</tr>

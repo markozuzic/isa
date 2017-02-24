@@ -21,10 +21,10 @@ public class Restaurant {
 	@Column(nullable = false)
 	private String description;
 	
-	@OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+	@OneToMany
 	private List<MenuItem> menu;
 	
-	@OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+	@OneToMany
 	private List<MenuItem> drinks;
 	
 	public Restaurant() {

@@ -1,13 +1,11 @@
 var guestHomeModule = angular.module('guestHome.controller', []);
  
 
-guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http',
-  	function ($scope, $location, $http) {
-
-	var reserveRestaurant = "";
+guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http', '$stateParams',
+  	function ($scope, $location, $http, $stateParams) {
 
 	$scope.duration="";
-	
+	$scope.rest = "";
 	var user = "";
 	angular.element(document).ready(function () {
 		
@@ -16,7 +14,6 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 		$scope.sortReverse  = false;  // set the default sort order
 		$scope.searchTerm   = '';     // set the default search/filter term
 		
-		$scope.test = "ne radi";
         $http.get('/user/getLoggedInUser').then(function(response) {
 			   user = response.data;
 			   $scope.ime = user.name;
@@ -33,6 +30,12 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 			alert(response.statusText);
 	   });
         
+        $http.get('/reservation/getAllReservations').then(function(response) {
+ 		   $scope.allReservations = response.data;
+ 		}, function(response) {
+ 			alert(response.statusText);
+ 	    });
+        
         $http.get('/user/getFriends').then(function(response) {
         	$scope.friends = response.data;
  		}, function(response) {
@@ -41,6 +44,8 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
         
         $http.get('/user/getPendingRequests').then(function(response) {
         	$scope.pendingRequests = response.data;
+        	for(i=0; i<$scope.pendingRequests.length; i++)
+        		$scope.pendingRequests[i].responded = false;
  		}, function(response) {
  			alert(response.statusText);
  	   });
@@ -51,11 +56,7 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
  			alert(response.statusText);
  	    });
         
-        $http.get('/user/getFriendSuggestions').then(function(response) {
-  		   $scope.friendSuggestions = response.data;
-  		}, function(response) {
-  			alert(response.statusText);
-  	    });
+        
         
         $http.get('/user/getVisits').then(function(response) {
    		   $scope.visits = response.data;
@@ -71,27 +72,29 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
         
 	});
 	
-	$scope.dodajPrijatelja = function(event) {
-		var dp = document.getElementById(event.target.id).getAttribute("name");
-		$http.get('/user/addFriend/'+dp).then(function(response) {
+	$scope.dodajPrijatelja = function(id) {
+		$http.get('/user/addFriend/'+id).then(function(response) {
 			toastr.success("Zahtev poslat!");
 		}, function(response) {
 			alert(response.data);
 		});
 	}
 	
-	$scope.prihvatiPrijatelja = function(event) {
-		var pp = document.getElementById(event.target.id).getAttribute("name");
-		$http.get('/user/acceptFriendRequest/'+pp).then(function(response) {
+	$scope.prihvatiPrijatelja = function(id) {
+		for (i = 0; i<$scope.pendingRequests.length; i++){
+			if($scope.pendingRequests[i].id === id) {
+				$scope.pendingRequests[i].responded = true;
+			}
+		}
+		$http.get('/user/acceptFriendRequest/'+id).then(function(response) {
 			toastr.success("Zahtev prihvacen!");
 		}, function(response) {
 			alert(response.statusText);
 		});
 	}
 	
-	$scope.odbijPrijatelja = function(event) {
-		var op = document.getElementById(event.target.id).getAttribute("name");
-		$http.get('/user/denyFriendRequest/'+op).then(function(response) {
+	$scope.odbijPrijatelja = function(id) {
+		$http.get('/user/denyFriendRequest/'+id).then(function(response) {
 			toastr.info("Zahtev odbijen!");
 		}, function(response) {
 			alert(response.statusText);
@@ -99,9 +102,8 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 		});
 	}
 	
-	$scope.removeFriend = function(event) {
-		var obp = document.getElementById(event.target.id).getAttribute("name");
-		$http.get('/user/removeFriend/'+obp).then(function(response) {
+	$scope.removeFriend = function(id) {
+		$http.get('/user/removeFriend/'+id).then(function(response) {
 			toastr.info("Prijatelj obrisan.");
 		}, function(response) {
 			alert(response.statusText);
@@ -176,12 +178,11 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 		return false;
 	};
 	
-
+	
+	
 	$scope.reserve = function(id) {
-		$scope.reserveRestaurant = id;
-		reserveRestaurant = id;
-		toastr.success(id);
-		$location.path("/guestHome/date");
+		$location.path("/guestHome/date/"+id);
+		
 	}
 	
 	$scope.initt = function() {
@@ -206,33 +207,163 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 		} else if(!Number.isInteger(+duration)){
 			toastr.error("Trajanje mora biti ceo broj sati!");
 		} else {
-			$location.path("/guestHome/tables");
+			
+			var value = datetime+","+duration;
+			$http.post("/reservation/setDateTime/"+$stateParams.id, value).then(function(response) {
+		    	 if(response.data == "ParseError") {
+		    		 toastr.error('Proverite unete parametre.');
+		    	 } else {
+		    		 toastr.info(response.data);
+		    		 $location.path("/guestHome/tables/"+response.data);
+		    		
+		    	 }
+			}, function(response) {
+		    	alert(response.statusText);
+		    });
+			
+			
 		}
+		return $scope;
 	} 
 	
 	$scope.drawTables = function() {
-		
-		
-		$http.get('/restaurant/getAllTables').then(function(response) {
+		$http.get('/reservation/getAvailableTables/'+$stateParams.id).then(function(response) {
   	   		$scope.tables = response.data;
+  	   		var c=document.getElementById("myCanvas");
+  	   		var ctx=c.getContext("2d");
+  	   		
+  	   		for (i = 0; i < $scope.tables.length; i++) { 
+  	   			var t = $scope.tables[i];
+  	   			ctx.fillStyle = "black"; 
+  	   		
+  	   			xpos = (t.x-0.7)*40;
+  	   			ypos = (t.y-0.7)*30;
+  	   		
+	   			var font = "bold " + 18 +"px serif";
+	   			ctx.font = font;
+	   			ctx.textBaseline = "top";
+	   			ctx.fillText(t.tableNumber, xpos+10 ,ypos);
+	   			
+	   			ctx.beginPath();
+  	   			if((''+t.isAvailable) === 'true'){
+  	   				ctx.strokeStyle = "black";
+  	   			}
+  	   			else 
+  	   				ctx.strokeStyle = "red";
+  	   			
+  	   			ctx.rect(xpos, ypos, 30, 20);
+  	   			ctx.stroke();
+  	   			ctx.closePath();
+  	   			
+  	   		}
   		}, function(response) {
   			alert(response.statusText);
   		});
 		
-		var c=document.getElementById("myCanvas");
-		var ctx=c.getContext("2d");
+		$scope.reserveTablesNext = function() {
+			var tableNumbers = '';
+		    angular.forEach($scope.tables, function(table) {
+		        if (table.selected) {
+		        	tableNumbers += table.tableNumber + ',';
+		        }
+		    });
+		    angular.forEach($scope.friends, function(friend) {
+		        friend.invited = false;
+		    });
+		    $http.post("/reservation/setTables/"+$stateParams.id, tableNumbers).then(function(response) {
+		    	   $location.path('/guestHome/confirm/'+$stateParams.id);
+		    	   
+		    	}, function(response) {
+		    		alert(response.statusText);
+		    	});
+		}	
+	}
+	
+	$scope.initConfirm = function(){
+		$http.get("/reservation/getReservation/"+$stateParams.reservationId).then(function(response) {
+	    	 $scope.confirmRes = response.data;
+	    	 var date = new Date($scope.confirmRes.dateTime);
+	    	 $scope.confirmRes.dateTime = date.toLocaleString();
+	    	 $scope.confirmRes.tableString = $scope.confirmRes.tables[0].tableNumber;
+	    	 
+	    	 for(i=1; i<$scope.confirmRes.tables.length; i++){
+	    		 $scope.confirmRes.tableString +=", "+$scope.confirmRes.tables[i].tableNumber;
+	    		 
+	    	 }
+		}, function(response) {
+	    	alert(response.statusText);
+	    });
 		
-		ctx.fillStyle = "red";
-		ctx.rect(20,20,150,100);
-		ctx.stroke();
+		$http.get("/reservation/getRestaurant/"+$stateParams.reservationId).then(function(response) {
+	    	 $scope.confirmResRestaurant = response.data;
+	    	 toastr.success($scope.confirmResRestaurant.name);
+				for(i=0; i<$scope.confirmResRestaurant.menu.length; i++){
+					$scope.confirmResRestaurant.menu[i].ordered = false;
+				}
+				for(i=0; i<$scope.confirmResRestaurant.drinks.length; i++){
+					$scope.confirmResRestaurant.drinks[i].ordered = false;
+				}
+		}, function(response) {
+	    	alert(response.statusText);
+	    });
+	}
+	
+	$scope.inviteFriend = function(friend){
+		for(i=0; i<$scope.friends.length; i++){
+			if(friend === $scope.friends[i].id){
+				$scope.friends[i].invited = true;
+				break;
+			}
+		}
+		$http.get("/reservation/inviteFriend/"+$stateParams.reservationId+"/"+friend).then(function(response) {
+	    	 toastr.success("Pozivnica je poslata.");
+		}, function(response) {
+	    	alert(response.statusText);
+	    });
+	}
+	
+	$scope.orderItem = function(menuitem, isDrink){
+		if(isDrink === 'true'){
+			for(i=0; i<$scope.confirmResRestaurant.drinks.length; i++){
+				if($scope.confirmResRestaurant.drinks[i].id === itemId) {
+					$scope.confirmResRestaurant.drinks[i].ordered = true;
+					break;
+				}
+			}
+		} else {
+			for(i=0; i<$scope.confirmResRestaurant.menu.length; i++){
+				if($scope.confirmResRestaurant.menu[i].id === itemId) {
+					$scope.confirmResRestaurant.menu[i].ordered = true;
+					break;
+				}
+			}
+		}
 		
-		var text = "11";
-		ctx.fill();
-		ctx.fillStyle = "black"; 
-		var font = "bold " + 20 +"px serif";
-		ctx.font = font;
-		ctx.textBaseline = "top";
-		ctx.fillText(text, 25 ,25);	
+		$scope.order.items.push(itemId);
+		toastr.success('Stavka dodata na porudzbinu!');
+	}
+	
+	$scope.removeItem = function(itemId, isDrink){
+		var index = $scope.order.items.indexOf(itemId);
+		if (index > -1) {
+			$scope.order.items.splice(index, 1);
+		}
+		toastr.success($scope.order.items);
+		if(isDrink === 'true'){
+			for(i=0; i<$scope.confirmResRestaurant.drinks.length; i++){
+				if($scope.confirmResRestaurant.drinks[i].id === itemId) {
+					$scope.confirmResRestaurant.drinks[i].ordered = true;
+					break;
+				}
+			}
+		} else {
+			for(i=0; i<$scope.confirmResRestaurant.menu.length; i++){
+				if($scope.confirmResRestaurant.menu[i].id === itemId) {
+					$scope.confirmResRestaurant.menu[i].ordered = true;
+					break;
+				}
+			}
+		}
 	}
 }]);
 

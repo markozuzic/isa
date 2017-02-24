@@ -1,11 +1,13 @@
 package com.example.model;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Reservation {
@@ -14,7 +16,6 @@ public class Reservation {
 	@GeneratedValue
 	private long id;
 	
-	
 	@Column(nullable = false)
 	private long restaurantId;
 	
@@ -22,14 +23,23 @@ public class Reservation {
 	private Date dateTime;
 	
 	@Column 
-	private double length;
+	private int duration;
 	
+	@ManyToMany
+	private List<TableRestaurant> tables;
+	
+	@Column(nullable = false)
+	private long userId;
+	
+	
+
 	public Reservation() {}
 	
-	public Reservation(long restaurantId, Date dateTime, double length) {
+	public Reservation(long restaurantId, Date dateTime, int duration, long userId) {
 		this.restaurantId = restaurantId;
 		this.dateTime = dateTime;
-		this.length = length;
+		this.duration = duration;
+		this.userId = userId;
 	}
 
 	public long getId() {
@@ -40,7 +50,21 @@ public class Reservation {
 		this.id = id;
 	}
 
-	
+	public List<TableRestaurant> getTables() {
+		return tables;
+	}
+
+	public void setTables(List<TableRestaurant> tables) {
+		this.tables = tables;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 
 	public long getRestaurantId() {
 		return restaurantId;
@@ -58,12 +82,12 @@ public class Reservation {
 		this.dateTime = dateTime;
 	}
 
-	public double getLength() {
-		return length;
+	public int getLength() {
+		return duration;
 	}
 
-	public void setLength(double length) {
-		this.length = length;
+	public void setLength(int length) {
+		this.duration = length;
 	}
 	
 	//list tables
