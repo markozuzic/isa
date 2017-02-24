@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+<script src="js/izmenaKonobar.js"></script>
+<link rel="stylesheet" type="text/css" href="css/loginStyle.css">
+</head>
+<body>
+	<div class="order-block">
+		<div data-ng-app="myApp" data-ng-controller="updateWaiterCtrl">
+			<input type="text" placeholder="Ime" data-ng-model="waiter.name">
+			<input type="text" placeholder="Prezime" data-ng-model="waiter.lastname"><br>
+			<input type="text" placeholder="Datum rodjenja" data-ng-model="waiter.birthDate"><br>
+			<input type="text" placeholder="Konfekcijski broj" data-ng-model="waiter.clothesSize"><br>
+			<input type="text" placeholder="Velicina obuce" data-ng-model="waiter.shoeSize"><br>
+			<input type="password" placeholder="Lozinka" data-ng-model="waiter.password"><br>
+			<br>
+			<button data-ng-click="clickIzmeni()" class="btn btn-danger center-block">Izmeni!</button>
+		</div>
+	</div>
+
+</body>
+</html>
