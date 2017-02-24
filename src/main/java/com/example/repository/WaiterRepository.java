@@ -13,9 +13,9 @@ public interface WaiterRepository extends Repository<Waiter, Long> {
 	
 	public void delete(Waiter entity);
 	
-	public Waiter findOne(Long id);
+	public Waiter findOne(long id);
 	
-	public List<Waiter> findById(Long id);
+	public List<Waiter> findById(long id);
 	
 	
 }

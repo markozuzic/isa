@@ -16,6 +16,8 @@ public interface UserService {
 	
 	public String logInUser(User user);
 	
+	public String activateAccount(User user);
+	
 	public User getLoggedInUser();
 
 	public String updateUserInfo(User user);

@@ -14,6 +14,7 @@ public class Reservation {
 	@GeneratedValue
 	private long id;
 	
+	
 	@Column(nullable = false)
 	private long restaurantId;
 	
@@ -38,6 +39,8 @@ public class Reservation {
 	public void setId(long id) {
 		this.id = id;
 	}
+
+	
 
 	public long getRestaurantId() {
 		return restaurantId;

@@ -12,8 +12,8 @@ public interface OrderRepository extends Repository<OrderR, Long> {
 	
 	public void delete(OrderR entity);
 	
-	public List<OrderR> findById(Long Id);
+	public List<OrderR> findById(long Id);
 	
-	public OrderR findOne(Long id);
+	public OrderR findOne(long id);
 	
 }

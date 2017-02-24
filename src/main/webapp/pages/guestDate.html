@@ -1,0 +1,37 @@
+<style>
+	 input[type=text], select {
+    	width: 100%;
+   	 	padding: 12px 20px;
+   	    /*margin: 8px 0;*/
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+	} 
+	
+</style>
+
+<div class="row">
+	<div class="col-md-6 center-block">
+
+		<h2>Rezervacija</h2>
+
+		<div class="input-group date" id="datetime" data-ng-init="initt()">
+
+			<input type="text" class="form-control" id="dateTextField"/> <span
+				class="input-group-addon"> <span
+				class="glyphicon glyphicon-calendar"></span>
+			</span>
+
+		</div>
+
+		<input type="text" placeholder="Trajanje (u satima)" style="margin: 8px 0" data-ng-model="duration"> <br>
+		<br>
+		<br>
+
+	</div>
+
+</div>
+<div class="pull-rigth">
+	<button class="btn btn-info" data-ng-click="reserveDateNext()">Dalje</button>
+</div>

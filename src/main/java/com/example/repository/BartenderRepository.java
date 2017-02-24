@@ -12,8 +12,8 @@ public interface BartenderRepository extends Repository<Bartender, Long> {
 	
 	public void delete(Bartender entity);
 	
-	public Bartender findOne(Long id);
+	public Bartender findOne(long id);
 	
-	public List<Bartender> findById(Long id);
+	public List<Bartender> findById(long id);
 	
 }
