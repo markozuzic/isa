@@ -14,7 +14,7 @@ public interface UserRepository extends Repository<User, Long>{
 	
 	public List<User> findByEmail(String email);
 	
-	public User findOne(Long id);
+	public User findOne(long id);
 	
 	public Page<User> findAll(Pageable pageable);
 }

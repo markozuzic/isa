@@ -41,7 +41,7 @@ public class Waiter {
 	
 		
 	public Waiter() {
-		super();
+
 	}
 	
 	

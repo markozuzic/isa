@@ -34,7 +34,7 @@ public class Bartender {
 	
 	
 	public Bartender() {
-		super();
+		
 	}
 
 

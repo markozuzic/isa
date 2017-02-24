@@ -12,7 +12,7 @@ public interface ChefRepository extends Repository<Chef, Long> {
 	
 	public void delete(Chef entity);
 	
-	public Chef findOne(Long id);
+	public Chef findOne(long id);
 	
-	public List<Chef> findById(Long id);
+	public List<Chef> findById(long id);
 }

@@ -14,7 +14,7 @@ public interface RestaurantRepository extends Repository<Restaurant, Long>{
 	
 	public List<Restaurant> findByName(String name);
 	
-	public Restaurant findOne(Long id);
+	public Restaurant findOne(long id);
 	
 	public Page<Restaurant> findAll(Pageable pageable);
 	
