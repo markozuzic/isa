@@ -36,13 +36,14 @@ public class Chef {
 		super();
 	}
 
-	public Chef(String name, String lastname, Date birthDate, int shoeSize, int clothesSize) {
+	public Chef(String name, String lastname, Date birthDate, int shoeSize, int clothesSize, String password) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
 		this.birthDate = birthDate;
 		this.shoeSize = shoeSize;
 		this.clothesSize = clothesSize;
+		this.password = password;
 	}
 
 	public long getId() {
