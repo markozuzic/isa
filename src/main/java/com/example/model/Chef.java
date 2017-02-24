@@ -33,7 +33,7 @@ public class Chef {
 	private String password;
 
 	public Chef() {
-		super();
+		
 	}
 
 	public Chef(String name, String lastname, Date birthDate, int shoeSize, int clothesSize, String password) {
