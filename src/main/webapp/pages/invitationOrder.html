@@ -6,8 +6,8 @@
 		<td>{{mi.description}}</td>
 		<td>{{mi.price}}</td>
 		<td>
-			<input type="button" class="btn btn-success" value="Poruci" data-ng-click="orderItem(mi.id, false)" data-ng-hide="mi.ordered">
-			<input type="button" class="btn btn-danger" value="Obrisi" data-ng-click="removeItem(mi.id, false)" data-ng-show="mi.ordered">
+			<input type="button" class="btn btn-success" value="Poruci" data-ng-click="orderItem(mi.id, 'false')" data-ng-hide="mi.ordered">
+			<input type="button" class="btn btn-danger" value="Obrisi" data-ng-click="removeItem(mi.id, 'false')" data-ng-show="mi.ordered">
 		</td>
 	</tr>
 </table>
@@ -19,8 +19,8 @@
 		<td>{{mi.description}}</td>
 		<td>{{mi.price}}</td>
 		<td>
-			<input type="button" class="btn btn-success" value="Poruci" data-ng-click="orderItem(mi.id, true)" data-ng-hide="mi.ordered">
-			<input type="button" class="btn btn-danger" value="Obrisi" data-ng-click="removeItem(mi.id, true)" data-ng-show="mi.ordered">
+			<input type="button" class="btn btn-success" value="Poruci" data-ng-click="orderItem(mi.id, 'true')" data-ng-hide="mi.ordered">
+			<input type="button" class="btn btn-danger" value="Obrisi" data-ng-click="removeItem(mi.id, 'true')" data-ng-show="mi.ordered">
 		</td>
 	</tr>
 </table>

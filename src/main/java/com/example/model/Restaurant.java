@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -26,6 +25,21 @@ public class Restaurant {
 	
 	@OneToMany
 	private List<MenuItem> drinks;
+	
+	@Column
+	private double longitude = 0;
+	
+	@Column 
+	private double latitude = 0;
+	
+	@Column 
+	private double rating = 0;
+	
+	@Column 
+	private int ratingCounter = 0;
+	
+	@Column(nullable = false)
+	private String address;
 	
 	public Restaurant() {
 		
@@ -75,6 +89,46 @@ public class Restaurant {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public int getRatingCounter() {
+		return ratingCounter;
+	}
+
+	public void setRatingCounter(int ratingCounter) {
+		this.ratingCounter = ratingCounter;
 	}
 	
 }

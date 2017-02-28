@@ -10,6 +10,13 @@ invitationModule.controller('invitationController', ['$scope','$location', '$htt
 	$scope.order.items = [];
 	
 	angular.element(document).ready(function () {
+		$http.get('/user/loginFromInvitation/'+$stateParams.invitedId).then(function(response) {
+			toastr.info(response.data);
+		}, function(response) {
+			alert(response.statusText);
+		});
+		
+		
 		$http.get('/reservation/getReservation/'+$stateParams.reservationId).then(function(response) {
 			$scope.reservation = response.data;
 			var date = new Date($scope.reservation.dateTime);
@@ -97,6 +104,34 @@ invitationModule.controller('invitationController', ['$scope','$location', '$htt
 				}
 			}
 		}
+	}
+	
+	$scope.submitOrderYes = function() {
+		var postItems = '';
+		for(i=0; i<$scope.order.items.length; i++){
+			postItems += $scope.order.items[i] + ",";
+		}
+		var postData = {items : postItems, flag : 'true'}
+		$http.post('/order/createFromReservation/'+$stateParams.reservationId, postData).then(function(response) {
+			toastr.success("Porudzbina primljena. Vidimo se.");
+			$location.path('/guestHome');
+			}, function(response) {
+				alert(response.statusText);
+		});
+	}
+	
+	$scope.submitOrderNo = function() {
+		var postItems = '';
+		for(i=0; i<$scope.order.items.length; i++){
+			postItems += $scope.order.items[i] + ",";
+		}
+		var postData = {items : postItems, flag : 'false'}
+		$http.post('/order/createFromReservation/'+$stateParams.reservationId, postData).then(function(response) {
+			toastr.success("Vidimo se.");
+			$location.path('/guestHome');
+			}, function(response) {
+				alert(response.statusText);
+		});
 	}
 }]);
 

@@ -15,12 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.model.OrderR;
 import com.example.model.Reservation;
 import com.example.model.Restaurant;
 import com.example.model.TableRestaurant;
 import com.example.model.User;
 import com.example.model.Visit;
+import com.example.repository.OrderRepository;
 import com.example.repository.ReservationRepository;
 import com.example.repository.RestaurantRepository;
 import com.example.repository.TableRepository;
@@ -28,6 +32,7 @@ import com.example.repository.UserRepository;
 import com.example.repository.VisitRepository;
 
 @Service
+@Transactional(isolation = Isolation.SERIALIZABLE)
 public class ReservationServiceImpl implements ReservationService{
 
 	@Autowired
@@ -47,6 +52,9 @@ public class ReservationServiceImpl implements ReservationService{
 	
 	@Autowired 
 	private HttpSession httpSession;
+	
+	@Autowired 
+	private OrderRepository orderRepository;
 	
 	@Override
 	public Reservation getReservation(Long reservationId) {
@@ -86,7 +94,8 @@ public class ReservationServiceImpl implements ReservationService{
 		}
 		reservationRepository.save(r);
 		User user = userRepository.findOne(r.getUserId());
-		Visit visit = new Visit(user, r);
+		Restaurant restaurant = restaurantRepository.findOne(r.getRestaurantId());
+		Visit visit = new Visit(user, r, restaurant.getName());
 		visitRepository.save(visit);
 		return "OK";
 	}
@@ -208,7 +217,8 @@ public class ReservationServiceImpl implements ReservationService{
 		Reservation reservation = reservationRepository.findOne(reservationId);
 		User user = userRepository.findOne(reservation.getUserId());
 		User friend = userRepository.findOne(friendId);
-		Visit visit = new Visit(friend, reservation);
+		Restaurant restaurant =  restaurantRepository.findOne(reservation.getRestaurantId());
+		Visit visit = new Visit(friend, reservation, restaurant.getName());
 		visitRepository.save(visit);
 		notifyAboutInvitation(user.getEmail(), friend, true);
 		return "OK";
@@ -242,6 +252,21 @@ public class ReservationServiceImpl implements ReservationService{
             e.printStackTrace();
         } finally {}
         javaMailSender.send(mail);
+	}
+
+	@Override
+	public String cancelReservation(Long reservationId) {
+		Reservation r = reservationRepository.findOne(reservationId);
+		List<Visit> visits = visitRepository.findByReservationId(reservationId);
+		for (Visit visit : visits) {
+			List<OrderR> orders = orderRepository.findByVisit(visit);
+			for (OrderR orderR : orders) {
+				orderRepository.delete(orderR);
+			}
+			visitRepository.delete(visit);
+		}
+		reservationRepository.delete(r);
+		return "OK";
 	}
 	
 }

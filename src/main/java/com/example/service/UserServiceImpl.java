@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private VisitRepository visitRepository;
 	
+	
 	@Override
 	public String createUser(User newUser) {
 		if (userRepository.findByEmail(newUser.getEmail()).isEmpty()) {
@@ -94,9 +95,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public String updateUserInfo(User user) {
-		
-		if(!userRepository.findByEmail(user.getEmail()).isEmpty()) {
-			return "EmailError";
+		List<User> sameEmail = userRepository.findByEmail(user.getEmail());
+		for (User u : sameEmail) {
+			if(u.getId() != user.getId()) {
+				return "EmailError";
+			}
 		}
 		
 		User oldUser = userRepository.findOne(user.getId());
@@ -186,14 +189,17 @@ public class UserServiceImpl implements UserService{
 		FriendRequest oldRequest = null;
 		if(fr1.isEmpty()) {
 			List<FriendRequest> fr2 = friendshipRepository.findByReceiverIdAndSenderIdAndStatus(friendId, userId, "accepted");
-			if(!fr2.isEmpty())
+			if(!fr2.isEmpty()){
 				oldRequest = fr2.get(0);
+				friendshipRepository.delete(oldRequest);
+			}
 		}
 		else {
 			oldRequest = fr1.get(0);
+			friendshipRepository.delete(oldRequest);
 		}
 		
-		friendshipRepository.delete(oldRequest);
+
 		return "OK";
 	}
 
@@ -253,5 +259,37 @@ public class UserServiceImpl implements UserService{
         } finally {}
         javaMailSender.send(mail);
     }
+
+	@Override
+	public String loginFromInvitation(Long id) {
+		User user = userRepository.findOne(id);
+		if(user != null) {
+			httpSession.setAttribute("user", user);
+			return "OK";
+		} else {
+			return "Error";
+		}
+	}
+
+	@Override
+	public String setLatitudeAndLongitude(String latitude, String longitude) {
+		try {
+			double lat = Double.parseDouble(latitude);
+			double lng = Double.parseDouble(longitude);
+			User user = (User)httpSession.getAttribute("user");
+			user.setLatitude(lat);
+			user.setLongitude(lng);
+			userRepository.save(user);
+			return "OK";
+		} catch (NumberFormatException e){
+			return "LocationError";
+		}
+	}
+
+	@Override
+	public String logOut() {
+		httpSession.invalidate();
+		return "OK";
+	}
 
 }

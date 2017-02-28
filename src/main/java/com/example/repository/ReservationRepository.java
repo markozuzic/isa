@@ -14,4 +14,5 @@ public interface ReservationRepository extends Repository<Reservation, Long> {
 	
 	public Reservation findOne(long id);
 	
+	public void delete(Reservation entity);
 }

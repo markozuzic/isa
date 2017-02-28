@@ -3,7 +3,9 @@
 		    <input type="text" placeholder="E-mail adresa" data-ng-model="user.email">
 			<input type="text" placeholder="Lozinka" data-ng-model="user.password"><br>
 			<br>
-			<button data-ng-click="submitLogin()" class="btn btn-danger center-block">Uloguj se</button>
+			<button data-ng-click="submitLogin()" class="btn btn-info center-block">Uloguj se</button>
 			<br><br><br><br>
-			<button data-ui-sref="register" class="btn btn-danger center-block">Registruj se!</button>
+			<button data-ui-sref="register" class="btn btn-info center-block">Registruj se!</button>
+			
+			<button class="btn btn-primary" data-ng-click="loginWithFacebook()">Log in with Facebook</button>
 </div>

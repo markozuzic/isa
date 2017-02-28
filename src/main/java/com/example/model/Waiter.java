@@ -39,7 +39,12 @@ public class Waiter {
 	@Column
 	private List<OrderR> orders; 
 	
-		
+	@Column
+	private int ratingCounter = 0;
+	
+	@Column 
+	private double rating = 0;
+	
 	public Waiter() {
 
 	}
@@ -128,6 +133,30 @@ public class Waiter {
 
 	public void setOrders(List<OrderR> orders) {
 		this.orders = orders;
+	}
+
+
+
+	public int getRatingCounter() {
+		return ratingCounter;
+	}
+
+
+
+	public void setRatingCounter(int ratingCounter) {
+		this.ratingCounter = ratingCounter;
+	}
+
+
+
+	public double getRating() {
+		return rating;
+	}
+
+
+
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 	
 	

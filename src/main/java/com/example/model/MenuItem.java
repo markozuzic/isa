@@ -26,6 +26,12 @@ public class MenuItem {
 	@Column(nullable = false)
 	private double price;
 	
+	@Column
+	private double rating = 0;
+	
+	@Column
+	private int ratingCounter = 0;
+	
 	public MenuItem() {
 		
 	}
@@ -67,6 +73,22 @@ public class MenuItem {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public int getRatingCounter() {
+		return ratingCounter;
+	}
+
+	public void setRatingCounter(int ratingCounter) {
+		this.ratingCounter = ratingCounter;
 	}
 	
 }

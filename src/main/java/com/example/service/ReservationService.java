@@ -28,4 +28,6 @@ public interface ReservationService {
 	public String acceptInvitation(Long reservationId, Long friendId);
 	
 	public String declineInvitation(Long reservationId, Long friendId);
+
+	public String cancelReservation(Long reservationId);
 }

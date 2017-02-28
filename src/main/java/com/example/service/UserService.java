@@ -42,4 +42,10 @@ public interface UserService {
 	
 	public Collection<Visit> getVisitsForUser();
 
+	public String loginFromInvitation(Long id);
+
+	public String setLatitudeAndLongitude(String latitude, String longitude);
+
+	public String logOut();
+
 }

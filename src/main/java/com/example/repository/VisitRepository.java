@@ -15,4 +15,12 @@ public interface VisitRepository extends Repository<Visit, Long>{
 	public Page<Visit> findAll(Pageable pageable);
 	
 	public List<Visit> findByUserId(long userId);
+	
+	public List<Visit> findByUserIdAndReservationId(long userId, long reservationId);
+	
+	public List<Visit> findByReservationId(long reservationId);
+	
+	public void delete(Visit entity);
+	
+	public Visit findOne(long id);
 }

@@ -97,5 +97,13 @@ public class ReservationController {
 	public String declineInvitation(@PathVariable("reserid") Long reservationId, @PathVariable("friendid") Long friendId){
 		return reservationService.declineInvitation(reservationId, friendId);
 	}
+	
+	@RequestMapping(
+			value = "/reservation/cancel/{reserid}",
+			method = RequestMethod.GET,
+			produces = MediaType.TEXT_PLAIN_VALUE)
+	public String cancelReservation(@PathVariable("reserid") Long reservationId){
+		return reservationService.cancelReservation(reservationId);
+	}
 }
 
