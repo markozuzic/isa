@@ -710,5 +710,3 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 		
 	}
 }]);
-
-

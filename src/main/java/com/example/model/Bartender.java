@@ -32,6 +32,9 @@ public class Bartender {
 	@Column
 	public String password;
 	
+	@Column
+	public long restaurantId;
+	
 	
 	public Bartender() {
 		
@@ -116,6 +119,16 @@ public class Bartender {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+
+	public long getRestaurantId() {
+		return restaurantId;
+	}
+
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 	
 	

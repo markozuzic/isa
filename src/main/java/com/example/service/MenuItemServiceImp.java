@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,20 @@ public class MenuItemServiceImp implements MenuItemService {
 		}
 		return "Id error";
 	}
+
 	
+
+	@Override
+	public List<MenuItem> getMenuItemsMeals(String type) {
+		return menuItemRepository.findByType("meal");
+	}
+
+	@Override
+	public List<MenuItem> getMenuItemsDrinks(String type) {
+		return menuItemRepository.findByType("drinks");
+	}
+
+
 
 
 }

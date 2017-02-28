@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Bartender;
 import com.example.model.Chef;
+import com.example.model.User;
 import com.example.model.Waiter;
 import com.example.service.ChefService;
 
@@ -50,4 +51,12 @@ public class ChefController {
 		return response;
 	}
 	
+	@RequestMapping(
+			value = "/chef/login",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_PLAIN_VALUE)
+	public String logInChef(@RequestBody Chef chef){
+		return chefService.logInChef(chef);
+	}
 }

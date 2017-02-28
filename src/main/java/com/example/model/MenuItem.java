@@ -1,15 +1,9 @@
 package com.example.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class MenuItem {
@@ -32,15 +26,20 @@ public class MenuItem {
 	@Column
 	private int ratingCounter = 0;
 	
+	@Column
+	private String type;
+
+	
 	public MenuItem() {
 		
 	}
 
-	public MenuItem(String description, String name, double price) {
+	public MenuItem(String description, String name, double price, String type) {
 		super();
 		this.description = description;
 		this.name = name;
 		this.price = price;
+		this.type = type;
 	}
 
 	public long getId() {
@@ -90,5 +89,13 @@ public class MenuItem {
 	public void setRatingCounter(int ratingCounter) {
 		this.ratingCounter = ratingCounter;
 	}
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+		
 }

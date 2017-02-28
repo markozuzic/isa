@@ -73,6 +73,12 @@ public class WaiterServiceImpl implements WaiterService {
 		
 		return "OK";
 	}
+
+	@Override
+	public String logInWaiter(Waiter waiter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	

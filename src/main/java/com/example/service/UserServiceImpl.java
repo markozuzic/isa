@@ -37,6 +37,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private VisitRepository visitRepository;
 	
+	@Autowired
+    private JavaMailSender javaMailSender;
+	
 	
 	@Override
 	public String createUser(User newUser) {
@@ -240,10 +243,6 @@ public class UserServiceImpl implements UserService{
 		return visitRepository.findByUserId(user.getId());
 	}
 	
-	
-	@Autowired
-    private JavaMailSender javaMailSender;
-
 	private void send(String emailAdress, String code) {
 		
         MimeMessage mail = javaMailSender.createMimeMessage();

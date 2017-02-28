@@ -31,18 +31,22 @@ public class Chef {
 	
 	@Column
 	private String password;
+	
+	@Column
+	private long restaurantId;
 
 	public Chef() {
 		
 	}
 
-	public Chef(String name, String lastname, Date birthDate, int shoeSize, int clothesSize) {
+	public Chef(String name, String lastname, Date birthDate, int shoeSize, int clothesSize, String password) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
 		this.birthDate = birthDate;
 		this.shoeSize = shoeSize;
 		this.clothesSize = clothesSize;
+		this.password = password;
 	}
 
 	public long getId() {
@@ -99,6 +103,14 @@ public class Chef {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public long getRestaurantId() {
+		return restaurantId;
+	}
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 	
 	
