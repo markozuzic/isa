@@ -225,16 +225,6 @@ public class UserServiceImpl implements UserService{
 		return retVal;
 	}
 
-	@Override
-	public String createVisit(Restaurant r, Date d) {
-		User user = (User)httpSession.getAttribute("user");
-		
-	    java.sql.Date sqlDate = new java.sql.Date(d.getTime());
-		
-		Visit v = new Visit(user.getId(), r.getId(), r.getName(), sqlDate);
-		visitRepository.save(v);
-		return "OK";
-	}
 
 	@Override
 	public Collection<Visit> getAllVisits() {

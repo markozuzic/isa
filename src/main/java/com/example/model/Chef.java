@@ -31,6 +31,9 @@ public class Chef {
 	
 	@Column
 	private String password;
+	
+	@Column
+	private long restaurantId;
 
 	public Chef() {
 		
@@ -100,6 +103,14 @@ public class Chef {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public long getRestaurantId() {
+		return restaurantId;
+	}
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 	
 	

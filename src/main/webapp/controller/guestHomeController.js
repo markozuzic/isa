@@ -69,6 +69,8 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
     		alert(response.statusText);
     	});
         
+        
+        
 	});
 	
 	$scope.dodajPrijatelja = function(event) {
