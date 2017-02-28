@@ -40,8 +40,6 @@ public interface UserService {
 
 	public ArrayList<User> getFriendSuggestions();
 	
-	public String createVisit(Restaurant r, Date d);
-
 	public Collection<Visit> getAllVisits();
 	
 	public Collection<Visit> getVisitsForUser();

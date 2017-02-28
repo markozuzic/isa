@@ -55,4 +55,10 @@ public class BartenderServiceImpl implements BartenderService {
 		return "OK";
 	}
 
+	@Override
+	public String logInBartender(Bartender bartender) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

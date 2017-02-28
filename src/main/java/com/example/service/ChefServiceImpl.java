@@ -1,11 +1,14 @@
 package com.example.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Chef;
+import com.example.model.User;
 import com.example.repository.ChefRepository;
 
 @Service
@@ -53,5 +56,14 @@ public class ChefServiceImpl implements ChefService {
 		
 		return "OK";
 	}
+
+	@Override
+	public String logInChef(Chef chef) {
+		return null;
+	
+	}
+	
+	
+	
 
 }
