@@ -32,13 +32,16 @@ public class Bartender {
 	@Column
 	public String password;
 	
+	@Column
+	public long restaurantId;
+	
 	
 	public Bartender() {
 		
 	}
 
 
-	public Bartender(long id, String name, String lastname, Date birthDate, int shoeSize, int clothesSize) {
+	public Bartender(long id, String name, String lastname, Date birthDate, int shoeSize, int clothesSize, long restaurantId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -46,6 +49,7 @@ public class Bartender {
 		this.birthDate = birthDate;
 		this.shoeSize = shoeSize;
 		this.clothesSize = clothesSize;
+		this.restaurantId = restaurantId;
 	}
 
 
@@ -117,10 +121,15 @@ public class Bartender {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-	
-	
-	
+
+
+	public long getRestaurantId() {
+		return restaurantId;
+	}
+
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
+	}
 	
 }

@@ -1,0 +1,36 @@
+
+<div class="row">
+	<h3>Moj restoran</h3>
+	<div class="col-md-1 pull-right">
+		<button class="btn" data-ng-click="clickEditRestaurant()">
+			<span
+				data-ng-class="{'glyphicon-pencil': isReadOnly, 'glyphicon-ok' : !isReadOnly}"
+				class="glyphicon "></span>
+		</button>
+	</div>
+
+	<div class="col-md-11">
+		<form>
+			<div class="input-group">
+				<span class="input-group-addon"><i
+					class="glyphicon glyphicon-user"></i></span> <input type="text"
+					class="form-control" data-ng-model="restaurant.name"
+					placeholder="Naziv" data-ng-readonly="isReadOnly"><br />
+			</div>
+
+			<div class="input-group">
+				<span class="input-group-addon"><i
+					class="glyphicon glyphicon-user"></i></span> <input type="text"
+					class="form-control" data-ng-model="restaurant.description"
+					placeholder="Opis" data-ng-readonly="isReadOnly"><br />
+			</div>
+
+			<div class="input-group">
+				<span class="input-group-addon"><i
+					class="glyphicon glyphicon-envelope"></i></span> <input type="text"
+					class="form-control" data-ng-model="restaurant.address"
+					placeholder="Adresa" data-ng-readonly="isReadOnly"><br />
+			</div>
+		</form>
+	</div>
+</div>

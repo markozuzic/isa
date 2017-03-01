@@ -1,30 +1,41 @@
 package com.example.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Chef;
+import com.example.model.Manager;
+import com.example.model.Restaurant;
 import com.example.repository.ChefRepository;
+import com.example.repository.RestaurantRepository;
 
 @Service
 public class ChefServiceImpl implements ChefService {
 
 	@Autowired
-	HttpSession httpSession;
+	private HttpSession httpSession;
 	
 	@Autowired
-	ChefRepository chefRepository;
+	private ChefRepository chefRepository;
+	
+	@Autowired
+	private RestaurantRepository restaurantRepository;
 	
 	@Override
-	public String createChef(Chef newChef) {
+	public Chef createChef(Chef newChef) {
+		
 		if(chefRepository.findById(newChef.getId()).isEmpty()){
-			chefRepository.save(newChef);
-			return "OK";
+			Manager m = (Manager) httpSession.getAttribute("manager");
+			newChef.setRestaurantId(m.getRestaurantId());	
+			return chefRepository.save(newChef);
 		}
-		else{
-			return "IdError";
+		else {
+			newChef.setId(0);
+			return newChef;
 		}
 	}
 
@@ -52,6 +63,14 @@ public class ChefServiceImpl implements ChefService {
 		httpSession.setAttribute("chef", oldChef);
 		
 		return "OK";
+	}
+
+	@Override
+	public List<Chef> getAllChefs() {
+		Manager m = (Manager) httpSession.getAttribute("manager");
+		Restaurant r = restaurantRepository.findOne(m.getId());
+		
+		return chefRepository.findByRestaurantId(r.getId());
 	}
 
 }

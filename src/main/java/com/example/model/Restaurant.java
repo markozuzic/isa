@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -15,26 +14,36 @@ public class Restaurant {
 	@GeneratedValue
 	private long id;
 	
-	@Column(nullable = false)
+	@Column
 	private String name;
 	
 	@Column(nullable = false)
 	private String description;
 	
-	@OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+	@Column(nullable = false)
+	private String address;
+	
+	@Column
+	private double longitude;
+	
+	@Column 
+	private double latitude;
+	
+	@OneToMany
 	private List<MenuItem> menu;
 	
-	@OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+	@OneToMany
 	private List<MenuItem> drinks;
 	
 	public Restaurant() {
 		
 	}
 
-	public Restaurant(String name, String description) {
+	public Restaurant(String name, String description, String address) {
 		super();
 		this.name = name;
 		this.description = description;
+		this.address = address;
 	}
 
 	public String getName() {
@@ -75,6 +84,30 @@ public class Restaurant {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 	
 }

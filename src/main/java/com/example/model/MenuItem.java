@@ -24,25 +24,17 @@ public class MenuItem {
 	private String name;
 	
 	@Column(nullable = false)
-	private double price;
+	private String price;
 		
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn
-	private Restaurant restaurant;
-	
-	@ManyToMany(mappedBy = "menuItems", fetch = FetchType.LAZY)
-	private List<Visit> visits;
-	
 	public MenuItem() {
 		
 	}
 
-	public MenuItem(String description, String name, double price, Restaurant restaurant) {
+	public MenuItem(String description, String name, String price) {
 		super();
 		this.description = description;
 		this.name = name;
 		this.price = price;
-		this.restaurant = restaurant;
 	}
 
 	public long getId() {
@@ -69,20 +61,12 @@ public class MenuItem {
 		this.name = name;
 	}
 
-	public double getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-	
 }

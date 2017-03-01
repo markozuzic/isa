@@ -32,12 +32,15 @@ public class Waiter {
 	@Column
 	private int shoeSize;
 	
-	@Column(nullable = false)
+	@Column
 	private String password;
 	
 	@OneToMany(mappedBy = "waiter")
 	@Column
 	private List<OrderR> orders; 
+	
+	@Column
+	private long restaurantId;
 	
 		
 	public Waiter() {
@@ -46,13 +49,14 @@ public class Waiter {
 	
 	
 	
-	public Waiter( String name, String lastname, Date birthDate, int clothesSize, int shoeSize) {
+	public Waiter( String name, String lastname, Date birthDate, int clothesSize, int shoeSize, long restaurantId) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
 		this.birthDate = birthDate;
 		this.clothesSize = clothesSize;
 		this.shoeSize = shoeSize;
+		this.restaurantId = restaurantId;
 	}
 
 	
@@ -129,8 +133,17 @@ public class Waiter {
 	public void setOrders(List<OrderR> orders) {
 		this.orders = orders;
 	}
-	
-	
-	
+
+
+
+	public long getRestaurantId() {
+		return restaurantId;
+	}
+
+
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
+	}
 	
 }

@@ -4,7 +4,11 @@ import com.example.model.Manager;
 
 public interface ManagerService {
 	
-	public void createManager(Manager newManager);
+	public String createManager(Manager newManager, Long restaurantId);
 	
-	public String logInManager(Manager manager);
+	public String createManager(Manager newManager);
+	
+	public String logInManager(String email, String password);
+	
+	public Manager getLoggedIn();
 }

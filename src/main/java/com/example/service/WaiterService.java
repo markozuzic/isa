@@ -1,11 +1,13 @@
 package com.example.service;
 
+import java.util.List;
+
 import com.example.model.OrderR;
 import com.example.model.Waiter;
 
 public interface WaiterService {
 
-	public String createWaiter(Waiter newWaiter);
+	public Waiter createWaiter(Waiter newWaiter);
 	
 	public String createOrder(OrderR newOrder);
 	
@@ -13,4 +15,5 @@ public interface WaiterService {
 	
 	public String updatePassword(Waiter waiter);
 	
+	public List<Waiter> getAllWaiters();
 }

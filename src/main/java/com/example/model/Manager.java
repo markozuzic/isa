@@ -23,8 +23,8 @@ public class Manager {
 	@Column(nullable = false)
 	private String type;
 	
-	@OneToOne
-	private Restaurant restaurant;
+	@Column
+	private long restaurantId;
 	
 	public Manager() {
 		
@@ -63,6 +63,14 @@ public class Manager {
 
 	public long getId() {
 		return id;
+	}
+
+	public long getRestaurantId() {
+		return restaurantId;
+	}
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 	
 	

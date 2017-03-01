@@ -18,9 +18,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.model.FriendRequest;
 import com.example.model.Restaurant;
+import com.example.model.SystemUser;
 import com.example.model.User;
 import com.example.model.Visit;
 import com.example.repository.FriendshipRepository;
+import com.example.repository.SystemUserRepository;
 import com.example.repository.UserRepository;
 import com.example.repository.VisitRepository;
 
@@ -39,22 +41,27 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private VisitRepository visitRepository;
 	
+	@Autowired
+	private SystemUserRepository systemUserRepository;
+	
 	@Override
 	public String createUser(User newUser) {
-		if (userRepository.findByEmail(newUser.getEmail()).isEmpty()) {
+		if (systemUserRepository.findByEmail(newUser.getEmail()).isEmpty()) {
 			String code = UUID.randomUUID().toString();
 			newUser.setActivationCode(code);
 			newUser.setActivated(true);
 			//send(newUser.getEmail(), code);
 			userRepository.save(newUser);
+			SystemUser s = new SystemUser(newUser.getEmail(), newUser.getPassword(), "user");
+			systemUserRepository.save(s);
 			return "OK";
 		} 
 		return "EmailError";
 	}
 
 	@Override
-	public String logInUser(User logger) {
-		List<User> users = userRepository.findByEmail(logger.getEmail());
+	public String logInUser(String email, String password) {
+		List<User> users = userRepository.findByEmail(email);
 		if(users.isEmpty()) {
 			return "EmailError";
 		}
@@ -64,14 +71,14 @@ public class UserServiceImpl implements UserService{
 				return "EmailError";
 			}
 			
-			if(user.getPassword().equals(logger.getPassword())) {
+			if(user.getPassword().equals(password)) {
 				httpSession.setAttribute("user", user);
 			} 
 			else {
 				return "PasswordError";
 			}
 		}
-		return "OK";
+		return "user";
 	}
 	
 	@Override

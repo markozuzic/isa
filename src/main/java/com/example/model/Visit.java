@@ -32,10 +32,7 @@ public class Visit {
 	@Column
 	private Date date;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name="VISIT_ITEMS", 
-			joinColumns = {@JoinColumn(name="VISIT_ID")},
-			inverseJoinColumns = {@JoinColumn(name="ITEM_ID")})
+	@ManyToMany
 	private List<MenuItem> menuItems;
 
 	public Visit(){}

@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,19 +24,17 @@ public class WaiterController {
 	private OrderService orderService;
 
 	@RequestMapping(
-			value = "/waiter/register",
+			value = "/waiter/create",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.TEXT_PLAIN_VALUE
+			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-		public String createWaiter(@RequestBody Waiter waiter){
+		public Waiter createWaiter(@RequestBody Waiter waiter){
 		return waiterService.createWaiter(waiter);
 	}
 	
-	
-	
 	@RequestMapping(
-			value = "/waiter/create",
+			value = "/waiter/createOrder",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.TEXT_PLAIN_VALUE
@@ -63,6 +63,15 @@ public class WaiterController {
 	public String updateWaiterPassword(@RequestBody Waiter waiter){
 		String response = waiterService.updatePassword(waiter);
 		return response;
+	}
+	
+	@RequestMapping(
+			value = "/waiter/getWaiters",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public List<Waiter> getAllWaiters() {
+		return waiterService.getAllWaiters();
 	}
 	
 }

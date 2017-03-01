@@ -6,20 +6,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Bidder {
+public class DemandItem {
 	
 	@Id
 	@GeneratedValue
 	private long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false) 
 	private String name;
 	
-	public Bidder() {
+	public DemandItem() {
 		
 	}
 
-	public Bidder(String name) {
+	public DemandItem(String name) {
+		super();
 		this.name = name;
 	}
 
@@ -38,5 +39,5 @@ public class Bidder {
 	public void setName(String name) {
 		this.name = name;
 	}
-		
+	
 }

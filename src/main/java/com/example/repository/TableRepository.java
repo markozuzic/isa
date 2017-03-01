@@ -12,4 +12,6 @@ public interface TableRepository extends Repository<TableRestaurant, Long> {
 	public TableRestaurant findOne(long id);
 	
 	public List<TableRestaurant> findByRestaurant(long restaurant);
+	
+	public void delete(TableRestaurant entity);
 }

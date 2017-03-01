@@ -1,0 +1,135 @@
+<style>
+input[type=text], select {
+	width: 100%;
+	padding: 12px 20px;
+	/*margin: 8px 0;*/
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+</style>
+
+
+<h3>Izveštaj o oceni restorana</h3>
+
+<table class="table table-hover">
+	<tr>
+		<td>Ocena restorana:</td>
+		<td>{{restaurant.rating}}</td>
+	</tr>
+	<tr>
+		<td>Broj ocena:</td>
+		<td>{{restaurant.ratingCounter}}</td>
+	</tr>
+</table>
+
+<h3>Izveštaj o oceni jela</h3>
+
+<table class="table table-hover">
+	<tr>
+		<td>Ocena jela:</td>
+		<td>{{clickedMenuItem.rating}}</td>
+	</tr>
+	<tr>
+		<td>Broj ocena:</td>
+		<td>{{clickedMenuItem.ratingCounter}}</td>
+	</tr>
+</table>
+
+
+
+<input type="text" class="form-control ng-valid ng-dirty"
+	placeholder="Pretraga jela" data-ng-model="searchKeyword">
+<table class="table table-bordered">
+	<tr
+		data-ng-repeat="mi in restaurant.menuItems | filter:filterFn | filter:searchKeyword">
+		<td>{{mi.name}}</td>
+		<td>
+			<button class="btn btn-primary" data-ng-click="clickMealReport(mi)"
+				value="Izveštaj"></button>
+		</td>
+	</tr>
+</table>
+
+
+<h3>Izveštaj o oceni konobara</h3>
+
+<table class="table table-hover">
+	<tr>
+		<td>Ocena konobara:</td>
+		<td>{{clickedWaiter.rating}}</td>
+	</tr>
+	<tr>
+		<td>Broj ocena:</td>
+		<td>{{clickedWaiter.ratingCounter}}</td>
+	</tr>
+</table>
+
+
+<input type="text" class="form-control ng-valid ng-dirty"
+	placeholder="Pretraga konobara" data-ng-model="searchKeywordWaiter">
+<table class="table table-bordered">
+	<tr
+		data-ng-repeat="w in waiters | filter:filterFnWaiter | filter:searchKeywordWaiter">
+		<td>{{w.name + ' ' + w.lastName}}</td>
+		<td>
+			<button class="btn btn-primary" data-ng-click="clickWaiterReport(w)">Izveštaj</button>
+		</td>
+	</tr>
+</table>
+
+
+<h3>Izveštaj o prihodu restorana</h3>
+
+<table class="table table-hover">
+	<tr>
+		<td>Prihod restorana:</td>
+		<td>{{restaurantEarning}}</td>
+	</tr>
+</table>
+
+<label>Od</label>
+<div class="input-group date" id="datetimeStart"
+	data-ng-init="initDateTimePickerStart()">
+	<input type="text" class="form-control" id="dateTextFieldStart" /> <span
+		class="input-group-addon"> <span
+		class="glyphicon glyphicon-calendar"></span>
+	</span>
+</div>
+
+<label>Do</label>
+<div class="input-group date" id="datetimeEnd" data-ng-init="initDateTimePickerEnd()">
+	<input type="text" class="form-control" id="dateTextFieldEnd" /> <span
+		class="input-group-addon"> <span
+		class="glyphicon glyphicon-calendar"></span>
+	</span>
+</div>
+
+<input type="button" class="btn btn-primary" value="Izveštaj"
+	data-ng-click="clickEarningReport()">
+
+
+<h3>Izveštaj o prihodu po konobaru</h3>
+
+<table class="table table-hover">
+	<tr>
+		<td>Prihod konobara:</td>
+		<td>{{waiterEarning}}</td>
+	</tr>
+</table>
+
+
+<input type="text" class="form-control ng-valid ng-dirty"
+	placeholder="Pretraga konobara"
+	data-ng-model="searchKeywordWaiterEarning">
+<table class="table table-bordered">
+	<tr
+		data-ng-repeat="w in waiters | filter:filterFnWaiterEarning | filter:searchKeywordWaiterEarning">
+		<td>{{w.name + ' ' + w.lastName}}</td>
+		<td>
+			<button class="btn btn-primary"
+				data-ng-click="clickWaiterEarningReport(w.id)">Izveštaj</button>
+		</td>
+	</tr>
+</table>

@@ -1,13 +1,17 @@
 package com.example.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Bartender;
-import com.example.model.Chef;
+import com.example.model.Manager;
+import com.example.model.Restaurant;
 import com.example.repository.BartenderRepository;
+import com.example.repository.RestaurantRepository;
 
 @Service
 public class BartenderServiceImpl implements BartenderService {
@@ -18,14 +22,20 @@ public class BartenderServiceImpl implements BartenderService {
 	@Autowired
 	private BartenderRepository bartenderRepository;
 	
+	@Autowired
+	private RestaurantRepository restaurantRepository;
+	
 	@Override
-	public String createBartender(Bartender newBartender) {
+	public Bartender createBartender(Bartender newBartender) {
+		
 		if(bartenderRepository.findById(newBartender.getId()).isEmpty()){
-			bartenderRepository.save(newBartender);
-			return "OK";
+			Manager m = (Manager) httpSession.getAttribute("manager");
+			newBartender.setRestaurantId(m.getRestaurantId());
+			return bartenderRepository.save(newBartender);
 		}
-		else{
-			return "IdError";
+		else {
+			newBartender.setId(0);
+			return newBartender;
 		}
 	}
 
@@ -53,6 +63,14 @@ public class BartenderServiceImpl implements BartenderService {
 		httpSession.setAttribute("bartender", oldBartender);
 		
 		return "OK";
+	}
+
+	@Override
+	public List<Bartender> getAllBartenders() {
+		Manager m = (Manager) httpSession.getAttribute("manager");
+		Restaurant r = restaurantRepository.findOne(m.getRestaurantId());
+		
+		return bartenderRepository.findByRestaurantId(r.getId());
 	}
 
 }

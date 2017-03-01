@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class TableRestaurant {
 	@Id
-	private int tableNumber;
+	private long tableNumber;
 	
 	@Column(nullable = false)
 	private String segment;
@@ -41,11 +41,11 @@ public class TableRestaurant {
 		this.y = y;
 	}
 
-	public int getTableNumber() {
+	public long getTableNumber() {
 		return tableNumber;
 	}
 
-	public void setTableNumber(int tableNumber) {
+	public void setTableNumber(long tableNumber) {
 		this.tableNumber = tableNumber;
 	}
 

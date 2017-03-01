@@ -41,4 +41,23 @@ public class RestaurantController {
 		return restaurantService.getAllRestaurants().getContent();
 	}
 	
+	@RequestMapping(
+			value = "/restaurant/getRestaurant",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public Restaurant getRestaurant() {
+		return restaurantService.getRestaurant();
+	}
+	
+	@RequestMapping(
+			value = "restaurant/updateRestaurant",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_PLAIN_VALUE		
+			)
+	public String updateRestaurant(@RequestBody Restaurant updatedRestaurant) {
+		return restaurantService.updateRestaurant(updatedRestaurant);
+	}
+	
 }

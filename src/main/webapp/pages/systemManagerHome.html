@@ -1,0 +1,12 @@
+
+<table class="table table-bordered">
+	<tr data-ng-repeat="r in restaurants">
+		<td>{{r.name}}</td>
+		<td>{{r.description}}</td>
+		<td>{{r.address}}</td>
+		<td><input type="button" class="btn btn-info" value="Registruj menadzera" data-ng-click="createManager(r.id)"></td>
+	</tr>
+</table>
+
+<input type="button" class="btn btn-info" value="Registruj sistemskog menadzera" data-ng-click="clickCreateSystemManager()">
+<input type="button" class="btn btn-info" value="Napravi restoran" data-ng-click="clickCreateRestaurant()">

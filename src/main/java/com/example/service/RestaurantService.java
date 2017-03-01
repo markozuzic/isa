@@ -11,5 +11,9 @@ public interface RestaurantService {
 	public String createRestaurant(Restaurant newRestaurant);
 	
 	public Page<Restaurant> getAllRestaurants();
+
+	public Restaurant getRestaurant();
+
+	public String updateRestaurant(Restaurant updatedRestaurant);
 	
 }

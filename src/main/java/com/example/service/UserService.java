@@ -14,7 +14,7 @@ public interface UserService {
 	
 	public String createUser(User newUser);
 	
-	public String logInUser(User user);
+	public String logInUser(String email, String password);
 	
 	public String activateAccount(User user);
 	
