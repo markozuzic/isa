@@ -1,14 +1,12 @@
 package com.example.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
 
 @Entity
 public class Waiter {
@@ -35,10 +33,6 @@ public class Waiter {
 	@Column
 	private String password;
 	
-	@OneToMany(mappedBy = "waiter")
-	@Column
-	private List<OrderR> orders; 
-	
 	@Column
 	private long restaurantId;
 	
@@ -48,11 +42,14 @@ public class Waiter {
 	@Column 
 	private double rating = 0;
 	
+	@Column
+	public String email;
+	
 	public Waiter() {
 
 	}
 	
-	public Waiter( String name, String lastname, Date birthDate, int clothesSize, int shoeSize, long restaurantId) {
+	public Waiter( String name, String lastname, Date birthDate, int clothesSize, int shoeSize, long restaurantId, String email) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
@@ -60,6 +57,7 @@ public class Waiter {
 		this.clothesSize = clothesSize;
 		this.shoeSize = shoeSize;
 		this.restaurantId = restaurantId;
+		this.email = email;
 	}
 
 	public Waiter(String name, String lastname, Date birthDate, int clothesSize, int shoeSize, String password) {
@@ -128,14 +126,6 @@ public class Waiter {
 		this.password = password;
 	}
 
-	public List<OrderR> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<OrderR> orders) {
-		this.orders = orders;
-	}
-
 	public long getRestaurantId() {
 		return restaurantId;
 	}
@@ -158,6 +148,14 @@ public class Waiter {
 
 	public void setRating(double rating) {
 		this.rating = rating;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

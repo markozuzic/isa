@@ -34,12 +34,15 @@ public class Chef {
 	
 	@Column
 	private long restaurantId;
+	
+	@Column
+	public String email;
 
 	public Chef() {
 		
 	}
 
-	public Chef(String name, String lastname, Date birthDate, int shoeSize, int clothesSize, long restaurantId) {
+	public Chef(String name, String lastname, Date birthDate, int shoeSize, int clothesSize, long restaurantId, String email) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
@@ -47,6 +50,7 @@ public class Chef {
 		this.shoeSize = shoeSize;
 		this.clothesSize = clothesSize;
 		this.restaurantId = restaurantId;
+		this.email = email;
 	}
 
 	public long getId() {
@@ -111,6 +115,14 @@ public class Chef {
 
 	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

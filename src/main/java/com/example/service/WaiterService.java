@@ -16,6 +16,6 @@ public interface WaiterService {
 	
 	public List<Waiter> getAllWaiters();
 
-	public String logInWaiter(Waiter waiter);
+	public String logInWaiter(String email, String password);
 	
 }

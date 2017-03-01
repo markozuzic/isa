@@ -11,6 +11,7 @@ public interface ShiftService {
 	public String createShift(Shift newShift);
 	
 	public List<Shift> getAllShifts();
-	
-	
+
+	public String createWaiterShift(String tableNumbers, Shift newShift);
+		
 }

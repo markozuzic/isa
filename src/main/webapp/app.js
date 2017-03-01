@@ -171,6 +171,12 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				controller : 'restaurantManagerController'
 		})
 		
+		.state('restaurantManagerHome.shift', {
+				url : "",
+				templateUrl : 'pages/restaurantManagerShift.html',
+				controller : 'restaurantManagerController'
+		})
+		
 		.state('guestHome.confirm', {
 				url : "/confirm/:reservationId",
 				templateUrl : 'pages/guestReservationConfirm.html',
@@ -181,6 +187,7 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				url : "/order/:reservationId",
 				templateUrl : 'pages/guestReservationOrder.html',
 				controller : 'guestHomeController'
+		})
 
 		.state('waiterHome', {
 				url: '/waiter',
@@ -257,5 +264,4 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				controller : 'bartenderHomeController'
 		})
 
-	});
 });

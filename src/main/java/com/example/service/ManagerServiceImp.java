@@ -44,6 +44,9 @@ public class ManagerServiceImp implements ManagerService {
 	@Override
 	public String createManager(Manager newManager) {
 		if (systemUserRepository.findByEmail(newManager.getEmail()).isEmpty()) {
+			if (newManager.getType().equals("system")) {
+				newManager.setRestaurantId(0);
+			}
 			managerRepository.save(newManager);
 			SystemUser s = new SystemUser(newManager.getEmail(), newManager.getPassword(), newManager.getType());
 			systemUserRepository.save(s);

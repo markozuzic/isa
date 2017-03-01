@@ -15,6 +15,6 @@ public interface ChefService {
 
 	public List<Chef> getAllChefs();
 	
-	public String logInChef(Chef chef);
+	public String logInChef(String email, String password);
 	
 }

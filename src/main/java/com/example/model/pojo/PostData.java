@@ -1,5 +1,9 @@
 package com.example.model.pojo;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class PostData {
 	
 	private String items;
@@ -10,9 +14,11 @@ public class PostData {
 	
 	private String flag;
 	
-	private String dateStart;
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+	private Date dateStart;
 	
-	private String dateEnd;
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+	private Date dateEnd;
 	
 	public PostData(){};
 
@@ -53,19 +59,19 @@ public class PostData {
 		this.latitude = latitude;
 	}
 
-	public String getDateStart() {
+	public Date getDateStart() {
 		return dateStart;
 	}
 
-	public void setDateStart(String dateStart) {
+	public void setDateStart(Date dateStart) {
 		this.dateStart = dateStart;
 	}
 
-	public String getDateEnd() {
+	public Date getDateEnd() {
 		return dateEnd;
 	}
 
-	public void setDateEnd(String dateEnd) {
+	public void setDateEnd(Date dateEnd) {
 		this.dateEnd = dateEnd;
 	}
 }

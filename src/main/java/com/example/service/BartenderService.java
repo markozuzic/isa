@@ -14,6 +14,6 @@ public interface BartenderService {
 
 	public List<Bartender> getAllBartenders();
 
-	public String logInBartender(Bartender bartender);
+	public String logInBartender(String email, String password);
 		
 }

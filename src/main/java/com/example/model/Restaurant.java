@@ -46,6 +46,12 @@ public class Restaurant {
 		
 	}
 
+	public Restaurant(String name, String description) { //only used for testing
+		super();
+		this.name = name;
+		this.description = description;
+	}
+	
 	public Restaurant(String name, String description, String address) {
 		super();
 		this.name = name;

@@ -73,12 +73,4 @@ public class WaiterController {
 		return waiterService.getAllWaiters();
 	}
 	
-	@RequestMapping(
-			value = "/waiter/login",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.TEXT_PLAIN_VALUE)
-	public String logInWaiter(@RequestBody Waiter waiter){
-		return waiterService.logInWaiter(waiter);
-	}
 }

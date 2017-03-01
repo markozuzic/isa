@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.SystemUser;
+import com.example.service.BartenderService;
+import com.example.service.ChefService;
 import com.example.service.ManagerService;
 import com.example.service.SupplierService;
 import com.example.service.SystemUserService;
 import com.example.service.UserService;
+import com.example.service.WaiterService;
 
 @RestController
 public class SystemUserController {
@@ -28,6 +31,15 @@ public class SystemUserController {
 	@Autowired
 	private SupplierService supplierService;
 	
+	@Autowired
+	private WaiterService waiterService;
+	
+	@Autowired
+	private BartenderService bartenderService;
+	
+	@Autowired
+	private ChefService chefService;
+	
 	@RequestMapping(
 			value = "/systemUser/login",
 			method = RequestMethod.POST,
@@ -38,6 +50,7 @@ public class SystemUserController {
 		String email = systemUser.getEmail();
 		String password = systemUser.getPassword();
 		String type = systemUserService.getType(email);
+		
 		if (type.equals("user")) {
 			return userService.logInUser(email, password);
 		}
@@ -46,6 +59,15 @@ public class SystemUserController {
 		}
 		else if (type.equals("supplier")) {
 			return supplierService.logIn(email, password);
+		}
+		else if (type.equals("waiter")){
+			return waiterService.logInWaiter(email, password);
+		}
+		else if (type.equals("bartender")) {
+			return bartenderService.logInBartender(email, password);
+		}
+		else if (type.equals("chef")) {
+			return chefService.logInChef(email, password);
 		}
 		else {
 			return "EmailError";

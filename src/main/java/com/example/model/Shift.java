@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Shift {
 
@@ -17,16 +19,17 @@ public class Shift {
 	private long id;
 	
 	@Column(nullable = false)
-	private String shiftType;	//first or second (third?)
+	private String shiftType;	//first or second
 	
 	@Column(nullable = false)
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date date;
 	
 	@Column(nullable = false)
-	private String employeeType;
-	
-	@Column(nullable = false)
 	private long employeeId;
+	
+	@Column
+	private String employeeType;
 	
 	@ManyToMany
 	private List<TableRestaurant> reon;
@@ -35,12 +38,12 @@ public class Shift {
 		
 	}
 	
-	public Shift(Date date, String employeeType, long employeeId, String shiftType) {
+	public Shift(Date date, long employeeId, String shiftType, String employeeType) {
 		super();
 		this.date = date;
-		this.employeeType = employeeType;
 		this.employeeId = employeeId;
 		this.shiftType = shiftType;
+		this.employeeType = employeeType;
 	}
 
 	public Date getDate() {
@@ -49,14 +52,6 @@ public class Shift {
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public String getEmployeeType() {
-		return employeeType;
-	}
-
-	public void setEmployeeType(String employeeType) {
-		this.employeeType = employeeType;
 	}
 
 	public long getEmployeeId() {
@@ -85,6 +80,14 @@ public class Shift {
 
 	public void setShiftType(String shiftType) {
 		this.shiftType = shiftType;
+	}
+
+	public String getEmployeeType() {
+		return employeeType;
+	}
+
+	public void setEmployeeType(String employeeType) {
+		this.employeeType = employeeType;
 	}
 	
 }

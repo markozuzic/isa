@@ -16,6 +16,7 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		$scope.clickedWaiter = {};
 		$scope.restaurantEarning = '';
 		$scope.waiterEarning = '';
+		$scope.shift = {};
 		$scope.isReadOnly = true;
 		
 		$http.get('/manager/getLoggedIn').then(function(response) {
@@ -196,7 +197,14 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 	}
 	
 	$scope.createNewSupplier = function() {
-		$http.post('/supplier/create', $scope.newSupplier).then(function(response) {
+		if ($scope.newSupplier.name) {
+			toastr.error("Niste uneli ime!");
+		}
+		else if ($scope.newSupplier.email) {
+			toastr.error("Niste uneli email!");
+		}
+		else {
+			$http.post('/supplier/create', $scope.newSupplier).then(function(response) {
 				if (response.data.id === 0) {
 					toastr.error("Email vec zauzet");
 				}
@@ -208,6 +216,7 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 			}, function(response) {
 				alert(response.statusText);
 		    });
+		}	
 	}
 	
 	$scope.clickEditRestaurant = function() {
@@ -313,19 +322,15 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		return false;
 	};
 	
-	
 	$scope.clickMealReport = function(menuitem){
-		toastr.succes(menuitem.id);
 		$scope.clickedMenuItem = menuitem;
 	}
 	
 	$scope.clickWaiterReport = function(waiter){
-		toastr.succes(waiter.id);
 		$scope.clickedWaiter = waiter;
+		
 	}
 	
-
-
 	$scope.initDateTimePickerStart = function() {
 		$('#datetimeStart').datetimepicker({
 			format: 'DD-MM-YYYY HH:mm'
@@ -342,23 +347,24 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		var datetimeStart = $('#dateTextFieldStart').val();
 		var datetimeEnd = $('#dateTextFieldEnd').val();
 		
-		if(datetimeStart = "") {
+		if(datetimeStart === "") {
 			toastr.error("Morate uneti početni datum.");
-		} else if (datetimeStart = "") {
+		} else if (datetimeStart === "") {
 			toastr.error("Morate uneti krajnji datum.");
 		} else {
-			var d1 = new Date(datetimeStart);
-			var d2 = new Date(datetimeEnd);
-			if(d1 < d2) {
+
+			if(datetimeStart < datetimeEnd) {
 				
 				var demandData = {};
-				demandData.beginDate = d1;
-				demandData.endDate = d2; 
-				$http.post("/restaurant/generateReport", demandData).then(function(response) {	//moze url pic nu
-			    	 if(response.data == "ParseError") {	//ovo vrati ako ti datum baci exception
+				demandData.dateStart = datetimeStart;
+				demandData.dateEnd = datetimeEnd; 
+
+				$http.post("/order/generateReport", demandData).then(function(response) {	
+			    	 if(response.data == "ParseError") {	
 			    		 toastr.error('Proverite unete parametre.');
-			    	 } else {
-			    		$scope.restaurantEarning = response.data;
+			    	 } 
+			    	 else {
+			    		 $scope.restaurantEarning = response.data;
 			    	 }
 				}, function(response) {
 			    	alert(response.statusText);
@@ -371,7 +377,7 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 	}
 	
 	$scope.clickWaiterEarningReport = function(id){
-		$http.get("/restaurant/generateReportForWaiter/"+id).then(function(response) {	//moze url pic nu
+		$http.get("/order/generateReportForWaiter/"+id).then(function(response) {
 	    	$scope.waiterEarning = response.data;
 	    	 
 		}, function(response) {
@@ -380,4 +386,48 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 			
 	}
 	
+	$scope.initDateTimePicker = function() {
+		$('#datetime').datetimepicker({
+			minDate: new Date(),
+			format: 'DD-MM-YYYY',
+			//inline: true,
+			keepOpen : true
+		});
+	}
+	
+	$scope.setWaiter = function(waiter) {
+		toastr.info("Odabran konobar " + waiter.name);
+		$scope.shift.employeeId = waiter.id;
+	}
+
+	$scope.createShift = function() {
+		var datetime = $('#dateTextField').val();
+		$scope.shift.date = datetime;
+		$scope.shift.shiftType = document.getElementById("shiftType").value;
+		
+		var tableNumbers = '';
+		angular.forEach($scope.tables, function(table) {
+			if (table.selected) {
+				tableNumbers += table.tableNumber + ',';
+			}
+		});
+		if (tableNumbers === '') {
+			toastr.error("Morate uneti barem jedan sto.");
+		} 
+		else {
+			$http.post("/shift/createWaiterShift/" + tableNumbers, $scope.shift).then(function(response) {
+				if (response.data === "OK") {
+					toastr.success('Uspešno napravljena smena.');
+				}
+				else if (response.data === "IdError") {
+					toastr.error('Smena za datog konobara je vec odredjena');
+				}
+
+			}, function(response) {
+				alert(response.statusText);
+			});
+		}
+		 
+		$scope.shift = {};
+	}	
 }]);

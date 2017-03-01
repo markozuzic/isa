@@ -28,7 +28,7 @@ public class SupplierServiceImp implements SupplierService {
 
 	@Override
 	public Supplier createSupplier(Supplier newSupplier) {
-		if (supplierRepository.findByEmail(newSupplier.getEmail()).isEmpty()) {
+		if (systemUserRepository.findByEmail(newSupplier.getEmail()).isEmpty()) {
 			supplierRepository.save(newSupplier);
 			SystemUser su = new SystemUser(newSupplier.getEmail(), newSupplier.getPassword(), "supplier");
 			systemUserRepository.save(su);

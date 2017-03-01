@@ -43,11 +43,11 @@ input[type=text], select {
 	placeholder="Pretraga jela" data-ng-model="searchKeyword">
 <table class="table table-bordered">
 	<tr
-		data-ng-repeat="mi in restaurant.menuItems | filter:filterFn | filter:searchKeyword">
+		data-ng-repeat="mi in restaurant.menu | filter:filterFn | filter:searchKeyword">
 		<td>{{mi.name}}</td>
 		<td>
 			<button class="btn btn-primary" data-ng-click="clickMealReport(mi)"
-				value="Izveštaj"></button>
+				>Izveštaj</button>
 		</td>
 	</tr>
 </table>
@@ -90,8 +90,7 @@ input[type=text], select {
 </table>
 
 <label>Od</label>
-<div class="input-group date" id="datetimeStart"
-	data-ng-init="initDateTimePickerStart()">
+<div class="input-group date" id="datetimeStart" data-ng-init="initDateTimePickerStart()">
 	<input type="text" class="form-control" id="dateTextFieldStart" /> <span
 		class="input-group-addon"> <span
 		class="glyphicon glyphicon-calendar"></span>

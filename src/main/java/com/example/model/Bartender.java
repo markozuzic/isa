@@ -12,34 +12,37 @@ public class Bartender {
 
 	@Id
 	@GeneratedValue
-	public long id;
+	private long id;
 	
 	@Column(nullable=false)
-	public String name;
+	private String name;
 	
 	@Column(nullable=false)
-	public String lastname;
+	private String lastname;
 	
 	@Column
-	public Date birthDate;
+	private Date birthDate;
 
 	@Column
-	public int shoeSize;
+	private int shoeSize;
 	
 	@Column
-	public int clothesSize;
+	private int clothesSize;
 	
 	@Column
-	public String password;
+	private String password;
 	
 	@Column
-	public long restaurantId;
+	private long restaurantId;
+	
+	@Column
+	private String email;
 	
 	public Bartender() {
 		
 	}
 
-	public Bartender(long id, String name, String lastname, Date birthDate, int shoeSize, int clothesSize, long restaurantId) {
+	public Bartender(long id, String name, String lastname, Date birthDate, int shoeSize, int clothesSize, long restaurantId, String email) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -48,6 +51,7 @@ public class Bartender {
 		this.shoeSize = shoeSize;
 		this.clothesSize = clothesSize;
 		this.restaurantId = restaurantId;
+		this.email = email;
 	}
 
 
@@ -128,6 +132,14 @@ public class Bartender {
 
 	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

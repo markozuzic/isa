@@ -2,17 +2,29 @@
 
 <h3>Stolovi</h3>
 <table class="table table-hover">
-	<tr data-ng-repeat="t in tables">
-		<td>{{t.tableNumber}}</td>
-		<td>{{t.segment}}</td>
-		<td>{{t.numberOfChairs}}</td>
-		<td>{{t.x}}</td>
-		<td>{{t.y}}</td>
-		<td>
-			<input type="button" class="btn btn-info" value="Izmeni" data-ng-click="clickUpdateTable(t)" data-toggle="modal" data-target="#modalUpdate">
-			<input type="button" class="btn btn-danger" value="Obrisi" data-ng-click="deleteTable(t.tableNumber)">
-		</td>
-	</tr>
+	<thead>
+		<tr>
+			<td>Broj stola</td>
+			<td>Segment</td>
+			<td>Broj stolica</td>
+			<td>Horizontalna pozicija</td>
+			<td>Vertikalna pozicija</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-ng-repeat="t in tables">
+			<td>{{t.tableNumber}}</td>
+			<td>{{t.segment}}</td>
+			<td>{{t.numberOfChairs}}</td>
+			<td>{{t.x}}</td>
+			<td>{{t.y}}</td>
+			<td>
+				<input type="button" class="btn btn-info" value="Izmeni" data-ng-click="clickUpdateTable(t)" data-toggle="modal" data-target="#modalUpdate">
+				<input type="button" class="btn btn-info" value="Obrisi" data-ng-click="deleteTable(t.tableNumber)">
+			</td>
+		</tr>
+	</tbody>
 </table>
 
 
@@ -22,16 +34,20 @@
 <div id="modal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-content">
+		
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title">Novi sto</h4>
 			</div>
+			
 			<div class="modal-body">
-				<input type="text" placeholder="Broj stola" data-ng-model="newTable.tableNumber">
-				<input type="text" placeholder="Segment" data-ng-model="newTable.segment">
-				<input type="text" placeholder="Broj stolica" data-ng-model="newTable.numberOfChairs">
-				<input type="text" placeholder="Horizontalna pozicija" data-ng-model="newTable.x">
-				<input type="text" placeholder="Vertikalna pozicija" data-ng-model="newTable.y">
+			<form>
+				<input class="form-control" type="text" placeholder="Broj stola" data-ng-model="newTable.tableNumber">
+				<input class="form-control" type="text" placeholder="Segment" data-ng-model="newTable.segment">
+				<input class="form-control" type="text" placeholder="Broj stolica" data-ng-model="newTable.numberOfChairs">
+				<input class="form-control" type="text" placeholder="Horizontalna pozicija" data-ng-model="newTable.x">
+				<input class="form-control"type="text" placeholder="Vertikalna pozicija" data-ng-model="newTable.y">
+			</form>
 			</div>
 			<div class="modal-footer">
 				<input type="button" class="btn btn-info" value="U redu" data-ng-click="createNewTable()" data-dismiss="modal">

@@ -28,6 +28,15 @@ loginModule.controller('loginController', ['$scope','$location', '$http',
 	 			   else if (response.data === "supplier") {
 	 				  $location.path("supplier/" + $scope.user.email);
 	 			   }
+	 			   else if (response.data === "chef"){
+	 				  $location.path("chef");
+	 			   }
+	 			   else if (response.data === "waiter") {
+	 				  $location.path("waiter");
+	 			   }
+	 			   else if (response.data === "bartender") {
+	 				  $location.path("bartender");	
+	 			   }
 	 		   }
 	    }, function myError(response) {
 	    	alert(response.statusText);
@@ -46,15 +55,5 @@ loginModule.controller('loginController', ['$scope','$location', '$http',
 	    	alert(response.statusText);
 	    });
 	}
-	
-	$scope.loginWithFacebook = function() {
-		$http.get('user/loginWithFacebook').then(function mySuccess(response) {
-			toastr.info('dsfdfs');
-			toastr.success(response.data);
-			$location.url(response.data);
-    }, function myError(response) {
-    	alert(response.statusText);
-    });
 		
-	}
 }]);

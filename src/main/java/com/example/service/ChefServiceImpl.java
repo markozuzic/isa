@@ -1,14 +1,19 @@
 package com.example.service;
 
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.model.Chef;
 import com.example.model.Manager;
 import com.example.model.Restaurant;
+import com.example.model.SystemUser;
 import com.example.repository.ChefRepository;
 import com.example.repository.RestaurantRepository;
+import com.example.repository.SystemUserRepository;
 
 @Service
 public class ChefServiceImpl implements ChefService {
@@ -22,12 +27,17 @@ public class ChefServiceImpl implements ChefService {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 	
+	@Autowired
+	private SystemUserRepository systemUserRepository;
+	
 	@Override
 	public Chef createChef(Chef newChef) {
 		
-		if(chefRepository.findById(newChef.getId()).isEmpty()){
+		if(systemUserRepository.findByEmail(newChef.getEmail()).isEmpty()){
 			Manager m = (Manager) httpSession.getAttribute("manager");
-			newChef.setRestaurantId(m.getRestaurantId());	
+			newChef.setRestaurantId(m.getRestaurantId());
+			SystemUser su = new SystemUser(newChef.getEmail(), newChef.getPassword(), "chef");
+			systemUserRepository.save(su);
 			return chefRepository.save(newChef);
 		}
 		else {
@@ -70,8 +80,22 @@ public class ChefServiceImpl implements ChefService {
 		return chefRepository.findByRestaurantId(r.getId());
 	}
 
-	public String logInChef(Chef chef) {
-		return null;
+	@Override
+	public String logInChef(String email, String password) {
+		List<Chef> chefs = chefRepository.findByEmail(email);
+		if (chefs.isEmpty()) {
+			return "EmailError";
+		}
+		else {
+			Chef chef = chefs.get(0);
+			if (chef.getPassword().equals(password)) {
+				httpSession.setAttribute("chef", chef);
+				return "chef";
+			}
+			else {
+				return "PasswordError";
+			}
+		}
 	}
 	
 }

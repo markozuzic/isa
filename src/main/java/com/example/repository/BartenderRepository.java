@@ -18,4 +18,6 @@ public interface BartenderRepository extends Repository<Bartender, Long> {
 	
 	public List<Bartender> findByRestaurantId(long restaurantId);
 	
+	public List<Bartender> findByEmail(String email);
+	
 }
