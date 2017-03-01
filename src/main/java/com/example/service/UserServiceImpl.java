@@ -15,12 +15,15 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.example.model.Chef;
 import com.example.model.FriendRequest;
 import com.example.model.User;
 import com.example.model.Visit;
+import com.example.repository.ChefRepository;
 import com.example.repository.FriendshipRepository;
 import com.example.repository.UserRepository;
 import com.example.repository.VisitRepository;
+import com.example.repository.WaiterRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -40,6 +43,11 @@ public class UserServiceImpl implements UserService{
 	@Autowired
     private JavaMailSender javaMailSender;
 	
+	@Autowired
+	private WaiterRepository waiterRepository;
+	
+	@Autowired
+	private ChefRepository chefRepository;
 	
 	@Override
 	public String createUser(User newUser) {
@@ -56,7 +64,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public String logInUser(User logger) {
-		List<User> users = userRepository.findByEmail(logger.getEmail());
+		/*List<User> users = userRepository.findByEmail(logger.getEmail());
 		if(users.isEmpty()) {
 			return "EmailError";
 		}
@@ -72,7 +80,11 @@ public class UserServiceImpl implements UserService{
 			else {
 				return "PasswordError";
 			}
-		}
+		}*/
+		/*Waiter w = waiterRepository.findOne(1);
+		httpSession.setAttribute("waiter", w);*/
+		Chef c = chefRepository.findOne(1);
+		httpSession.setAttribute("chef", c);
 		return "OK";
 	}
 	

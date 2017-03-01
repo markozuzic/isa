@@ -34,6 +34,9 @@ public class Chef {
 	
 	@Column
 	private long restaurantId;
+	
+	@Column
+	private boolean firstLogin;
 
 	public Chef() {
 		
@@ -111,6 +114,14 @@ public class Chef {
 
 	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
+	}
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 	
 	

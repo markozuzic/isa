@@ -30,7 +30,7 @@ public class ShiftController {
 	}
 	
 	@RequestMapping(
-			value = "/employee/getAllShifts",
+			value = "/shift/getAllShifts",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)

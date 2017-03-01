@@ -1,7 +1,10 @@
 package com.example.service;
 
-import com.example.model.Bartender;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.model.OrderR;
+import com.example.model.TableRestaurant;
 import com.example.model.Waiter;
 
 public interface WaiterService {
@@ -15,5 +18,9 @@ public interface WaiterService {
 	public String updatePassword(Waiter waiter);
 	
 	public String logInWaiter(Waiter waiter);
+	
+	public ArrayList<TableRestaurant> getReon();
+	
+	public List<OrderR> getUnfinishedOrders();
 	
 }

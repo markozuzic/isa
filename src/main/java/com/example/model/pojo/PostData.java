@@ -14,6 +14,8 @@ public class PostData {
 	
 	private String dateEnd;
 	
+	private String tables;
+	
 	public PostData(){};
 
 	public String getItems() {
@@ -67,5 +69,13 @@ public class PostData {
 
 	public void setDateEnd(String dateEnd) {
 		this.dateEnd = dateEnd;
+	}
+
+	public String getTables() {
+		return tables;
+	}
+
+	public void setTables(String tables) {
+		this.tables = tables;
 	}
 }

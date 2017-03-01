@@ -18,6 +18,6 @@ public interface ShiftRepository extends Repository<Shift, Long> {
 	
 	public List<Shift> findByEmployeeType(String employeeType);
 	
-	
+	public List<Shift> findByEmployeeTypeAndRestaurantId(String employeeType, long restaurantId);
 
 }

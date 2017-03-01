@@ -35,6 +35,8 @@ public class Bartender {
 	@Column
 	public long restaurantId;
 	
+	@Column
+	private boolean firstLogin;
 	
 	public Bartender() {
 		
@@ -129,6 +131,16 @@ public class Bartender {
 
 	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
+	}
+
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 	
 	

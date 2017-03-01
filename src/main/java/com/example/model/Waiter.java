@@ -1,14 +1,11 @@
 package com.example.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Waiter {
@@ -35,10 +32,6 @@ public class Waiter {
 	@Column(nullable = false)
 	private String password;
 	
-	@OneToMany(mappedBy = "waiter")
-	@Column
-	private List<OrderR> orders; 
-	
 	@Column
 	private int ratingCounter = 0;
 	
@@ -47,6 +40,9 @@ public class Waiter {
 	
 	@Column
 	private long restaurantId;
+	
+	@Column
+	private boolean firstLogin;
 	
 	public Waiter() {
 
@@ -127,19 +123,9 @@ public class Waiter {
 		this.password = password;
 	}
 
-	public List<OrderR> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<OrderR> orders) {
-		this.orders = orders;
-	}
-
 	public int getRatingCounter() {
 		return ratingCounter;
 	}
-
-
 
 	public void setRatingCounter(int ratingCounter) {
 		this.ratingCounter = ratingCounter;
@@ -159,6 +145,14 @@ public class Waiter {
 
 	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
+	}
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 
 }

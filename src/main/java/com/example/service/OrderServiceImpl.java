@@ -1,18 +1,27 @@
 package com.example.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import com.example.model.Bartender;
+import com.example.model.Chef;
 import com.example.model.MenuItem;
 import com.example.model.OrderR;
 import com.example.model.User;
 import com.example.model.Visit;
+import com.example.model.Waiter;
 import com.example.model.pojo.PostData;
 import com.example.repository.MenuItemRepository;
 import com.example.repository.OrderRepository;
+import com.example.repository.ReservationRepository;
+import com.example.repository.RestaurantRepository;
+import com.example.repository.TableRepository;
 import com.example.repository.VisitRepository;
 
 @Service
@@ -29,6 +38,16 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private MenuItemRepository menuItemRepository;
+	
+	@Autowired
+	private TableRepository tableRepository;
+	
+	@Autowired
+	private ReservationRepository reservationRepository;
+	
+	@Autowired
+	private RestaurantRepository restaurantRepository;
+	
 	
 	@Override
 	public String createOrder(OrderR newOrder) {
@@ -50,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
 		OrderR order = orderRepository.save(new OrderR());
 		order.setMenuItems(new ArrayList<MenuItem>());
 		order.setReservation(visit);
+		order.setDate(visit.getReservation().getDateTime());
 		for (String string : tokens) {
 			MenuItem mi = menuItemRepository.findOne(Long.parseLong(string));
 			order.getMenuItems().add(mi);
@@ -62,6 +82,34 @@ public class OrderServiceImpl implements OrderService {
 		return "OK";
 	}
 
+	@Override
+	public ArrayList<OrderR> getUnfinishedOrders(){
+		long restaurantId = 0;
+		Waiter waiter = (Waiter) httpSession.getAttribute("waiter");
+		if(waiter != null) {
+			restaurantId = waiter.getRestaurantId();
+		} else {
+			Chef chef = (Chef) httpSession.getAttribute("chef");
+			if(chef != null) {
+				restaurantId = chef.getRestaurantId();
+			} else {
+				Bartender bartender = (Bartender) httpSession.getAttribute("bartender");
+				if (bartender !=null){
+					restaurantId = bartender.getRestaurantId();
+				}
+			}
+		}
+		List<OrderR> unfinishedOrders = orderRepository.findByFinished(false);
+		ArrayList<OrderR> retval = new ArrayList<OrderR>();
+		for (OrderR orderR : unfinishedOrders) {
+			if(orderR.getReservation().getReservation().getRestaurantId() == restaurantId){
+				retval.add(orderR);
+			}
+		}
+		return retval;
+	}
+	
+	
 	public ArrayList<MenuItem> getAllMeals() {
 		// TODO Auto-generated method stub
 		return null;
@@ -87,6 +135,41 @@ public class OrderServiceImpl implements OrderService {
 //		}
 //			return copyMenuItems;
 		return null;
+	}
+
+	@Override
+	public String createBill(long orderId) {
+		OrderR order = orderRepository.findOne(orderId);
+		double bill = 0;
+		for (MenuItem mi : order.getMenuItems()) {
+			bill += mi.getPrice();
+		}
+		order.setFinished(true);
+		return ""+bill;
+	}
+
+	@Override
+	public OrderR createOrderFromPostData(PostData postData) {
+		String items = postData.getItems();
+		String tableString = postData.getTables();
+		
+		OrderR order = new OrderR();
+		order.setDate(new Date());
+		order.setWaiter((Waiter) httpSession.getAttribute("waiter"));
+		order.setFinished(false);
+		order.setIsDoneImmediately(false);
+		order.setTableNumber(Long.parseLong(tableString));
+		
+		ArrayList<MenuItem> itemsList = new ArrayList<MenuItem>();
+		String[] tokens = items.split(",");
+		for (String t : tokens) {
+			long id = Long.parseLong(t);
+			MenuItem mi = menuItemRepository.findOne(id);
+			itemsList.add(mi);
+		}
+		order.setMenuItems(itemsList);
+		return orderRepository.save(order);
+	
 	}
 
 }

@@ -15,6 +15,9 @@ public class Bidder {
 	@Column(nullable = false)
 	private String name;
 	
+	@Column
+	private boolean firstLogin;
+	
 	public Bidder() {
 		
 	}
@@ -37,6 +40,14 @@ public class Bidder {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 		
 }

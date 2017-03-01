@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.model.Bartender;
 import com.example.model.OrderR;
-import com.example.model.User;
+import com.example.model.TableRestaurant;
 import com.example.model.Waiter;
 import com.example.service.OrderService;
 import com.example.service.WaiterService;
@@ -29,9 +30,29 @@ public class WaiterController {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.TEXT_PLAIN_VALUE
 			)
-		public String createWaiter(@RequestBody Waiter waiter){
+	public String createWaiter(@RequestBody Waiter waiter){
 		return waiterService.createWaiter(waiter);
 	}
+	
+	@RequestMapping(
+			value = "/waiter/getReon",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public Collection<TableRestaurant> getReon(){
+		return waiterService.getReon();
+	}
+	
+	@RequestMapping(
+			value = "/waiter/getUnfinishedOrders",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public Collection<OrderR> getUnfinishedOrders(){
+		return waiterService.getUnfinishedOrders();
+	}
+	
+	
 	
 	
 	
