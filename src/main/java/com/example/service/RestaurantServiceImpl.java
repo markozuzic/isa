@@ -1,21 +1,24 @@
 package com.example.service;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+
 import org.springframework.stereotype.Service;
 
 import com.example.model.Bartender;
 import com.example.model.Chef;
 import com.example.model.MenuItem;
 import com.example.model.Restaurant;
+import com.example.model.Manager;
 import com.example.model.TableRestaurant;
 import com.example.model.Waiter;
+
 import com.example.repository.RestaurantRepository;
 import com.example.repository.TableRepository;
 import com.google.maps.GeoApiContext;
@@ -39,8 +42,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Override
 	public String createRestaurant(Restaurant newRestaurant) {
 		if(restaurantRepository.findByName(newRestaurant.getName()).isEmpty()) {
-			
-			
+				
 			GeocodingResult[] results;
 			try {
 				results = GeocodingApi.geocode(context, newRestaurant.getAddress()).await();
@@ -50,9 +52,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 				newRestaurant.setLatitude(0);
 				newRestaurant.setLongitude(0);
 			}
-			
-			
-			
+					
 			restaurantRepository.save(newRestaurant);
 			return "OK";
 		}
@@ -61,11 +61,25 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	@Override
 	public Page<Restaurant> getAllRestaurants() {
-		// TODO Auto-generated method stub
 		return restaurantRepository.findAll(null);
 	}
 
 	@Override
+	public Restaurant getRestaurant() {
+		Manager m = (Manager) httpSession.getAttribute("manager");
+		return restaurantRepository.findOne(m.getId());
+	}
+
+	@Override
+	public String updateRestaurant(Restaurant updatedRestaurant) {
+		Restaurant r = restaurantRepository.findOne(updatedRestaurant.getId());
+		r.setAddress(updatedRestaurant.getAddress());
+		r.setDescription(updatedRestaurant.getAddress());
+		r.setName(updatedRestaurant.getName());
+		restaurantRepository.save(r);
+		return "OK";
+	}
+
 	public List<TableRestaurant> getTables() {
 		long restaurantId = 0;
 		if (httpSession.getAttribute("waiter") != null) {
@@ -115,4 +129,5 @@ public class RestaurantServiceImpl implements RestaurantService {
 		}
 		return restaurantRepository.findOne(restaurantId);
 	}
+
 }

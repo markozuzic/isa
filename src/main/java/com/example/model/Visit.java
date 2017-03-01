@@ -1,9 +1,12 @@
 package com.example.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -25,6 +28,9 @@ public class Visit {
 	@Column
 	private boolean ratedRestaurant = false;
 	
+	@ManyToMany
+	private List<MenuItem> menuItems;
+
 	@Column
 	private boolean ratedService = false;
 	
@@ -95,7 +101,5 @@ public class Visit {
 	public void setRatedMeal(boolean ratedMeal) {
 		this.ratedMeal = ratedMeal;
 	}
-
-	
 	
 }

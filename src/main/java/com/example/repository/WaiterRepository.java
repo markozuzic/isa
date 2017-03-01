@@ -15,7 +15,8 @@ public interface WaiterRepository extends Repository<Waiter, Long> {
 	
 	public Waiter findOne(long id);
 	
-	public List<Waiter> findById(long id);
+	public List<Waiter> findByRestaurantId(long restaurantId);
 	
+	public List<Waiter> findByEmail(String email);
 	
 }

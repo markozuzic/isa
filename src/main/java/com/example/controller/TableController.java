@@ -38,4 +38,22 @@ public class TableController {
 		return tableService.findByRestaurant(id);
 	}
 	
+	@RequestMapping(
+			value = "/table/getTables",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public List<TableRestaurant> getTables() {
+		return tableService.findByRestaurant();
+	}
+	
+	@RequestMapping(
+			value = "/table/delete/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public String deleteTable(@PathVariable("id") long id) {
+		return tableService.deleteTable(id);
+	}
+	
 }

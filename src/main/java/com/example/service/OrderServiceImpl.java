@@ -9,8 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.example.model.Bartender;
 import com.example.model.Chef;
+import com.example.model.Manager;
+
 import com.example.model.MenuItem;
 import com.example.model.OrderR;
 import com.example.model.User;
@@ -23,6 +26,7 @@ import com.example.repository.ReservationRepository;
 import com.example.repository.RestaurantRepository;
 import com.example.repository.TableRepository;
 import com.example.repository.VisitRepository;
+import com.example.repository.WaiterRepository;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -48,7 +52,9 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 	
-	
+	@Autowired
+	private WaiterRepository waiterRepository;
+
 	@Override
 	public String createOrder(OrderR newOrder) {
 		if(orderRepository.findById(newOrder.getId()).isEmpty()){
@@ -169,7 +175,37 @@ public class OrderServiceImpl implements OrderService {
 		}
 		order.setMenuItems(itemsList);
 		return orderRepository.save(order);
+	}
 	
+	public String generateReport(PostData dates) {
+		Manager m = (Manager) httpSession.getAttribute("manager");
+		Waiter w = waiterRepository.findByRestaurantId(m.getRestaurantId()).get(0);
+		List<OrderR> orders = orderRepository.findByWaiter(w);
+		Date date;
+		Double priceSum = 0.0;
+		
+		for (OrderR order : orders) {
+			date = order.getReservation().getReservation().getDateTime(); //prvi gerReservation treba da bude getVisit
+
+			if (date.after(dates.getDateStart()) && date.before(dates.getDateEnd())) {
+				 for (MenuItem mi : order.getMenuItems()) {
+					 priceSum += mi.getPrice();
+				}
+			}
+		}
+		return priceSum.toString();
+	}
+
+	@Override
+	public String generateWaiterReport(long id) {
+		List<OrderR> orders = orderRepository.findByWaiter(waiterRepository.findOne(id));
+		Double priceSum = 0.0;
+		for (OrderR order : orders) {
+			for (MenuItem mi : order.getMenuItems()) {
+				priceSum += mi.getPrice();
+			}
+		}
+		return priceSum.toString();
 	}
 
 }

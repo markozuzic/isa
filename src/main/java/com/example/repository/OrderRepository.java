@@ -27,5 +27,7 @@ public interface OrderRepository extends Repository<OrderR, Long> {
 	public List<OrderR> findByWaiterAndFinished(Waiter waiter, boolean finished);
 	
 	public List<OrderR> findByFinished(boolean finished);
+
+	public List<OrderR>	findByWaiter(Waiter w);
 	
 }

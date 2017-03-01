@@ -37,19 +37,23 @@ public class Chef {
 	
 	@Column
 	private boolean firstLogin;
+	
+	@Column
+	public String email;
 
 	public Chef() {
 		
 	}
 
-	public Chef(String name, String lastname, Date birthDate, int shoeSize, int clothesSize, String password) {
+	public Chef(String name, String lastname, Date birthDate, int shoeSize, int clothesSize, long restaurantId, String email) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
 		this.birthDate = birthDate;
 		this.shoeSize = shoeSize;
 		this.clothesSize = clothesSize;
-		this.password = password;
+		this.restaurantId = restaurantId;
+		this.email = email;
 	}
 
 	public long getId() {
@@ -124,8 +128,12 @@ public class Chef {
 		this.firstLogin = firstLogin;
 	}
 	
-	
-	
-	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	
 }

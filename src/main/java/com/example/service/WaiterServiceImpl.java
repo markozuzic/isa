@@ -10,12 +10,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.model.Manager;
 import com.example.model.OrderR;
 import com.example.model.Shift;
 import com.example.model.TableRestaurant;
+import com.example.model.Restaurant;
+import com.example.model.SystemUser;
 import com.example.model.Waiter;
+
 import com.example.repository.OrderRepository;
 import com.example.repository.ShiftRepository;
+import com.example.repository.RestaurantRepository;
+import com.example.repository.SystemUserRepository;
 import com.example.repository.WaiterRepository;
 
 @Service
@@ -33,15 +39,25 @@ public class WaiterServiceImpl implements WaiterService {
 	@Autowired
 	private ShiftRepository shiftRepository;
 	
+	@Autowired
+	private RestaurantRepository restaurantRepository;
+	
+	@Autowired
+	private SystemUserRepository systemUserRepository;
+	
 	@Override
-	public String createWaiter(Waiter newWaiter) {
-		if(waiterRepository.findById(newWaiter.getId()).isEmpty()){
-			waiterRepository.save(newWaiter);
-			return "OK";
+	public Waiter createWaiter(Waiter newWaiter) {
+		
+		if(systemUserRepository.findByEmail(newWaiter.getEmail()).isEmpty()){
+			Manager m = (Manager) httpSession.getAttribute("manager");
+			newWaiter.setRestaurantId(m.getRestaurantId());	
+			SystemUser su = new SystemUser(newWaiter.getEmail(), newWaiter.getPassword(), "waiter");
+			systemUserRepository.save(su);
+			return waiterRepository.save(newWaiter);
 		}
-		else
-		{
-			return "IdError";
+		else {
+			newWaiter.setId(0);
+			return newWaiter;
 		}
 	}
 
@@ -58,8 +74,8 @@ public class WaiterServiceImpl implements WaiterService {
 
 	@Override
 	public String updateWaiterProfile(Waiter waiter) {
-		if(waiterRepository.findById(waiter.getId()).isEmpty()){
-			return "IdError";
+		if(waiterRepository.findByEmail(waiter.getEmail()).isEmpty()){
+			return "EmailError";
 		}
 		
 		Waiter oldWaiter = waiterRepository.findOne(waiter.getId());
@@ -84,11 +100,23 @@ public class WaiterServiceImpl implements WaiterService {
 		
 		return "OK";
 	}
-
+	
 	@Override
-	public String logInWaiter(Waiter waiter) {
-		// TODO Auto-generated method stub
-		return null;
+	public String logInWaiter(String email, String password) {
+		List<Waiter> waiters = waiterRepository.findByEmail(email);
+		if (waiters.isEmpty()) {
+			return "EmailError";
+		}
+		else {
+			Waiter waiter = waiters.get(0);
+			if (waiter.getPassword().equals(password)) {
+				httpSession.setAttribute("waiter", waiter);
+				return "waiter";
+			}
+			else {
+				return "PasswordError";
+			}
+		}
 	}
 
 	@Override
@@ -127,7 +155,12 @@ public class WaiterServiceImpl implements WaiterService {
 		return orderRepository.findByWaiterAndFinished(waiter, false);
 	}
 	
+	@Override
+	public List<Waiter> getAllWaiters() {
+		Manager m = (Manager) httpSession.getAttribute("manager");
+		Restaurant r = restaurantRepository.findOne(m.getId());
+		
+		return waiterRepository.findByRestaurantId(r.getId());
+	}
 	
-	
-
 }

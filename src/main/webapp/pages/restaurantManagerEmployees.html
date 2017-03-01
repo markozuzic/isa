@@ -1,0 +1,107 @@
+<h3>Konobari</h3>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Ime</td>
+			<td>Prezime</td>
+			<td>Datum rodjenja</td>
+			<td>Konfekcijski broj</td>
+			<td>Broj cipela</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-ng-repeat="w in waiters">
+		
+			<td>{{w.name}}</td>
+			<td>{{w.lastname}}</td>
+			<td>{{w.birthDate}}</td>
+			<td>{{w.clothesSize}}</td>
+			<td>{{w.shoeSize}}</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Šankeri</h3>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Ime</td>
+			<td>Prezime</td>
+			<td>Datum rodjenja</td>
+			<td>Konfekcijski broj</td>
+			<td>Broj cipela</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-ng-repeat="b in bartenders">
+		
+			<td>{{b.name}}</td>
+			<td>{{b.lastname}}</td>
+			<td>{{b.birthDate}}</td>
+			<td>{{b.clothesSize}}</td>
+			<td>{{b.shoeSize}}</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Kuvari</h3>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Ime</td>
+			<td>Prezime</td>
+			<td>Datum rodjenja</td>
+			<td>Konfekcijski broj</td>
+			<td>Broj cipela</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-ng-repeat="c in chefs">
+		
+			<td>{{c.name}}</td>
+			<td>{{c.lastname}}</td>
+			<td>{{c.birthDate}}</td>
+			<td>{{c.clothesSize}}</td>
+			<td>{{c.shoeSize}}</td>
+		</tr>
+	</tbody>
+</table>
+
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal">Registruj radnika</button>
+
+<div id="modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+	
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Novi radnik</h4>
+			</div>
+			
+			<div class="modal-body">
+			<div class="input-group">
+				<form>
+					<input class="form-control" type="text" placeholder="Ime" data-ng-model="newEmployee.name">
+					<input class="form-control" type="text" placeholder="Prezime" data-ng-model="newEmployee.lastname">
+					<input class="form-control" type="text" placeholder="Email" data-ng-model="newEmployee.email">
+					<input class="form-control" type="date" placeholder="Datum rodjenja" data-ng-model="newEmployee.birthDate">
+					<input class="form-control" type="text" placeholder="Konfekcijski broj" data-ng-model="newEmployee.clothesSize">
+					<input class="form-control" type="text" placeholder="Broj cipela" data-ng-model="newEmployee.shoeSize">
+				
+					<select id="employeeType">
+ 						 <option value="waiter">Konobar</option>
+  						 <option value="chef">Kuvar</option>
+ 						 <option value="bartender">Šanker</option>
+					</select>
+				</form>
+			</div>
+			</div>
+			<div class="modal-footer">
+				<input type="button" class="btn btn-info" value="U redu" data-dismiss="modal" data-ng-click="createEmployee()">
+			</div>
+		</div>
+	</div>
+</div>

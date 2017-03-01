@@ -1,0 +1,97 @@
+<h3>Jela</h3>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Naziv</td>
+			<td>Opis</td>
+			<td>Cena</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+	<tr data-ng-repeat="x in restaurant.menu">
+		<td>{{x.name}}</td>
+		<td>{{x.description}}</td>
+		<td>{{x.price}}</td>
+		<td><input type="button" class="btn btn-info" value="Ukloni" data-ng-click="removeMenuItem(x.id)"></td>
+	</tr>
+	</tbody>
+</table>
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalMenu">Dodaj jelo</button>
+
+<div id="modalMenu" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Novo jelo</h4>
+			</div>
+			<div class="modal-body">
+				<div class="input-group">
+					<form>
+						<input class="form-control" type="text" placeholder="Naziv" data-ng-model="menuItem.name" /> 
+						<input class="form-control" type="text" placeholder="Opis" data-ng-model="menuItem.description" /> 
+						<input class="form-control" type="text" placeholder="Cena" data-ng-model="menuItem.price" />
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"
+					data-ng-click="createMenuItem()">Dodaj</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<h3>Pića</h3>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Naziv</td>
+			<td>Opis</td>
+			<td>Cena</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+	<tr data-ng-repeat="mi in restaurant.drinks">
+		<td>{{mi.name}}</td>
+		<td>{{mi.description}}</td>
+		<td>{{mi.price}}</td>
+		<td><input type="button" class="btn btn-info" value="Ukloni" data-ng-click="removeDrinkItem(mi.id)"></td>
+
+	</tr>
+	</tbody>
+</table>
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalDrinks">Dodaj piće</button>
+
+<div id="modalDrinks" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Novo piće</h4>
+			</div>
+			
+			<div class="modal-body">
+				<div class="input-group">
+					<form>
+						<input class="form-control" type="text" placeholder="Naziv" data-ng-model="drinkItem.name" /> 
+						<input class="form-control" type="text" placeholder="Opis" data-ng-model="drinkItem.description" /> 
+						<input class="form-control" type="text" placeholder="Cena" data-ng-model="drinkItem.price" />
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"
+					data-ng-click="createDrink()">Dodaj</button>
+			</div>
+		</div>
+
+	</div>
+</div>

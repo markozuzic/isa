@@ -1,0 +1,65 @@
+
+<style>
+input[type=text], select {
+	width: 100%;
+	padding: 12px 20px;
+	/*margin: 8px 0;*/
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+</style>
+
+
+<div class="row">
+	<div class="col-md-6 center-block">
+
+		<h2 data-ng-init="initShiftPage()">Smena</h2>
+
+<div class="input-group date" id="datetime" data-ng-init="initDateTimePicker()">
+
+			 <input type="text" class="form-control" id="dateTextField"/> <span
+				class="input-group-addon"> <span
+				class="glyphicon glyphicon-calendar"></span>
+			</span> 
+			
+			
+
+		</div> 
+
+
+		<select id="shiftType">
+			<option value="1">Prva smena</option>
+			<option value="2">Druga smena</option>
+		</select> <br> <br>
+
+	</div>
+</div>
+
+<input type="text" class="form-control ng-valid ng-dirty"
+	placeholder="Pretraga konobara" data-ng-model="searchKeywordWaiter">
+<table class="table table-bordered">
+	<tr
+		data-ng-repeat="x in waiters | filter:filterFnWaiter | filter:searchKeywordWaiter">
+		<td>{{x.name + " " + x.surname}}</td>
+		<td>
+			<button class="btn btn-primary" data-ng-click="setWaiter(x)">Odaberi</button>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<h3>Definiši reon:</h3>
+	<div class="checkbox" data-ng-repeat="t in tables">
+		<label><input type="checkbox" value=""
+			data-ng-model="t.selected">{{t.tableNumber}} - za
+			{{t.numberOfChairs}} osobe </label>
+	</div>
+
+</div>
+
+
+<div class="pull-rigth">
+	<button class="btn btn-info" data-ng-click="createShift()">Napravi smenu</button>
+</div>

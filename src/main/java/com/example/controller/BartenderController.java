@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Bartender;
-import com.example.model.Chef;
-import com.example.model.User;
-import com.example.model.Waiter;
 import com.example.service.BartenderService;
 
 @RestController
@@ -20,12 +19,12 @@ public class BartenderController {
 	private BartenderService bartenderService;
 	
 	@RequestMapping(
-			value = "/bartender/register",
+			value = "/bartender/create",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.TEXT_PLAIN_VALUE
+			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public String createBartender(@RequestBody Bartender bartender){
+	public Bartender createBartender(@RequestBody Bartender bartender){
 		return bartenderService.createBartender(bartender);
 	}
 	
@@ -52,11 +51,12 @@ public class BartenderController {
 	}
 	
 	@RequestMapping(
-			value = "/bartender/login",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.TEXT_PLAIN_VALUE)
-	public String logInBartender(@RequestBody Bartender bartender){
-		return bartenderService.logInBartender(bartender);
+			value = "/bartender/getBartenders",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public List<Bartender> getBartenders() {
+		return bartenderService.getAllBartenders();
 	}
+	
 }

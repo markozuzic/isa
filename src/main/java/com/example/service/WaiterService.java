@@ -1,5 +1,6 @@
 package com.example.service;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import com.example.model.Waiter;
 
 public interface WaiterService {
 
-	public String createWaiter(Waiter newWaiter);
+	public Waiter createWaiter(Waiter newWaiter);
 	
 	public String createOrder(OrderR newOrder);
 	
@@ -17,10 +18,12 @@ public interface WaiterService {
 	
 	public String updatePassword(Waiter waiter);
 	
-	public String logInWaiter(Waiter waiter);
-	
 	public ArrayList<TableRestaurant> getReon();
 	
 	public List<OrderR> getUnfinishedOrders();
+	
+	public List<Waiter> getAllWaiters();
+
+	public String logInWaiter(String email, String password);
 	
 }

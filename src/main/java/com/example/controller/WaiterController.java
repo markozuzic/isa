@@ -1,6 +1,10 @@
 package com.example.controller;
 
+
 import java.util.Collection;
+
+import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,13 +29,13 @@ public class WaiterController {
 	private OrderService orderService;
 
 	@RequestMapping(
-			value = "/waiter/register",
+			value = "/waiter/create",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.TEXT_PLAIN_VALUE
+			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public String createWaiter(@RequestBody Waiter waiter){
-		return waiterService.createWaiter(waiter);
+		public Waiter createWaiter(@RequestBody Waiter waiter){
+			return waiterService.createWaiter(waiter);
 	}
 	
 	@RequestMapping(
@@ -52,12 +56,8 @@ public class WaiterController {
 		return waiterService.getUnfinishedOrders();
 	}
 	
-	
-	
-	
-	
 	@RequestMapping(
-			value = "/waiter/create",
+			value = "/waiter/createOrder",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.TEXT_PLAIN_VALUE
@@ -89,11 +89,12 @@ public class WaiterController {
 	}
 	
 	@RequestMapping(
-			value = "/waiter/login",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.TEXT_PLAIN_VALUE)
-	public String logInWaiter(@RequestBody Waiter waiter){
-		return waiterService.logInWaiter(waiter);
+			value = "/waiter/getWaiters",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public List<Waiter> getAllWaiters() {
+		return waiterService.getAllWaiters();
 	}
+	
 }

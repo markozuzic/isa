@@ -15,4 +15,8 @@ public interface ChefRepository extends Repository<Chef, Long> {
 	public Chef findOne(long id);
 	
 	public List<Chef> findById(long id);
+	
+	public List<Chef> findByRestaurantId(long restaurantId);
+	
+	public List<Chef> findByEmail(String email);
 }

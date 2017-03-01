@@ -2,7 +2,8 @@
 
 
 angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.controller', 'activateAccount.controller',
-								'invitation.controller','activateAccount.controller', 'waiterHome.controller', 'chefHome.controller', 'bartenderHome.controller'])
+			   'systemManager.controller', 'supplier.controller', 'restaurantManager.controller',
+			   'invitation.controller','activateAccount.controller', 'waiterHome.controller', 'chefHome.controller', 'bartenderHome.controller'])
 
    
 	.config(function($stateProvider, $urlRouterProvider) {
@@ -85,6 +86,97 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				controller : 'guestHomeController'
 		})
 		
+		.state('systemManagerHome', {
+				url : "/systemManagerHome",
+				templateUrl : 'pages/systemManagerHome.html',
+				controller : 'systemManagerController'
+		})
+		
+		.state('createManager', {
+			    url : "/createManager/:restaurantId",
+			    templateUrl : "pages/createManager.html",
+			    controller : "systemManagerController"
+		})
+		
+		.state('createSystemManager', {
+				url : "/createSystemManager",
+				templateUrl : "pages/createSystemManager.html",
+				controller : "systemManagerController"
+		})
+		
+		.state('createRestaurant', {
+				url : "/createRestaurant",
+				templateUrl : "pages/createRestaurant.html",
+				controller : "systemManagerController"
+		})
+		
+		.state('supplier', {
+				url : "/supplier/:supplierEmail",
+				templateUrl : "pages/supplier.html",
+				controller : "supplierController"
+		})
+		
+		.state('modifySupplier', {
+				url : "/supplier/modify/:supplierEmail",
+				templateUrl : "pages/modifySupplier.html",
+				controller : "supplierController"
+		})
+		
+		.state('restaurantManagerHome', {
+				url : '/restaurantManagerHome',
+				templateUrl : 'pages/restaurantManagerHome.html',
+				controller : 'restaurantManagerController',
+				abstract : true
+		})
+		
+		.state('restaurantManagerHome.menu', {
+				url : "",
+				templateUrl : 'pages/restaurantManagerMenu.html',
+				contoller : 'restaurantManagerController'
+		})
+		
+		.state('restaurantManagerHome.employees', {
+				url : "",
+				templateUrl : 'pages/restaurantManagerEmployees.html',
+				controller : 'restaurantManagerController'
+		})
+		
+		.state('restaurantManagerHome.tables', {
+				url : "",
+				templateUrl : 'pages/restaurantManagerTables.html',
+				controller : 'restaurantManagerController'
+		})
+		
+		.state('restaurantManagerHome.suppliers', {
+				url : "",
+				templateUrl : 'pages/restaurantManagerSuppliers.html',
+				controller : 'restaurantManagerController'
+		})
+		
+		.state('restaurantManagerHome.demands', {
+				url : "",
+				templateUrl : 'pages/restaurantManagerDemand.html',
+				controller : 'restaurantManagerController'
+		})
+		
+		.state('restaurantManagerHome.restaurantProfile', {
+				url : "",
+				templateUrl : 'pages/restaurantManagerRestaurantProfile.html',
+				controller : 'restaurantManagerController'
+		})
+		
+		.state('restaurantManagerHome.reports', {
+				url : "",
+				templateUrl : 'pages/restaurantManagerReports.html',
+				controller : 'restaurantManagerController'
+		})
+		
+		.state('restaurantManagerHome.shift', {
+				url : "",
+				templateUrl : 'pages/restaurantManagerShift.html',
+				controller : 'restaurantManagerController'
+		})
+		
 		.state('guestHome.confirm', {
 				url : "/confirm/:reservationId",
 				templateUrl : 'pages/guestReservationConfirm.html',
@@ -95,7 +187,6 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				url : "/order/:reservationId",
 				templateUrl : 'pages/guestReservationOrder.html',
 				controller : 'guestHomeController'
-
 		})
 		
 		.state('waiterHome', {
@@ -190,6 +281,6 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				url: '/employeeChangePassword/:systemUserId',
 				templateUrl : 'pages/employeeChangePassword.html',
 				controller : 'loginController'
-
 		})
-	});
+
+});

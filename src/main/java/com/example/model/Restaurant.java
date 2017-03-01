@@ -10,15 +10,25 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Restaurant {
+	
 	@Id
 	@GeneratedValue
 	private long id;
 	
-	@Column(nullable = false)
+	@Column
 	private String name;
 	
 	@Column(nullable = false)
 	private String description;
+	
+	@Column(nullable = false)
+	private String address;
+	
+	@Column
+	private double longitude;
+	
+	@Column 
+	private double latitude;
 	
 	@OneToMany
 	private List<MenuItem> menu;
@@ -26,29 +36,27 @@ public class Restaurant {
 	@OneToMany
 	private List<MenuItem> drinks;
 	
-	@Column
-	private double longitude = 0;
-	
-	@Column 
-	private double latitude = 0;
-	
 	@Column 
 	private double rating = 0;
 	
 	@Column 
 	private int ratingCounter = 0;
 	
-	@Column(nullable = false)
-	private String address;
-	
 	public Restaurant() {
 		
 	}
 
-	public Restaurant(String name, String description) {
+	public Restaurant(String name, String description) { //only used for testing
 		super();
 		this.name = name;
 		this.description = description;
+	}
+	
+	public Restaurant(String name, String description, String address) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.address = address;
 	}
 
 	public String getName() {
@@ -91,6 +99,15 @@ public class Restaurant {
 		this.id = id;
 	}
 
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public double getLongitude() {
 		return longitude;
 	}
@@ -105,14 +122,6 @@ public class Restaurant {
 
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public double getRating() {

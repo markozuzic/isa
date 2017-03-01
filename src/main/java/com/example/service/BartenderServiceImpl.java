@@ -1,13 +1,20 @@
 package com.example.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Bartender;
-import com.example.model.Chef;
+import com.example.model.Manager;
+import com.example.model.Restaurant;
+import com.example.model.SystemUser;
+import com.example.model.Waiter;
 import com.example.repository.BartenderRepository;
+import com.example.repository.RestaurantRepository;
+import com.example.repository.SystemUserRepository;
 
 @Service
 public class BartenderServiceImpl implements BartenderService {
@@ -18,14 +25,25 @@ public class BartenderServiceImpl implements BartenderService {
 	@Autowired
 	private BartenderRepository bartenderRepository;
 	
+	@Autowired
+	private RestaurantRepository restaurantRepository;
+	
+	@Autowired
+	private SystemUserRepository systemUserRepository;
+	
 	@Override
-	public String createBartender(Bartender newBartender) {
-		if(bartenderRepository.findById(newBartender.getId()).isEmpty()){
-			bartenderRepository.save(newBartender);
-			return "OK";
+	public Bartender createBartender(Bartender newBartender) {
+		
+		if(systemUserRepository.findByEmail(newBartender.getEmail()).isEmpty()){
+			Manager m = (Manager) httpSession.getAttribute("manager");
+			newBartender.setRestaurantId(m.getRestaurantId());
+			SystemUser su = new SystemUser(newBartender.getEmail(), newBartender.getPassword(), "bartender");
+			systemUserRepository.save(su);
+			return bartenderRepository.save(newBartender);
 		}
-		else{
-			return "IdError";
+		else {
+			newBartender.setId(0);
+			return newBartender;
 		}
 	}
 
@@ -56,9 +74,29 @@ public class BartenderServiceImpl implements BartenderService {
 	}
 
 	@Override
-	public String logInBartender(Bartender bartender) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Bartender> getAllBartenders() {
+		Manager m = (Manager) httpSession.getAttribute("manager");
+		Restaurant r = restaurantRepository.findOne(m.getRestaurantId());
+		
+		return bartenderRepository.findByRestaurantId(r.getId());
+	}
+
+	@Override
+	public String logInBartender(String email, String password) {
+		List<Bartender> bartenders = bartenderRepository.findByEmail(email);
+		if (bartenders.isEmpty()) {
+			return "EmailError";
+		}
+		else {
+			Bartender bartender = bartenders.get(0);
+			if (bartender.getPassword().equals(password)) {
+				httpSession.setAttribute("bartender", bartender);
+				return "bartender";
+			}
+			else {
+				return "PasswordError";
+			}
+		}
 	}
 
 }

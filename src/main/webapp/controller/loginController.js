@@ -8,7 +8,7 @@ loginModule.controller('loginController', ['$scope','$location', '$http', '$stat
 	
 	$scope.submitLogin = function () { 
 	
-		$http.post('user/login', $scope.user)
+		$http.post('/systemUser/login', $scope.user)
 	    	.then(function mySuccess(response) {
 	    		if(response.data == "EmailError") {
 	 			   toastr.error("Uneli ste pogresnu email adresu!");
@@ -16,9 +16,27 @@ loginModule.controller('loginController', ['$scope','$location', '$http', '$stat
 	 			   toastr.error("Uneli ste pogresnu lozinku!");
 	 		   } else {
 	 			   toastr.success("Uspesno logovanje!");
-	 			   //$location.path("guestHome");
-	 			  // $location.path("waiter");
-	 			   $location.path("chef");
+	 			   if (response.data === "user") {
+	 				  $location.path("guestHome");
+	 			   }
+	 			   else if (response.data === "restaurant") {
+	 				  $location.path("restaurantManagerHome");
+	 			   }
+	 			   else if (response.data === "system") {
+	 				  $location.path("systemManagerHome");
+	 			   }
+	 			   else if (response.data === "supplier") {
+	 				  $location.path("supplier/" + $scope.user.email);
+	 			   }
+	 			   else if (response.data === "chef"){
+	 				  $location.path("chef");
+	 			   }
+	 			   else if (response.data === "waiter") {
+	 				  $location.path("waiter");
+	 			   }
+	 			   else if (response.data === "bartender") {
+	 				  $location.path("bartender");	
+	 			   }
 	 		   }
 	    }, function myError(response) {
 	    	alert(response.statusText);

@@ -17,7 +17,7 @@ public class MenuItem {
 	@Column(nullable = false)
 	private String name;
 	
-	@Column(nullable = false)
+	@Column(nullable = false)		
 	private double price;
 	
 	@Column
@@ -29,15 +29,23 @@ public class MenuItem {
 	@Column
 	private String type;
 
-	
 	public MenuItem() {
 		
+	}
+
+
+	public MenuItem(String description, String name, double price) {
+		super();
+		this.description = description;
+		this.name = name;
+		this.price = price;
 	}
 
 	public MenuItem(String description, String name, double price, String type) {
 		super();
 		this.description = description;
 		this.name = name;
+		this.price = price;
 		this.price = price;
 		this.type = type;
 	}

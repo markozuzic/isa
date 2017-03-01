@@ -29,32 +29,38 @@ public class Waiter {
 	@Column
 	private int shoeSize;
 	
-	@Column(nullable = false)
+	@Column
 	private String password;
+	
+	@Column
+	private long restaurantId;
 	
 	@Column
 	private int ratingCounter = 0;
 	
 	@Column 
 	private double rating = 0;
-	
-	@Column
-	private long restaurantId;
-	
+		
 	@Column
 	private boolean firstLogin;
+
+	@Column
+	public String email;
+
 	
 	public Waiter() {
 
 	}
 	
-	public Waiter( String name, String lastname, Date birthDate, int clothesSize, int shoeSize) {
+	public Waiter( String name, String lastname, Date birthDate, int clothesSize, int shoeSize, long restaurantId, String email) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
 		this.birthDate = birthDate;
 		this.clothesSize = clothesSize;
 		this.shoeSize = shoeSize;
+		this.restaurantId = restaurantId;
+		this.email = email;
 	}
 
 	public Waiter(String name, String lastname, Date birthDate, int clothesSize, int shoeSize, String password) {
@@ -123,6 +129,14 @@ public class Waiter {
 		this.password = password;
 	}
 
+	public long getRestaurantId() {
+		return restaurantId;
+	}
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
+	}
+	
 	public int getRatingCounter() {
 		return ratingCounter;
 	}
@@ -138,13 +152,13 @@ public class Waiter {
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
-	
-	public long getRestaurantId() {
-		return restaurantId;
+
+	public String getEmail() {
+		return email;
 	}
 
-	public void setRestaurantId(long restaurantId) {
-		this.restaurantId = restaurantId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public boolean isFirstLogin() {

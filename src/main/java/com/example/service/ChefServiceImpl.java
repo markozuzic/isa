@@ -8,26 +8,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Chef;
-import com.example.model.User;
+import com.example.model.Manager;
+import com.example.model.Restaurant;
+import com.example.model.SystemUser;
 import com.example.repository.ChefRepository;
+import com.example.repository.RestaurantRepository;
+import com.example.repository.SystemUserRepository;
 
 @Service
 public class ChefServiceImpl implements ChefService {
 
 	@Autowired
-	HttpSession httpSession;
+	private HttpSession httpSession;
 	
 	@Autowired
-	ChefRepository chefRepository;
+	private ChefRepository chefRepository;
+	
+	@Autowired
+	private RestaurantRepository restaurantRepository;
+	
+	@Autowired
+	private SystemUserRepository systemUserRepository;
 	
 	@Override
-	public String createChef(Chef newChef) {
-		if(chefRepository.findById(newChef.getId()).isEmpty()){
-			chefRepository.save(newChef);
-			return "OK";
+	public Chef createChef(Chef newChef) {
+		
+		if(systemUserRepository.findByEmail(newChef.getEmail()).isEmpty()){
+			Manager m = (Manager) httpSession.getAttribute("manager");
+			newChef.setRestaurantId(m.getRestaurantId());
+			SystemUser su = new SystemUser(newChef.getEmail(), newChef.getPassword(), "chef");
+			systemUserRepository.save(su);
+			return chefRepository.save(newChef);
 		}
-		else{
-			return "IdError";
+		else {
+			newChef.setId(0);
+			return newChef;
 		}
 	}
 
@@ -58,12 +73,29 @@ public class ChefServiceImpl implements ChefService {
 	}
 
 	@Override
-	public String logInChef(Chef chef) {
-		return null;
-	
+	public List<Chef> getAllChefs() {
+		Manager m = (Manager) httpSession.getAttribute("manager");
+		Restaurant r = restaurantRepository.findOne(m.getId());
+		
+		return chefRepository.findByRestaurantId(r.getId());
+	}
+
+	@Override
+	public String logInChef(String email, String password) {
+		List<Chef> chefs = chefRepository.findByEmail(email);
+		if (chefs.isEmpty()) {
+			return "EmailError";
+		}
+		else {
+			Chef chef = chefs.get(0);
+			if (chef.getPassword().equals(password)) {
+				httpSession.setAttribute("chef", chef);
+				return "chef";
+			}
+			else {
+				return "PasswordError";
+			}
+		}
 	}
 	
-	
-	
-
 }
