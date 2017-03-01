@@ -13,5 +13,7 @@ public interface BartenderService {
 	public String updatePassword(Bartender bartender);
 
 	public List<Bartender> getAllBartenders();
+
+	public String logInBartender(Bartender bartender);
 		
 }

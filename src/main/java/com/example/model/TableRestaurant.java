@@ -27,6 +27,9 @@ public class TableRestaurant {
 	@Column(nullable = false)
 	private int y;
 	
+	@Column
+	private boolean isAvailable;
+	
 	public TableRestaurant() {
 		
 	}
@@ -39,6 +42,15 @@ public class TableRestaurant {
 		this.numberOfChairs = numberOfChairs;
 		this.x = x;
 		this.y = y;
+		this.isAvailable = true;
+	}
+
+	public boolean getIsAvailable() {
+		return isAvailable;
+	}
+
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 
 	public long getTableNumber() {

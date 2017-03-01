@@ -1,17 +1,13 @@
 package com.example.model;
 
-import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Visit {
@@ -20,55 +16,60 @@ public class Visit {
 	@GeneratedValue
 	private long id;
 	
-	@Column(nullable = false)
-	private long userId;
+	@ManyToOne
+	private User user;
 	
-	@Column(nullable = false)
-	private long restaurantId;
+	@ManyToOne
+	private Reservation reservation;
 	
-	@Column(nullable = false)
+	@Column
 	private String restaurantName;
 	
 	@Column
-	private Date date;
+	private boolean ratedRestaurant = false;
 	
 	@ManyToMany
 	private List<MenuItem> menuItems;
 
+	@Column
+	private boolean ratedService = false;
+	
+	@Column
+	private boolean ratedMeal = false;
+
 	public Visit(){}
 
-	public Visit(long user, long restaurant, String restaurantName, Date date) {
+	public Visit(User user, Reservation reservation, String restaurantName) {
 		super();
-		this.userId = user;
-		this.restaurantId = restaurant;
+		this.user = user;
+		this.reservation = reservation;
 		this.restaurantName = restaurantName;
-		this.date = date;
 	}
 
-	public long getUser() {
-		return userId;
+	public long getId() {
+		return id;
 	}
 
-	public void setUser(long user) {
-		this.userId = user;
+	public void setId(long id) {
+		this.id = id;
 	}
 
-	public long getRestaurant() {
-		return restaurantId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setRestaurant(long restaurant) {
-		this.restaurantId = restaurant;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public Date getDate() {
-		return date;
+	public Reservation getReservation() {
+		return reservation;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
 	}
-	
+
 	public String getRestaurantName() {
 		return restaurantName;
 	}
@@ -77,12 +78,28 @@ public class Visit {
 		this.restaurantName = restaurantName;
 	}
 
-	public List<MenuItem> getMenuItems() {
-		return menuItems;
+	public boolean getRatedRestaurant() {
+		return ratedRestaurant;
 	}
 
-	public void setMenuItems(List<MenuItem> menuItems) {
-		this.menuItems = menuItems;
+	public void setRatedRestaurant(boolean ratedRestaurant) {
+		this.ratedRestaurant = ratedRestaurant;
+	}
+
+	public boolean getRatedService() {
+		return ratedService;
+	}
+
+	public void setRatedService(boolean ratedService) {
+		this.ratedService = ratedService;
+	}
+
+	public boolean getRatedMeal() {
+		return ratedMeal;
+	}
+
+	public void setRatedMeal(boolean ratedMeal) {
+		this.ratedMeal = ratedMeal;
 	}
 	
 }

@@ -6,11 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
-
 
 @Entity
 public class OrderR {
@@ -19,10 +16,17 @@ public class OrderR {
 	@GeneratedValue
 	private long id;
 	
+	@Column
+	private boolean doneImmediately;
 	
 	@ManyToOne
-	@JoinColumn
+	private Visit visit;	//Stavila sam ovde visit a ne reservation, jer visit ima referencu ka reservation, a trebace ti
+							//visit kad budes radila ocenjivanje
+	@ManyToOne
 	private Waiter waiter;
+	
+	@ManyToMany
+	private List<MenuItem> menuItems;
 	
 	public OrderR(){
 		
@@ -35,8 +39,40 @@ public class OrderR {
 	public void setId(long id) {
 		this.id = id;
 	}
-
 	
+
+	public Waiter getWaiter() {
+		return waiter;
+	}
+
+	public void setWaiter(Waiter waiter) {
+		this.waiter = waiter;
+	}
+
+	public List<MenuItem> getMenuItems() {
+		return menuItems;
+	}
+
+	public void setMenuItems(List<MenuItem> menuItems) {
+		this.menuItems = menuItems;
+	}
+
+	public boolean getIsDoneImmediately() {
+		return doneImmediately;
+	}
+
+	public void setIsDoneImmediately(boolean doneImmediately) {
+		this.doneImmediately = doneImmediately;
+	}
+
+	public Visit getReservation() {
+		return visit;
+	}
+
+	public void setReservation(Visit visit) {
+		this.visit = visit;
+	}
+
 	
 	
 	

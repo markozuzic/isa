@@ -35,11 +35,9 @@ public class Bartender {
 	@Column
 	public long restaurantId;
 	
-	
 	public Bartender() {
 		
 	}
-
 
 	public Bartender(long id, String name, String lastname, Date birthDate, int shoeSize, int clothesSize, long restaurantId) {
 		super();

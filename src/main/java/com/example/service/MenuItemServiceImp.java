@@ -1,10 +1,9 @@
 package com.example.service;
 
 import javax.servlet.http.HttpSession;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.model.Manager;
 import com.example.model.MenuItem;
 import com.example.model.Restaurant;
@@ -78,7 +77,15 @@ public class MenuItemServiceImp implements MenuItemService {
 		}
 		return "Error";
 	}
-	
 
+	@Override
+	public List<MenuItem> getMenuItemsMeals(String type) {
+		return menuItemRepository.findByType("meal");
+	}
+
+	@Override
+	public List<MenuItem> getMenuItemsDrinks(String type) {
+		return menuItemRepository.findByType("drinks");
+	}
 
 }

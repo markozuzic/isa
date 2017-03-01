@@ -1,12 +1,9 @@
 package com.example.service;
 
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.model.Chef;
 import com.example.model.Manager;
 import com.example.model.Restaurant;
@@ -73,4 +70,8 @@ public class ChefServiceImpl implements ChefService {
 		return chefRepository.findByRestaurantId(r.getId());
 	}
 
+	public String logInChef(Chef chef) {
+		return null;
+	}
+	
 }

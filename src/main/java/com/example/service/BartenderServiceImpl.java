@@ -73,4 +73,9 @@ public class BartenderServiceImpl implements BartenderService {
 		return bartenderRepository.findByRestaurantId(r.getId());
 	}
 
+	public String logInBartender(Bartender bartender) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

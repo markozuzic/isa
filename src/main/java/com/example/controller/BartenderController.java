@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Bartender;
-import com.example.model.Waiter;
 import com.example.service.BartenderService;
 
 @RestController
@@ -60,4 +59,13 @@ public class BartenderController {
 		return bartenderService.getAllBartenders();
 	}
 	
+	@RequestMapping(
+			value = "/bartender/login",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_PLAIN_VALUE)
+	public String logInBartender(@RequestBody Bartender bartender){
+		return bartenderService.logInBartender(bartender);
+	}
+
 }

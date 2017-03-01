@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Restaurant {
+	
 	@Id
 	@GeneratedValue
 	private long id;
@@ -34,6 +35,12 @@ public class Restaurant {
 	
 	@OneToMany
 	private List<MenuItem> drinks;
+	
+	@Column 
+	private double rating = 0;
+	
+	@Column 
+	private int ratingCounter = 0;
 	
 	public Restaurant() {
 		
@@ -86,6 +93,7 @@ public class Restaurant {
 		this.id = id;
 	}
 
+
 	public String getAddress() {
 		return address;
 	}
@@ -108,6 +116,22 @@ public class Restaurant {
 
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public int getRatingCounter() {
+		return ratingCounter;
+	}
+
+	public void setRatingCounter(int ratingCounter) {
+		this.ratingCounter = ratingCounter;
 	}
 	
 }

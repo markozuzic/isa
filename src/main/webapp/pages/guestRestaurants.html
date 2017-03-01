@@ -1,16 +1,52 @@
 
-
+<h3 data-ng-init="initRestaurants()">Restorani</h3>
+<div id="map"></div>
 
 <div class="row">
 	<div class="col-md-6 center-block">
-		<h3>Restorani</h3>
-		<table class="table table-hover" >
+		
+		<table class="table table-hover" id="myTable">
+			<thead>
+									<tr>
+										
+										<td>
+											<a data-ng-click="sortType = 'name'">
+												Naziv
+												<span data-ng-show="sortType == 'name'" class="fa fa-caret-down"></span>
+											</a>
+										</td>
+										<td>
+											<a data-ng-click="sortType = 'description'">
+												Opis
+												<span data-ng-show="sortType == 'description'" class="fa fa-caret-down"></span>
+											</a>
+										</td>
+										<td>
+											<a data-ng-click="sortType = 'rating'">
+												Ocena
+												<span data-ng-show="sortType == 'rating'" class="fa fa-caret-down"></span>
+											</a>
+										
+										</td>
+										<td>
+											<a data-ng-click="sortType = 'distance'">
+												Udaljenost
+												<span data-ng-show="sortType == 'distance'" class="fa fa-caret-down"></span>
+											</a>
+										
+										</td>
+									</tr>
+								</thead>
+			
 			<tbody>
-			<tr data-ng-repeat="x in restaurants">
+			
+			<tr data-ng-repeat="x in restaurants | orderBy:sortType:sortReverse">
 				<td>{{x.name}}</td>
 				<td>{{x.description}}</td>
+				<td>{{x.rating}}</td>
+				<td>{{x.distance}} m</td>
 				<td>
-					<button class="btn btn-info" data-ng-click="reserve(x.name)">
+					<button class="btn btn-info" data-ng-click="reserve(x.id)">
 						Rezervisi
 					</button>
 				</td>
@@ -18,9 +54,12 @@
 			</tbody>
 		</table>
 	</div>
+	
 </div>
 
-
+<button class="btn btn-info" data-ng-click="calculateDistances()">
+						Izracunaj
+					</button>
 
 
 

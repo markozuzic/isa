@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Restaurant;
+import com.example.model.TableRestaurant;
 import com.example.service.RestaurantService;
 import com.example.service.TableService;
 
@@ -59,5 +60,13 @@ public class RestaurantController {
 	public String updateRestaurant(@RequestBody Restaurant updatedRestaurant) {
 		return restaurantService.updateRestaurant(updatedRestaurant);
 	}
+
+    @RequestMapping(
+    		value = "/employee/getTables",
+    		method = RequestMethod.GET,
+    		produces = MediaType.APPLICATION_JSON_VALUE)
+    public Collection<TableRestaurant> getTables(){
+    	return restaurantService.getTables();
+    }
 	
 }

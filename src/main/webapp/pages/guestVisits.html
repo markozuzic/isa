@@ -2,16 +2,157 @@
 	<div class="col-md-6 center-block">
 		<h3>Istorija poseta</h3>
 		<table class="table table-hover">
-			<tr data-ng-repeat="x in visits">
-				<td>{{x.restaurantName + " " + x.date}}</td>
-				<td>
-					<button class="btn btn-danger" id="ocena+{{x.id}}" name="{{x.id}}"
-						data-ng-click="obrisiPrijatelja($event)">
-						<i class="glyphicon glyphicon-minus"
-							data-ng-click="obrisiPrijatelja($event)"></i>
-					</button>
-				</td>
-			</tr>
+			<thead>
+				<tr>
+
+					<td><a data-ng-click="sortType = 'restaurantName'"> Naziv restorana<span
+							data-ng-show="sortType == 'restaurantName'" class="fa fa-caret-down"></span>
+					</a></td>
+					<td><a data-ng-click="sortType = 'reservation.dateTime'"> Datum <span
+							data-ng-show="sortType == 'reservation.dateTime'" class="fa fa-caret-down"></span>
+					</a></td>
+					<td><a data-ng-click="sortType = 'reservation.length'"> Trajanje <span
+							data-ng-show="sortType == 'reservation.length'" class="fa fa-caret-down"></span>
+					</a></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="x in visits | orderBy:sortType:sortReverse">
+					<td>{{x.restaurantName}}</td>
+					<td>{{x.reservation.dateTime}}</td>
+					<td>{{x.reservation.length}}</td>
+					<td>
+						<input type="button" class="btn btn-danger" value="Otkazi" data-ng-show="x.cancelButton" 
+						data-ng-click="cancelReservation(x.reservation.id)" data-toggle="modal" data-target="#modal">
+						<input type="button" class="btn btn-info" value="Oceni restoran" data-ng-show="x.rateButton && !x.ratedRestaurant" 
+						data-toggle="modal" data-target="#modalRateRestaurant" data-ng-click="setRatingForVisit(x.id)">
+					</td>	
+					<td>
+						<input type="button" class="btn btn-info" value="Oceni obrok" data-ng-show="x.rateButton && !x.ratedMeal" 
+						data-toggle="modal" data-target="#modalRateMeal"  data-ng-click="setRatingForVisit(x.id)">
+					</td>
+					<td>	
+						<input type="button" class="btn btn-info" value="Oceni uslugu" data-ng-show="x.rateButton && !x.ratedService" 
+						data-toggle="modal" data-target="#modalRateService"  data-ng-click="setRatingForVisit(x.id)" >
+					</td>
+				</tr>
+			</tbody>
 		</table>
+	</div>
+</div>
+
+
+
+<div id="modalRateRestaurant" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Oceni restoran</h4>
+			</div>
+			<div class="modal-body">
+				<div class="input-group">
+					<form>
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star1" data-ng-click="clickStar1()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star1" data-ng-click="clickStar1()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star2" data-ng-click="clickStar2()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star2" data-ng-click="clickStar2()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star3" data-ng-click="clickStar3()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star3" data-ng-click="clickStar3()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star4" data-ng-click="clickStar4()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star4" data-ng-click="clickStar4()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star5" data-ng-click="clickStar5()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star5" data-ng-click="clickStar5()"></span>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"
+					data-ng-click="rateRestaurant()">Oceni</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div id="modalRateMeal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Oceni obrok</h4>
+			</div>
+			<div class="modal-body">
+				<div class="input-group">
+					<form>
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star1" data-ng-click="clickStar1()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star1" data-ng-click="clickStar1()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star2" data-ng-click="clickStar2()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star2" data-ng-click="clickStar2()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star3" data-ng-click="clickStar3()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star3" data-ng-click="clickStar3()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star4" data-ng-click="clickStar4()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star4" data-ng-click="clickStar4()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star5" data-ng-click="clickStar5()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star5" data-ng-click="clickStar5()"></span>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"
+					data-ng-click="rateMeal()">Oceni</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div id="modalRateService" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Oceni uslugu</h4>
+			</div>
+			<div class="modal-body">
+				<div class="input-group">
+					<form>
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star1" data-ng-click="clickStar1()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star1" data-ng-click="clickStar1()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star2" data-ng-click="clickStar2()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star2" data-ng-click="clickStar2()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star3" data-ng-click="clickStar3()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star3" data-ng-click="clickStar3()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star4" data-ng-click="clickStar4()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star4" data-ng-click="clickStar4()"></span>
+						
+						<span class="glyphicon glyphicon-star-empty" style="color:#00BFFF" data-ng-hide="star5" data-ng-click="clickStar5()"></span>
+						<span class="glyphicon glyphicon-star" style="color:#00BFFF" data-ng-show="star5" data-ng-click="clickStar5()"></span>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"
+					data-ng-click="rateService()">Oceni</button>
+			</div>
+		</div>
+
 	</div>
 </div>

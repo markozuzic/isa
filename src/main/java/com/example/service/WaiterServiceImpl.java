@@ -1,12 +1,9 @@
 package com.example.service;
 
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.model.Manager;
 import com.example.model.OrderR;
 import com.example.model.Restaurant;
@@ -83,7 +80,13 @@ public class WaiterServiceImpl implements WaiterService {
 		
 		return "OK";
 	}
-
+	
+	@Override
+	public String logInWaiter(Waiter waiter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public List<Waiter> getAllWaiters() {
 		Manager m = (Manager) httpSession.getAttribute("manager");

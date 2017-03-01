@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.model.OrderR;
 import com.example.model.Waiter;
 import com.example.service.OrderService;
@@ -74,4 +73,12 @@ public class WaiterController {
 		return waiterService.getAllWaiters();
 	}
 	
+	@RequestMapping(
+			value = "/waiter/login",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_PLAIN_VALUE)
+	public String logInWaiter(@RequestBody Waiter waiter){
+		return waiterService.logInWaiter(waiter);
+	}
 }

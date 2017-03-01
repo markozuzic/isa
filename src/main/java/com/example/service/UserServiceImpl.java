@@ -2,22 +2,17 @@ package com.example.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
 import com.example.model.FriendRequest;
-import com.example.model.Restaurant;
 import com.example.model.SystemUser;
 import com.example.model.User;
 import com.example.model.Visit;
@@ -40,6 +35,10 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private VisitRepository visitRepository;
+	
+	@Autowired
+    private JavaMailSender javaMailSender;
+	
 	
 	@Autowired
 	private SystemUserRepository systemUserRepository;
@@ -103,9 +102,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public String updateUserInfo(User user) {
-		
-		if(!userRepository.findByEmail(user.getEmail()).isEmpty()) {
-			return "EmailError";
+		List<User> sameEmail = userRepository.findByEmail(user.getEmail());
+		for (User u : sameEmail) {
+			if(u.getId() != user.getId()) {
+				return "EmailError";
+			}
 		}
 		
 		User oldUser = userRepository.findOne(user.getId());
@@ -195,14 +196,17 @@ public class UserServiceImpl implements UserService{
 		FriendRequest oldRequest = null;
 		if(fr1.isEmpty()) {
 			List<FriendRequest> fr2 = friendshipRepository.findByReceiverIdAndSenderIdAndStatus(friendId, userId, "accepted");
-			if(!fr2.isEmpty())
+			if(!fr2.isEmpty()){
 				oldRequest = fr2.get(0);
+				friendshipRepository.delete(oldRequest);
+			}
 		}
 		else {
 			oldRequest = fr1.get(0);
+			friendshipRepository.delete(oldRequest);
 		}
 		
-		friendshipRepository.delete(oldRequest);
+
 		return "OK";
 	}
 
@@ -233,17 +237,6 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public String createVisit(Restaurant r, Date d) {
-		User user = (User)httpSession.getAttribute("user");
-		
-	    java.sql.Date sqlDate = new java.sql.Date(d.getTime());
-		
-		Visit v = new Visit(user.getId(), r.getId(), r.getName(), sqlDate);
-		visitRepository.save(v);
-		return "OK";
-	}
-
-	@Override
 	public Collection<Visit> getAllVisits() {
 		return visitRepository.findAll(null).getContent();
 	}
@@ -254,10 +247,6 @@ public class UserServiceImpl implements UserService{
 		return visitRepository.findByUserId(user.getId());
 	}
 	
-	
-	@Autowired
-    private JavaMailSender javaMailSender;
-
 	private void send(String emailAdress, String code) {
 		
         MimeMessage mail = javaMailSender.createMimeMessage();
@@ -273,5 +262,37 @@ public class UserServiceImpl implements UserService{
         } finally {}
         javaMailSender.send(mail);
     }
+
+	@Override
+	public String loginFromInvitation(Long id) {
+		User user = userRepository.findOne(id);
+		if(user != null) {
+			httpSession.setAttribute("user", user);
+			return "OK";
+		} else {
+			return "Error";
+		}
+	}
+
+	@Override
+	public String setLatitudeAndLongitude(String latitude, String longitude) {
+		try {
+			double lat = Double.parseDouble(latitude);
+			double lng = Double.parseDouble(longitude);
+			User user = (User)httpSession.getAttribute("user");
+			user.setLatitude(lat);
+			user.setLongitude(lng);
+			userRepository.save(user);
+			return "OK";
+		} catch (NumberFormatException e){
+			return "LocationError";
+		}
+	}
+
+	@Override
+	public String logOut() {
+		httpSession.invalidate();
+		return "OK";
+	}
 
 }

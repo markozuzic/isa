@@ -1,15 +1,9 @@
 package com.example.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class MenuItem {
@@ -23,18 +17,37 @@ public class MenuItem {
 	@Column(nullable = false)
 	private String name;
 	
-	@Column(nullable = false)
-	private String price;
-		
+	@Column(nullable = false)		
+	private double price;
+	
+	@Column
+	private double rating = 0;
+	
+	@Column
+	private int ratingCounter = 0;
+	
+	@Column
+	private String type;
+
 	public MenuItem() {
 		
 	}
 
-	public MenuItem(String description, String name, String price) {
+
+	public MenuItem(String description, String name, double price) {
 		super();
 		this.description = description;
 		this.name = name;
 		this.price = price;
+	}
+
+	public MenuItem(String description, String name, double price, String type) {
+		super();
+		this.description = description;
+		this.name = name;
+		this.price = price;
+		this.price = price;
+		this.type = type;
 	}
 
 	public long getId() {
@@ -61,12 +74,36 @@ public class MenuItem {
 		this.name = name;
 	}
 
-	public String getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public int getRatingCounter() {
+		return ratingCounter;
+	}
+
+	public void setRatingCounter(int ratingCounter) {
+		this.ratingCounter = ratingCounter;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+		
 }
