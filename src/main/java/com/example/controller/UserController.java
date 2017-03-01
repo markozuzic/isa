@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.User;
 import com.example.model.Visit;
+import com.example.model.pojo.PostData;
 import com.example.service.UserService;
 
-@Transactional
 @RestController
 public class UserController {
+	
+	@Autowired
+	private Facebook facebook;
+	
+	@Autowired
+    private ConnectionRepository connectionRepository;
+	
 	
 	@Autowired
 	private UserService userService;
@@ -55,8 +63,8 @@ public class UserController {
 			value = "/user/getLoggedInUser",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> getLoggedInUser(){
-		return new ResponseEntity<User>(userService.getLoggedInUser(), HttpStatus.OK);
+	public User getLoggedInUser(){
+		return userService.getLoggedInUser();
 	}
 	
    @RequestMapping(
@@ -151,4 +159,46 @@ public class UserController {
     	return userService.getVisitsForUser();
     }
     
+    
+    @RequestMapping(
+    		value = "/user/loginFromInvitation/{userId}",
+    		method = RequestMethod.GET,
+    		produces = MediaType.TEXT_PLAIN_VALUE)
+    public String loginFromInvitation(@PathVariable("userId") Long id){
+    	return userService.loginFromInvitation(id);
+    }
+    
+    @RequestMapping(
+    		value = "/user/setLatitudeAndLongitude",
+    		method = RequestMethod.POST,
+    		consumes = MediaType.APPLICATION_JSON_VALUE,
+    		produces = MediaType.TEXT_PLAIN_VALUE)
+    public String setLatitudeAndLongitude(@RequestBody PostData data){
+    	return userService.setLatitudeAndLongitude(data.getLatitude(), data.getLongitude());
+    }
+    
+    
+    @RequestMapping(
+    		value = "/user/logout",
+    		method = RequestMethod.GET,
+    		produces = MediaType.TEXT_PLAIN_VALUE)
+    public String logOut(){
+    	return userService.logOut();
+    }
+    
+   
+    @RequestMapping(
+    		value = "/user/loginWithFacebook",
+    		method = RequestMethod.GET,
+    		produces = MediaType.TEXT_PLAIN_VALUE)
+    public String loginWithFacebook(){
+    	if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
+            return "redirect:/connect/facebook";
+        }
+    	String name = facebook.userOperations().getUserProfile().getName();
+    	System.out.println(name);
+    	return "OK";
+    	
+    }
 }
+

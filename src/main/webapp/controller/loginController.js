@@ -35,4 +35,15 @@ loginModule.controller('loginController', ['$scope','$location', '$http',
 	    	alert(response.statusText);
 	    });
 	}
+	
+	$scope.loginWithFacebook = function() {
+		$http.get('user/loginWithFacebook').then(function mySuccess(response) {
+			toastr.info('dsfdfs');
+			toastr.success(response.data);
+			$location.url(response.data);
+    }, function myError(response) {
+    	alert(response.statusText);
+    });
+		
+	}
 }]);

@@ -28,6 +28,7 @@ public class MenuItem {
 	
 	@Column
 	private String type;
+
 	
 	public MenuItem() {
 		
@@ -96,7 +97,5 @@ public class MenuItem {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
-	
+		
 }

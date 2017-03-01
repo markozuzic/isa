@@ -1,0 +1,44 @@
+
+
+
+<h3>Nova ponuda</h3>
+
+<table>
+	<tr>
+		<td>Datum početka:</td>
+		<td>{{offer.startDate}}</td>
+	</tr>
+	<tr>
+		<td>Datum kraja:</td>
+		<td>{{offer.endDate}}</td>
+	</tr>
+</table>
+
+<h2>Spisak namirnica</h2>
+<table class="table table-hover">
+	<tr data-ng-repeat="i in items">
+		<td>{{i.name}}</td>
+	</tr>
+</table>
+
+
+
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal">Dodaj namirnicu</button>
+
+<div id="modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Nova namirnica</h4>
+			</div>
+			<div class="modal-body">
+				<input type="text" placeholder="Naziv" data-ng-model="newItem.name">
+			</div>
+			<div class="modal-footer">
+				<input type="button" class="btn btn-info" value="U redu" data-ng-click="createNewItem()" data-dismiss="modal">
+			</div>
+		</div>
+	</div>
+</div>
+

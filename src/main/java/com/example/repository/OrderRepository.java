@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
-
 import com.example.model.MenuItem;
 import com.example.model.OrderR;
 import com.example.model.Shift;
@@ -23,9 +22,7 @@ public interface OrderRepository extends Repository<OrderR, Long> {
 	public OrderR findOne(long id);
 	
 	public List<OrderR> findByVisit(Visit visit);
-	
+
 	public Page<OrderR> findAll(Pageable pageable);
-	
-	
 	
 }

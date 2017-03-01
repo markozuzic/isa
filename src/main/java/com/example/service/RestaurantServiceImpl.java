@@ -1,7 +1,6 @@
 package com.example.service;
 
 import java.util.List;
-import java.util.Collection;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,9 +15,13 @@ import com.example.model.TableRestaurant;
 import com.example.model.Waiter;
 import com.example.repository.RestaurantRepository;
 import com.example.repository.TableRepository;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
 
 @Service
-public class RestaurantServiceImpl implements RestaurantService{
+public class RestaurantServiceImpl implements RestaurantService {
+	
 	@Autowired
 	private HttpSession httpSession;
 	
@@ -28,9 +31,25 @@ public class RestaurantServiceImpl implements RestaurantService{
 	@Autowired
 	private TableRepository tableRepository;
 	
+	private static GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyAKHME46MyyV-URGCHluThSfGjknTETQKE");
+	
 	@Override
 	public String createRestaurant(Restaurant newRestaurant) {
 		if(restaurantRepository.findByName(newRestaurant.getName()).isEmpty()) {
+			
+			
+			GeocodingResult[] results;
+			try {
+				results = GeocodingApi.geocode(context, newRestaurant.getAddress()).await();
+				newRestaurant.setLatitude(results[0].geometry.location.lat);
+				newRestaurant.setLongitude(results[0].geometry.location.lng);
+			} catch (Exception e) {
+				newRestaurant.setLatitude(0);
+				newRestaurant.setLongitude(0);
+			}
+			
+			
+			
 			restaurantRepository.save(newRestaurant);
 			return "OK";
 		}

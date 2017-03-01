@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="col-md-6 center-block">
+		<h2>Rezervacija</h2>
+		<table class="table table-hover">
+			<tr>
+				<td>Restoran:</td>
+				<td>{{restaurant.name}}</td>
+			</tr>
+			<tr>
+				<td>Trajanje:</td>
+				<td>{{reservation.length}} h</td>
+			</tr>
+			<tr>
+				<td>Datum i vreme:</td>
+				<td>{{reservation.dateTime}}</td>
+			</tr>
+			<tr>
+				<td>Stolovi:</td>
+				<td>{{reservation.tableString}}</td>
+			</tr>
+		</table>
+
+		<input type="button" class="btn btn-success" value="Prihvati" data-ng-click="acceptInvitation()" data-ng-hide="responded">
+	    <input type="button" class="btn btn-danger" value="Odbij" data-ng-click="declineInvitation()" data-ng-hide="responded">
+	    
+	    <ui-view></ui-view>
+	</div>
+</div>

@@ -1,12 +1,10 @@
 package com.example.service;
 
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.data.domain.Page;
 
-import com.example.model.Restaurant;
 import com.example.model.User;
 import com.example.model.Visit;
 
@@ -43,5 +41,11 @@ public interface UserService {
 	public Collection<Visit> getAllVisits();
 	
 	public Collection<Visit> getVisitsForUser();
+
+	public String loginFromInvitation(Long id);
+
+	public String setLatitudeAndLongitude(String latitude, String longitude);
+
+	public String logOut();
 
 }
