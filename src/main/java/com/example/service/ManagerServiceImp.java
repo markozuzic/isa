@@ -16,6 +16,7 @@ import com.example.repository.RestaurantRepository;
 import com.example.repository.SystemUserRepository;
 
 @Service
+
 public class ManagerServiceImp implements ManagerService {
 
 	@Autowired

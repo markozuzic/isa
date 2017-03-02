@@ -199,12 +199,11 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 				$scope.tables.splice(index, 1);
 				
 			}
-			else {
-				toastr.error("Sto je rezervisan, pa se ne moze obrisati!");
-			}
+		
 				
 			}, function(response) {
-				alert(response.statusText);
+				toastr.error("Sto je rezervisan, pa se ne moze obrisati!");
+			
 		    });
 	}
 	

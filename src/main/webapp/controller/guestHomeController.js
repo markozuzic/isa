@@ -363,7 +363,7 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 		    		$location.path('/guestHome/confirm/'+$stateParams.id);
 		    	   
 		    	}, function(response) {
-		    		alert(response.statusText);
+		    		toastr.error("Odabrani stolovi su se u medjuvremenu rezervisali!");
 		    	});
 		    }
 		}	

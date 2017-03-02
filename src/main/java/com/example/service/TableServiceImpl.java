@@ -4,6 +4,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.model.Manager;
 import com.example.model.Restaurant;
 import com.example.model.TableRestaurant;
@@ -11,6 +14,7 @@ import com.example.repository.RestaurantRepository;
 import com.example.repository.TableRepository;
 
 @Service
+@Transactional(isolation = Isolation.SERIALIZABLE)
 public class TableServiceImpl implements TableService {
 	
 	@Autowired

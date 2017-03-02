@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.Demand;
 import com.example.model.Manager;
@@ -21,6 +23,7 @@ import com.example.repository.OfferRepository;
 import com.example.repository.SupplierRepository;
 
 @Service
+@Transactional(isolation = Isolation.SERIALIZABLE)
 public class OfferServiceImpl implements OfferService{
 	
 	@Autowired

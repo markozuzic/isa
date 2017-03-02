@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.Manager;
 import com.example.model.OrderR;
@@ -26,6 +28,7 @@ import com.example.repository.SystemUserRepository;
 import com.example.repository.WaiterRepository;
 
 @Service
+@Transactional(isolation = Isolation.SERIALIZABLE)
 public class WaiterServiceImpl implements WaiterService {
 
 	@Autowired
