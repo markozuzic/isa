@@ -33,6 +33,9 @@ public class Demand {
 	@Column
 	private long restaurantId;
 	
+	@Column
+	private boolean isActive = true;
+	
 	public Demand() {
 		
 	}
@@ -82,6 +85,14 @@ public class Demand {
 
 	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
+	}
+
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 }

@@ -17,6 +17,9 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		$scope.restaurantEarning = '';
 		$scope.waiterEarning = '';
 		$scope.shift = {};
+
+
+		$scope.selectedEmployeeType = {};
 		$scope.isReadOnly = true;
 		
 		$http.get('/manager/getLoggedIn').then(function(response) {
@@ -67,6 +70,29 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		}, function(response) {
 			alert(response.statusText);
 		});
+		
+		$http.get('/manager/getMyDemands').then(function(response) {
+			$scope.demands = response.data;
+			for(i=0; i<$scope.demands.length; i++) {
+				var d = $scope.demands[i];
+				var itemsString = '';
+				for(j=0; j<d.listOfItems.length; j++) {
+					itemsString += d.listOfItems[j].name+", ";
+				}
+		   		   
+			$scope.demands[i].itemsString = itemsString;
+		   		   
+		   	}
+	     }, function(response) {
+		   		alert(response.statusText);
+		 });
+		
+		$http.get('/offer/getOfferForDemands').then(function(response) {
+		   	   $scope.offers = response.data;
+	        }, function(response) {
+		   		alert(response.statusText);
+		});
+		
 	})
 	
 
@@ -197,13 +223,7 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 	}
 	
 	$scope.createNewSupplier = function() {
-		if ($scope.newSupplier.name) {
-			toastr.error("Niste uneli ime!");
-		}
-		else if ($scope.newSupplier.email) {
-			toastr.error("Niste uneli email!");
-		}
-		else {
+
 			$http.post('/supplier/create', $scope.newSupplier).then(function(response) {
 				if (response.data.id === 0) {
 					toastr.error("Email vec zauzet");
@@ -215,8 +235,7 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 
 			}, function(response) {
 				alert(response.statusText);
-		    });
-		}	
+		    });	
 	}
 	
 	$scope.clickEditRestaurant = function() {
@@ -266,7 +285,7 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		var itemIds = '';
 		for(i=0; i<$scope.items.length; i++){
 			itemIds += $scope.items[i].name;
-			if (i != $scope.items.length - 1) {
+			if (i < $scope.items.length - 1) {
 				itemIds += ",";
 			}
 		}
@@ -280,7 +299,7 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		else {
 			$scope.demand = {};
 			$scope.demand.beginDate = datetimeStart;
-			$scope.demand.endDate = datetimeEnd; //ili kako se vec zovu..npr pic nu 
+			$scope.demand.endDate = datetimeEnd;
 
 			$http.post("/demand/createDemand/"+itemIds, $scope.demand).then(function(response) {	
 		    	 if(response.data == "ParseError") {	
@@ -304,7 +323,7 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 	};
 	
 	
-	$scope.filterFnWaiter = function(waiter) {
+	$scope.filterFnEmployee = function(waiter) {
 		var check = waiter.name.concat(" "+waiter.surname);
 		if(check.includes($scope.searchKeywordWaiter))
 	    {
@@ -395,8 +414,8 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		});
 	}
 	
-	$scope.setWaiter = function(waiter) {
-		toastr.info("Odabran konobar " + waiter.name);
+	$scope.setEmployee = function(waiter) {
+		toastr.info("Odabran " + $scope.selectedEmployeeType + " "  + waiter.name);
 		$scope.shift.employeeId = waiter.id;
 	}
 
@@ -405,29 +424,84 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		$scope.shift.date = datetime;
 		$scope.shift.shiftType = document.getElementById("shiftType").value;
 		
-		var tableNumbers = '';
-		angular.forEach($scope.tables, function(table) {
-			if (table.selected) {
-				tableNumbers += table.tableNumber + ',';
-			}
-		});
-		if (tableNumbers === '') {
-			toastr.error("Morate uneti barem jedan sto.");
-		} 
-		else {
-			$http.post("/shift/createWaiterShift/" + tableNumbers, $scope.shift).then(function(response) {
+		 if ($scope.selectedEmployeeType === "waiter") {
+			var tableNumbers = '';
+			angular.forEach($scope.tables, function(table) {
+				if (table.selected) {
+					tableNumbers += table.tableNumber + ',';
+				}
+			});
+			if (tableNumbers === '') {
+				toastr.error("Morate uneti barem jedan sto.");
+			} 
+			else {
+				$http.post("/shift/createWaiterShift/" + tableNumbers, $scope.shift).then(function(response) {
+					if (response.data === "OK") {
+						toastr.success('Uspešno napravljena smena.');
+					}
+					else if (response.data === "NoIdError") {
+						toastr.error("Morate da oznacite radnika!");
+					}
+					else if (response.data === "IdError") {
+						toastr.error('Smena za datog konobara je vec odredjena');
+					}
+				}, function(response) {
+					alert(response.statusText);
+				});
+			}		 
+		}
+		else if ($scope.selectedEmployeeType === "bartender")  {
+			$scope.shift.employeeType = $scope.selectedEmployeeType;
+			$http.post("/shift/createBartenderShift/", $scope.shift).then(function(response) {
 				if (response.data === "OK") {
-					toastr.success('Uspešno napravljena smena.');
+					toastr.success('Uspesno napravljena smena.');
+				}
+				else if (response.data === "NoIdError") {
+					toastr.error("Morate da oznacite radnika!");
 				}
 				else if (response.data === "IdError") {
-					toastr.error('Smena za datog konobara je vec odredjena');
+					toastr.error('Smena za datog radnika je vec odredjena');
 				}
-
 			}, function(response) {
 				alert(response.statusText);
 			});
 		}
-		 
+		else if ($scope.selectedEmployeeType === "chef") {
+			$scope.shift.employeeType = $scope.selectedEmployeeType;
+			$http.post("/shift/createChefShift/", $scope.shift).then(function(response) {
+				if (response.data === "OK") {
+					toastr.success('Uspesno napravljena smena.');
+				}
+				else if (response.data === "NoIdError") {
+					toastr.error("Morate da oznacite radnika!");
+				}
+				else if (response.data === "IdError") {
+					toastr.error('Smena za datog radnika je vec odredjena');
+				}
+			}, function(response) {
+				alert(response.statusText);
+			});
+		}
+		else {
+			toastr.error("Morate da oznacite tip radnika!");
+		}
+			
 		$scope.shift = {};
-	}	
+	}
+	
+	$scope.approveOffer = function(o) {
+		for(i = 0; i<$scope.offers.length; i++) {
+   		   if($scope.offers.demandId === o.demandId) {
+   			   $scope.offers[i].responded = true;
+   		   }}
+		
+		$http.post('/offer/approveOffer', o.id).then(function(response) {
+	   	  
+			
+		   
+      		}, function(response) {
+	   		alert(response.statusText);
+		});
+	} 
+	
 }]);

@@ -1,5 +1,8 @@
 package com.example.service;
 
+import java.util.List;
+
+import com.example.model.Demand;
 import com.example.model.Manager;
 
 public interface ManagerService {
@@ -11,4 +14,6 @@ public interface ManagerService {
 	public String logInManager(String email, String password);
 	
 	public Manager getLoggedIn();
+
+	public List<Demand> getMyDemands();
 }

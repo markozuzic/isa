@@ -13,5 +13,9 @@ public interface ShiftService {
 	public List<Shift> getAllShifts();
 
 	public String createWaiterShift(String tableNumbers, Shift newShift);
+
+	public String createBartenderShift(Shift newShift);
+
+	public String createChefShift(Shift newShift);
 		
 }

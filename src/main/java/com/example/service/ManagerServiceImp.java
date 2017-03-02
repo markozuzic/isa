@@ -7,9 +7,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.model.Demand;
 import com.example.model.Manager;
-import com.example.model.Restaurant;
 import com.example.model.SystemUser;
+import com.example.repository.DemandRepository;
 import com.example.repository.ManagerRepository;
 import com.example.repository.RestaurantRepository;
 import com.example.repository.SystemUserRepository;
@@ -28,6 +29,9 @@ public class ManagerServiceImp implements ManagerService {
 	
 	@Autowired
 	private SystemUserRepository systemUserRepository;
+	
+	@Autowired
+	private DemandRepository demandRepository;
 	
 	@Override
 	public String createManager(Manager newManager, Long restaurantId) {
@@ -76,6 +80,12 @@ public class ManagerServiceImp implements ManagerService {
 	@Override
 	public Manager getLoggedIn() {
 		return (Manager) httpSession.getAttribute("manager");
+	}
+
+	@Override
+	public List<Demand> getMyDemands() {
+		Manager m = (Manager) httpSession.getAttribute("manager");
+		return demandRepository.findByRestaurantId(m.getRestaurantId());
 	}
 
 }

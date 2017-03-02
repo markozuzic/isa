@@ -49,4 +49,24 @@ public class ShiftController {
 		return shiftService.createWaiterShift(tableNumbers, newShift);
 	}
 	
+	@RequestMapping(
+			value = "/shift/createBartenderShift",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_PLAIN_VALUE
+			)
+	public String createBartenderShift(@RequestBody Shift newShift) {
+		return shiftService.createBartenderShift(newShift);
+	}
+	
+	@RequestMapping(
+			value = "/shift/createChefShift",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_PLAIN_VALUE
+			)
+	public String createChefShift(@RequestBody Shift newShift) {
+		return shiftService.createChefShift(newShift);
+	}
+	
 }

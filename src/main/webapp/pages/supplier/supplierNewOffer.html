@@ -1,0 +1,44 @@
+<h2>Aktivne potraznje</h2>
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Oznaka restorana</td>
+			<td>Stavke</td>
+			<td>Datum pocetka</td>
+			<td>Datum kraja</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-ng-repeat="d in demands">
+			<td>{{d.restaurantId}}</td>
+			<td>{{d.itemsString}}</td>
+			<td>{{d.beginDate}}</td>
+			<td>{{d.endDate}}</td>
+			<td><input type="button" value="Napravi/Izmeni ponudu" class="btn btn-info" data-toggle="modal" data-target="#modal" data-ng-click="createOrUpdateOffer(d)"></td>
+		</tr>
+	</tbody>	
+</table>
+
+<div id="modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Pravljenje ponude</h4>
+			</div>
+			<div class="modal-body">
+				<div class="input-group">
+					<form>
+						<input class="form-control" type="text" placeholder="Cena" data-ng-model="offer.price"/>
+									
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<input type="button" class="btn btn-primary" value="Ponudi" data-ng-click="setPrice()" data-dismiss="modal"> 
+			</div>
+		</div>
+	</div>
+</div>

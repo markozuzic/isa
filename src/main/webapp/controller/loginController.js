@@ -26,7 +26,7 @@ loginModule.controller('loginController', ['$scope','$location', '$http',
 	 				  $location.path("systemManagerHome");
 	 			   }
 	 			   else if (response.data === "supplier") {
-	 				  $location.path("supplier/" + $scope.user.email);
+	 				  $location.path("supplierHome");
 	 			   }
 	 			   else if (response.data === "chef"){
 	 				  $location.path("chef");

@@ -110,70 +110,95 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				controller : "systemManagerController"
 		})
 		
-		.state('supplier', {
-				url : "/supplier/:supplierEmail",
-				templateUrl : "pages/supplier.html",
+		.state('supplierHome', {
+				url : "/supplierHome",
+				templateUrl : "pages/supplier/supplierHome.html",
+				controller : "supplierController",
+				abstract : true
+		})
+		
+		.state('supplierHome.offers', {
+				url : "",
+				templateUrl : "pages/supplier/supplierOffers.html",
 				controller : "supplierController"
 		})
 		
-		.state('modifySupplier', {
-				url : "/supplier/modify/:supplierEmail",
-				templateUrl : "pages/modifySupplier.html",
+		.state('supplierHome.modify', {
+				url : "",
+				templateUrl : "pages/supplier/supplierModify.html",
+				controller : "supplierController"
+		})
+		
+		.state('supplierHome.newOffer', {
+				url : "",
+				templateUrl : "pages/supplier/supplierNewOffer.html",
 				controller : "supplierController"
 		})
 		
 		.state('restaurantManagerHome', {
 				url : '/restaurantManagerHome',
-				templateUrl : 'pages/restaurantManagerHome.html',
+				templateUrl : 'pages/restaurantManager/restaurantManagerHome.html',
 				controller : 'restaurantManagerController',
 				abstract : true
 		})
 		
 		.state('restaurantManagerHome.menu', {
 				url : "",
-				templateUrl : 'pages/restaurantManagerMenu.html',
+				templateUrl : 'pages/restaurantManager/restaurantManagerMenu.html',
 				contoller : 'restaurantManagerController'
 		})
 		
 		.state('restaurantManagerHome.employees', {
 				url : "",
-				templateUrl : 'pages/restaurantManagerEmployees.html',
+				templateUrl : 'pages/restaurantManager/restaurantManagerEmployees.html',
 				controller : 'restaurantManagerController'
 		})
 		
 		.state('restaurantManagerHome.tables', {
 				url : "",
-				templateUrl : 'pages/restaurantManagerTables.html',
+				templateUrl : 'pages/restaurantManager/restaurantManagerTables.html',
 				controller : 'restaurantManagerController'
 		})
 		
 		.state('restaurantManagerHome.suppliers', {
 				url : "",
-				templateUrl : 'pages/restaurantManagerSuppliers.html',
+				templateUrl : 'pages/restaurantManager/restaurantManagerSuppliers.html',
 				controller : 'restaurantManagerController'
 		})
 		
 		.state('restaurantManagerHome.demands', {
 				url : "",
-				templateUrl : 'pages/restaurantManagerDemand.html',
+				templateUrl : 'pages/restaurantManager/restaurantManagerDemand.html',
+				controller : 'restaurantManagerController'
+		})
+		
+		.state('restaurantManagerHome.offers', {
+				utl : "",
+				templateUrl : 'pages/restaurantManager/restaurantManagerOffers.html',
 				controller : 'restaurantManagerController'
 		})
 		
 		.state('restaurantManagerHome.restaurantProfile', {
 				url : "",
-				templateUrl : 'pages/restaurantManagerRestaurantProfile.html',
+				templateUrl : 'pages/restaurantManager/restaurantManagerRestaurantProfile.html',
 				controller : 'restaurantManagerController'
 		})
 		
 		.state('restaurantManagerHome.reports', {
 				url : "",
-				templateUrl : 'pages/restaurantManagerReports.html',
+				templateUrl : 'pages/restaurantManager/restaurantManagerReports.html',
 				controller : 'restaurantManagerController'
 		})
 		
 		.state('restaurantManagerHome.shift', {
 				url : "",
-				templateUrl : 'pages/restaurantManagerShift.html',
+				templateUrl : 'pages/restaurantManager/restaurantManagerShift.html',
+				controller : 'restaurantManagerController'
+		})
+		
+		.state('restaurantManagerHome.demandHistory', {
+				url : "",
+				templateUrl : 'pages/restaurantManager/restaurantManagerDemandHistory.html',
 				controller : 'restaurantManagerController'
 		})
 		

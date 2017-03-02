@@ -1,0 +1,20 @@
+<h2>Ponude</h2>
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Ponudjac</td>
+			<td>Oznaka potraznje</td>
+			<td>Cena</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-ng-repeat="o in offers">
+			<td>{{o.supplierId}}</td>
+			<td>{{o.demandId}}</td>
+			<td>{{o.price}}</td>
+			<td><input type="button" value="Odobri ponudu" class="btn btn-info" data-ng-hide="o.responded" data-ng-click="approveOffer(o)"></td>
+		</tr>
+	</tbody>	
+</table>

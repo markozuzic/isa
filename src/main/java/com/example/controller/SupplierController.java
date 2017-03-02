@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.model.Demand;
 import com.example.model.Offer;
 import com.example.model.Supplier;
 import com.example.service.SupplierService;
@@ -31,21 +31,21 @@ public class SupplierController {
 	}
 	
 	@RequestMapping(
-				value = "/supplier/getAllOffers/{supplierEmail}",
+				value = "/supplier/getAllOffers",
 				method = RequestMethod.GET,
 				produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public List<Offer> getAllOffers(@PathVariable("supplierEmail") String email) {
-		return supplierService.getAllOffers(email);
+	public List<Offer> getAllOffers() {
+		return supplierService.getAllOffers();
 	}
 	
 	@RequestMapping(
-				value = "/supplier/getSupplier/{supplierEmail}",
+				value = "/supplier/getSupplier",
 				method = RequestMethod.GET,
 				produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public Supplier getSupplier(@PathVariable("supplierEmail") String email) {
-		return supplierService.getSupplier(email);
+	public Supplier getSupplier() {
+		return supplierService.getSupplier();
 	}
 	
 	@RequestMapping(
@@ -67,5 +67,23 @@ public class SupplierController {
 		return supplierService.getSuppliers().getContent();
 	}
 	
+	@RequestMapping(
+			value = "/supplier/getActiveDemands",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+		)
+	public List<Demand> getActiveDemands() {
+		return supplierService.getActiveDemands();
+	}
+	
+	@RequestMapping(
+			value = "/supplier/createOrUpdate",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_PLAIN_VALUE
+		)
+	public String createOrUpdate(@RequestBody Offer offer) {
+		return supplierService.createOrUpdate(offer);
+	}
 		
 }

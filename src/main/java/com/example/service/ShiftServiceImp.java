@@ -61,12 +61,17 @@ public class ShiftServiceImp implements ShiftService {
 
 	@Override
 	public String createWaiterShift(String tableNumbers, Shift newShift) {
+		if (newShift.getEmployeeId() == 0) {
+			return "NoIdError";
+		}
 		List<Shift> definedShifts = shiftRepository.findByEmployeeId(newShift.getEmployeeId());
 		if (!definedShifts.isEmpty()) {
 			for (Shift shift : definedShifts) {
 				if (!newShift.getDate().after(shift.getDate())
 					&& !newShift.getDate().before(shift.getDate())) {
-					return "IdError";
+					if (shift.getEmployeeType().equals("waiter")) {
+						return "IdError";
+					}
 				}
 			}
 		}
@@ -77,6 +82,48 @@ public class ShiftServiceImp implements ShiftService {
 		}
 		newShift.setReon(tableList);
 		newShift.setEmployeeType("waiter");
+		shiftRepository.save(newShift);
+		return "OK";
+	}
+
+	@Override
+	public String createBartenderShift(Shift newShift) {
+		if (newShift.getEmployeeId() == 0) {
+			return "NoIdError";
+		}
+		List<Shift> definedShifts = shiftRepository.findByEmployeeId(newShift.getEmployeeId());
+		if (!definedShifts.isEmpty()) {
+			for (Shift shift : definedShifts) {
+				if (!newShift.getDate().after(shift.getDate())
+					&& !newShift.getDate().before(shift.getDate())) {
+					if (shift.getEmployeeType().equals(newShift.getEmployeeType())) {
+						return "IdError";
+					}
+				}
+			}
+		}
+		newShift.setEmployeeType("bartender");
+		shiftRepository.save(newShift);
+		return "OK";
+	}
+
+	@Override
+	public String createChefShift(Shift newShift) {
+		if (newShift.getEmployeeId() == 0) {
+			return "NoIdError";
+		}
+		List<Shift> definedShifts = shiftRepository.findByEmployeeId(newShift.getEmployeeId());
+		if (!definedShifts.isEmpty()) {
+			for (Shift shift : definedShifts) {
+				if (!newShift.getDate().after(shift.getDate())
+					&& !newShift.getDate().before(shift.getDate())) {
+					if (shift.getEmployeeType().equals(newShift.getEmployeeType())) {
+						return "IdError";
+					}
+				}
+			}
+		}
+		newShift.setEmployeeType("chef");
 		shiftRepository.save(newShift);
 		return "OK";
 	}

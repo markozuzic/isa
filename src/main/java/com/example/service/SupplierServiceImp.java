@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.example.model.Demand;
 import com.example.model.Offer;
 import com.example.model.Supplier;
 import com.example.model.SystemUser;
+import com.example.repository.DemandRepository;
+import com.example.repository.OfferRepository;
 import com.example.repository.SupplierRepository;
 import com.example.repository.SystemUserRepository;
 
@@ -25,6 +29,12 @@ public class SupplierServiceImp implements SupplierService {
 	
 	@Autowired
 	private HttpSession httpSession;
+	
+	@Autowired
+	private OfferRepository offerRepository;
+	
+	@Autowired
+	private DemandRepository demandRepository;
 
 	@Override
 	public Supplier createSupplier(Supplier newSupplier) {
@@ -39,13 +49,16 @@ public class SupplierServiceImp implements SupplierService {
 	}
 
 	@Override
-	public List<Offer> getAllOffers(String email) {
-		return supplierRepository.findByEmail(email).get(0).getOffers();
+	public List<Offer> getAllOffers() {
+		Supplier supplier = (Supplier) httpSession.getAttribute("supplier");
+		return supplierRepository.findOne(supplier.getId()).getOffers();
 	}
 
 	@Override
-	public Supplier getSupplier(String email) {
-		return supplierRepository.findByEmail(email).get(0);
+	public Supplier getSupplier() {
+		Supplier su = (Supplier) httpSession.getAttribute("supplier");
+		su.setOffers(offerRepository.findBySupplierId(su.getId()));
+		return su;
 	}
 
 	@Override
@@ -82,6 +95,27 @@ public class SupplierServiceImp implements SupplierService {
 			return "PasswordError";
 		}
 		
+	}
+
+	@Override
+	public List<Demand> getActiveDemands() {
+		return demandRepository.findByIsActive(true);
+	}
+
+	@Override
+	public String createOrUpdate(Offer offer) {
+		Supplier supplier = (Supplier) httpSession.getAttribute("supplier");
+		List<Offer> offers = offerRepository.findBySupplierIdAndDemandId(supplier.getId(), offer.getDemandId());
+		if(offers.isEmpty()) {
+			Offer o = new Offer(new Date(), supplier.getId(), offer.getDemandId(), offer.getPrice());
+			offerRepository.save(o);
+		}
+		else {
+			Offer updatedOffer = offers.get(0);
+			updatedOffer.setPrice(offer.getPrice());
+			offerRepository.save(updatedOffer);
+		}
+		return "OK";
 	}
 
 }

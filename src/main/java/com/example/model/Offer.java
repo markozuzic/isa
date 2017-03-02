@@ -22,8 +22,30 @@ public class Offer {
 	@Column(nullable = false)
 	private Date endDate;
 	
+	@Column
+	private long supplierId;
+	
+	@Column
+	private long demandId;
+	
+	@Column 
+	private double price;
+	
+	@Column
+	private boolean responded = false;
+	
+	
+
 	public Offer() {
 		
+	}
+	
+	public Offer(Date endDate, long supplierId, long demandId, double price) {
+		super();
+		this.endDate = endDate;
+		this.supplierId = supplierId;
+		this.demandId = demandId;
+		this.price = price;
 	}
 
 	public Offer(List<MenuItem> neededItems, Date endDate) {
@@ -51,5 +73,40 @@ public class Offer {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-		
+
+	public long getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(long supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public long getDemandId() {
+		return demandId;
+	}
+
+	public void setDemandId(long demandId) {
+		this.demandId = demandId;
+	}
+	
+	public boolean getResponded() {
+		return responded;
+	}
+
+	public void setResponded(boolean responded) {
+		this.responded = responded;
+	}
 }
