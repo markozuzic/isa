@@ -27,6 +27,9 @@ public class Supplier {
 	@OneToMany
 	private List<Offer> offers;
 	
+	@Column
+	private boolean firstLogin;
+	
 	public Supplier() {
 		
 	}
@@ -73,6 +76,14 @@ public class Supplier {
 
 	public void setOffers(List<Offer> offers) {
 		this.offers = offers;
+	}
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 		
 }

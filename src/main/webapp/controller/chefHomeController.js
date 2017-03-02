@@ -6,6 +6,17 @@ chefHomeModule.controller('chefHomeController', ['$scope','$location', '$http',
 
 	$scope.meals = [];
 	
+	$scope.chef = {};
+	
+	$http.get('/chef/getLoggedIn').then(function(response) {
+	   	   $scope.chef = response.data;
+	   	   var array = new Date(response.data.birthDate).toLocaleString().split(' ');
+	   	   $scope.chef.birthDate = array[0];
+		 }, function(response) {
+	   		alert(response.statusText);
+		 });
+	
+	
 	$http.get('/restaurant/getRestaurantForEmployee').then(function(response) {
 	   	   $scope.restaurant = response.data;
 	   	   
@@ -55,22 +66,30 @@ chefHomeModule.controller('chefHomeController', ['$scope','$location', '$http',
 	     
 	
 	 $scope.clickIzmeni = function() {
-		  if ($scope.ime == ""){
+		 if ($scope.chef.name == ""){
 			  toastr.error("Ime ne moze ostati prazno!");
-		  } else if ($scope.prezime == "") {
+		  } else if ($scope.chef.lastname == "") {
 			  toastr.error("Prezime ne moze ostati prazno!");
-		  } else if ($scope.lozinka == "") {
+		  } else if ($scope.chef.password == "") {
 			  toastr.error("Morate uneti lozinku!");
-		  } else {
+		  } else if ($scope.chef.clothesSize == "") {
+			  toastr.error("Morate uneti konfekcijski broj!");
+		  } else if ($scope.chef.shoeSize == "") {
+			  toastr.error("Morate uneti broj cipela!");
+		  } else if ($scope.chef.email == "") {
+			  toastr.error("Morate uneti email!");
+		  } else if ($scope.chef.birthDate == "") {
+			  toastr.error("Morate uneti datum rodjenja!");
+		  }  else {
 		  $http({
 		        method : "POST",
 		        url : "/chef/updateProfile",
 		        data : $scope.chef,
 		    }).then(function mySuccess(response) {
-		    	if(response.data == "IdError"){
-		    		toastr.error("Ne postoji id!");
+		    	if(response.data == "EmailError"){
+		    		toastr.error("E-mail adresa je vec zauzeta.");
 		    	} else
-		    		toastr.success("Uspesna registracija!");
+		    		toastr.success("Uspesno azuriran profil!");
 		    }, function myError(response) {
 		    	alert(response.statusText);
 		    });
@@ -86,5 +105,11 @@ chefHomeModule.controller('chefHomeController', ['$scope','$location', '$http',
 			
 		}  
 	
+	 $scope.initDateTimePicker = function() {
+	 		$('#datetime').datetimepicker({
+	 			maxDate: new Date(),
+	 			format: 'DD-MM-YYYY HH:mm'
+	 		});
+	 	}
 }]);
 

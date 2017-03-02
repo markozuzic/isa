@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Bartender;
+import com.example.model.Waiter;
 import com.example.service.BartenderService;
 
 @RestController
@@ -57,6 +58,15 @@ public class BartenderController {
 			)
 	public List<Bartender> getBartenders() {
 		return bartenderService.getAllBartenders();
+	}
+	
+	@RequestMapping(
+			value = "/bartender/getLoggedIn",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public Bartender getLoggedIn() {
+		return bartenderService.getLoggedIn();
 	}
 	
 }

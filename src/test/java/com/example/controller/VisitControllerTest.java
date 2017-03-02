@@ -73,12 +73,11 @@ public class VisitControllerTest {
 	public void setUp() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
 		
-		Waiter waiter1 = new Waiter("n1", "l1", new Date(), 10, 40);
+		Waiter waiter1 = new Waiter("n1","l1", new Date(), 10, 40, 1, "email");
 		waiter1.setFirstLogin(false);
 		waiter1.setPassword("password");
 		waiter1.setRating(0);
 		waiter1.setRatingCounter(0);
-		waiter1.setRestaurantId(1);
 		waiterRepository.save(waiter1);
 		
 		MenuItem mi1 = new MenuItem("midesc1", "mi1", 10, "meal");

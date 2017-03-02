@@ -3,6 +3,8 @@ package com.example.service;
 import java.util.List;
 
 import com.example.model.Bartender;
+import com.example.model.SystemUser;
+import com.example.model.Waiter;
 
 public interface BartenderService {
 
@@ -15,5 +17,9 @@ public interface BartenderService {
 	public List<Bartender> getAllBartenders();
 
 	public String logInBartender(String email, String password);
+	
+	public String firstLogin(SystemUser systemUser);
+	
+	public Bartender getLoggedIn();
 		
 }

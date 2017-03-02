@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.example.model.Chef;
 import com.example.model.FriendRequest;
 import com.example.model.SystemUser;
 import com.example.model.User;
@@ -57,8 +58,8 @@ public class UserServiceImpl implements UserService{
 		if (systemUserRepository.findByEmail(newUser.getEmail()).isEmpty()) {
 			String code = UUID.randomUUID().toString();
 			newUser.setActivationCode(code);
-			newUser.setActivated(true);
-			//send(newUser.getEmail(), code);
+			newUser.setActivated(false);
+			send(newUser.getEmail(), code);
 			userRepository.save(newUser);
 			SystemUser s = new SystemUser(newUser.getEmail(), newUser.getPassword(), "user");
 			systemUserRepository.save(s);
@@ -112,20 +113,32 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public String updateUserInfo(User user) {
-		List<User> sameEmail = userRepository.findByEmail(user.getEmail());
+		User oldUser = (User) httpSession.getAttribute("user");
+		SystemUser oldSystemUser = systemUserRepository.findByEmail(oldUser.getEmail()).get(0);
+		
+		List<SystemUser> sameEmail = systemUserRepository.findByEmail(user.getEmail()); //sa novim emailom
+		for(SystemUser su  : sameEmail) {
+			if(su.getId() != oldSystemUser.getId()) {
+				return "EmailError";
+			}
+		}
+		
+		/*List<User> sameEmail = userRepository.findByEmail(user.getEmail());
 		for (User u : sameEmail) {
 			if(u.getId() != user.getId()) {
 				return "EmailError";
 			}
 		}
+		*/
 		
-		User oldUser = userRepository.findOne(user.getId());
 		oldUser.setName(user.getName());
 		oldUser.setSurname(user.getSurname());
 		oldUser.setEmail(user.getEmail());
-		
 		userRepository.save(oldUser);
 		httpSession.setAttribute("user", oldUser);
+		oldSystemUser.setEmail(user.getEmail());
+		oldSystemUser.setPassword(user.getPassword());
+		systemUserRepository.save(oldSystemUser);
 		return "OK";
 		
 	}
@@ -262,7 +275,7 @@ public class UserServiceImpl implements UserService{
         MimeMessage mail = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
-            helper.setTo("anja.stef@gmail.com");
+            helper.setTo(emailAdress);
             helper.setReplyTo("someone@localhost");
             helper.setFrom("someone@localhost");
             helper.setSubject("Activation");

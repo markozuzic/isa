@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.model.Chef;
+import com.example.model.Waiter;
 import com.example.service.ChefService;
 
 @RestController
@@ -55,6 +56,15 @@ public class ChefController {
 			)
 	public List<Chef> getAllChefs() {
 		return chefService.getAllChefs();
+	}
+	
+	@RequestMapping(
+			value = "/chef/getLoggedIn",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public Chef getLoggedIn() {
+		return chefService.getLoggedIn();
 	}
 	
 }

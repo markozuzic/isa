@@ -5,6 +5,14 @@ waiterHomeModule.controller('waiterHomeController', ['$scope','$location', '$htt
   	function ($scope, $location, $http) {
 	
 	$scope.newOrderMenuItems = [];
+	$scope.waiter = {};
+	
+	$http.get('/waiter/getLoggedIn').then(function(response) {
+	   	   $scope.waiter = response.data;
+	   	   $scope.waiter.birthDate = new Date(response.data.birthDate).toLocaleString();
+		 }, function(response) {
+	   		alert(response.statusText);
+		 });
 	
 	 $http.get('/waiter/getReon').then(function(response) {
    	   $scope.reon = response.data;
@@ -75,10 +83,10 @@ waiterHomeModule.controller('waiterHomeController', ['$scope','$location', '$htt
 		        url : "/waiter/updateProfile",
 		        data : $scope.waiter,
 		    }).then(function mySuccess(response) {
-		    	if(response.data == "IdError"){
-		    		toastr.error("Ne postoji id!");
+		    	if(response.data == "EmailError"){
+		    		toastr.error("E-mail adresa je vec zauzeta.");
 		    	} else
-		    		toastr.success("Uspesna registracija!");
+		    		toastr.success("Uspesno azuriran profil!");
 		    }, function myError(response) {
 		    	alert(response.statusText);
 		    });
@@ -212,6 +220,13 @@ waiterHomeModule.controller('waiterHomeController', ['$scope','$location', '$htt
     		 
     	 }
      }
+     
+     $scope.initDateTimePicker = function() {
+ 		$('#datetime').datetimepicker({
+ 			maxDate: new Date(),
+ 			format: 'DD-MM-YYYY HH:mm'
+ 		});
+ 	}
 	
 }]);
 

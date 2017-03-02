@@ -30,6 +30,7 @@ import com.example.model.Restaurant;
 import com.example.model.Waiter;
 import com.example.repository.MenuItemRepository;
 import com.example.repository.RestaurantRepository;
+import com.example.repository.TableRepository;
 import com.example.repository.WaiterRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -58,12 +59,11 @@ public class RestaurantControllerTest {
 	@Before
 	public void setUp() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
-		Waiter waiter1 = new Waiter("n1", "l1", new Date(), 10, 40);
+		Waiter waiter1 = new Waiter("n1","l1", new Date(), 10, 40, 1, "email");
 		waiter1.setFirstLogin(false);
 		waiter1.setPassword("password");
 		waiter1.setRating(0);
 		waiter1.setRatingCounter(0);
-		waiter1.setRestaurantId(1);
 		waiterRepository.save(waiter1);
 		
 		MenuItem mi1 = new MenuItem("midesc1", "mi1", 10, "meal");
@@ -114,8 +114,7 @@ public class RestaurantControllerTest {
 	
 	@Test
 	public void testGetAllMenuItems() throws Exception{
-		Waiter waiter1 = new Waiter("n1", "l1", new Date(), 10, 40);
-		waiter1.setRestaurantId(1);
+		Waiter waiter1 = new Waiter("n1","l1", new Date(), 10, 40, 1, "email");
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
 		sessionattr.put("waiter", waiter1);
 		mvc.perform(MockMvcRequestBuilders.get("/restaurant/getAllMenuItems").sessionAttrs(sessionattr))
@@ -128,7 +127,7 @@ public class RestaurantControllerTest {
 	
 	@Test
 	public void testGetRestaurantForEmployee() throws Exception {
-		Waiter waiter1 = new Waiter("n1", "l1", new Date(), 10, 40);
+		Waiter waiter1 = new Waiter("n1","l1", new Date(), 10, 40, 1, "email");
 		waiter1.setRestaurantId(1L);
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
 		sessionattr.put("waiter", waiter1);

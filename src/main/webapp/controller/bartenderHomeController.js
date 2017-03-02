@@ -6,6 +6,16 @@ bartenderHomeModule.controller('bartenderHomeController', ['$scope','$location',
 
 	$scope.drinks = [];
 	
+	$scope.bartender = {};
+	
+	$http.get('/bartender/getLoggedIn').then(function(response) {
+	   	   $scope.bartender = response.data;
+	   	   var array = new Date(response.data.birthDate).toLocaleString().split(' ');
+	   	   $scope.bartender.birthDate = array[0];
+		 }, function(response) {
+	   		alert(response.statusText);
+		 });
+	
 	$http.get('/restaurant/getRestaurantForEmployee').then(function(response) {
 	   	   $scope.restaurant = response.data;
 	   	   
@@ -53,22 +63,30 @@ bartenderHomeModule.controller('bartenderHomeController', ['$scope','$location',
 	   	});*/
 	  
 	  $scope.clickIzmeni = function() {
-		  if ($scope.ime == ""){
+		  if ($scope.bartender.name == ""){
 			  toastr.error("Ime ne moze ostati prazno!");
-		  } else if ($scope.prezime == "") {
+		  } else if ($scope.bartender.lastname == "") {
 			  toastr.error("Prezime ne moze ostati prazno!");
-		  } else if ($scope.lozinka == "") {
+		  } else if ($scope.bartender.password == "") {
 			  toastr.error("Morate uneti lozinku!");
+		  } else if ($scope.bartender.clothesSize == "") {
+			  toastr.error("Morate uneti konfekcijski broj!");
+		  } else if ($scope.bartender.shoeSize == "") {
+			  toastr.error("Morate uneti broj cipela!");
+		  } else if ($scope.bartender.email == "") {
+			  toastr.error("Morate uneti email!");
+		  } else if ($scope.bartender.birthDate == "") {
+			  toastr.error("Morate uneti datum rodjenja!");
 		  } else {
 		  $http({
 		        method : "POST",
 		        url : "/bartender/updateProfile",
 		        data : $scope.bartender,
 		    }).then(function mySuccess(response) {
-		    	if(response.data == "IdError"){
-		    		toastr.error("Ne postoji id!");
+		    	if(response.data == "EmailError"){
+		    		toastr.error("E-mail adresa je vec zauzeta.");
 		    	} else
-		    		toastr.success("Uspesna registracija!");
+		    		toastr.success("Uspesno azuriran profil!");
 		    }, function myError(response) {
 		    	alert(response.statusText);
 		    });
@@ -83,6 +101,13 @@ bartenderHomeModule.controller('bartenderHomeController', ['$scope','$location',
 			});	
 			
 		}
+	  
+	  $scope.initDateTimePicker = function() {
+	 		$('#datetime').datetimepicker({
+	 			maxDate: new Date(),
+	 			format: 'DD-MM-YYYY HH:mm'
+	 		});
+	 	}
 	
 }]);
 

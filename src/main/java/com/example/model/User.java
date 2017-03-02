@@ -24,9 +24,6 @@ public class User {
 	private String password;
 	
 	@Column
-	private String address;
-	
-	@Column
 	private double longitude = 0;
 	
 	@Column
@@ -111,14 +108,6 @@ public class User {
 
 	public void setActivationCode(String activationCode) {
 		this.activationCode = activationCode;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public double getLongitude() {

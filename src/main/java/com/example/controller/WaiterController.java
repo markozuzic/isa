@@ -97,4 +97,13 @@ public class WaiterController {
 		return waiterService.getAllWaiters();
 	}
 	
+	@RequestMapping(
+			value = "/waiter/getLoggedIn",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public Waiter getLoggedIn() {
+		return waiterService.getLoggedIn();
+	}
+	
 }

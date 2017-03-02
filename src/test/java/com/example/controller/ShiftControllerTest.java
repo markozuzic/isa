@@ -57,26 +57,25 @@ public class ShiftControllerTest {
 	@Before
 	public void setUp() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
-		Waiter waiter1 = new Waiter("n1", "l1", new Date(), 10, 40);
+		Waiter waiter1 = new Waiter("n1","l1", new Date(), 10, 40, 1, "email");
 		waiter1.setFirstLogin(false);
 		waiter1.setPassword("password");
 		waiter1.setRating(0);
 		waiter1.setRatingCounter(0);
-		waiter1.setRestaurantId(1);
 		waiterRepository.save(waiter1);
 		
 		Restaurant restaurant1 = new Restaurant("r1", "opis1");
 		restaurant1.setAddress("Puskinova 16 Novi Sad Srbija");
 		restaurantRepository.save(restaurant1);
 		
-		Shift shift = new Shift(new Date(), "waiter", 1, "1");
+		Shift shift = new Shift(new Date(), 1, "1", "waiter");
 		shift.setRestaurantId(1);
 		shiftRepository.save(shift);
 	}
 	
 	@Test
 	public void testShiftCreate() throws Exception {
-		Shift shift = new Shift(new Date(), "waiter", 1, "2");
+		Shift shift = new Shift(new Date(), 1, "1", "waiter");
 		shift.setRestaurantId(1);
 		
 		mvc.perform(post("/shift/create")
@@ -88,8 +87,7 @@ public class ShiftControllerTest {
 	
 	@Test
 	public void testGetAllShifts() throws Exception {
-		Waiter waiter1 = new Waiter("n1", "l1", new Date(), 10, 40);
-		waiter1.setRestaurantId(1);
+		Waiter waiter1 = new Waiter("n1","l1", new Date(), 10, 40, 1, "email");
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
 		sessionattr.put("waiter", waiter1);
 		mvc.perform(MockMvcRequestBuilders.get("/shift/getAllShifts").sessionAttrs(sessionattr))

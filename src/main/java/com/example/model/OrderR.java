@@ -18,7 +18,7 @@ public class OrderR {
 	private long id;
 	
 	@Column
-	private boolean doneImmediately;
+	private boolean doneImmediately = false;
 	
 	@ManyToOne
 	private Visit visit;

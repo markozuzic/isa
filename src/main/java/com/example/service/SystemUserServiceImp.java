@@ -3,6 +3,7 @@ package com.example.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.model.SystemUser;
 import com.example.repository.SystemUserRepository;
 
 @Service
@@ -17,6 +18,11 @@ public class SystemUserServiceImp implements SystemUserService {
 			return "";
 		}
 		return systemUserRepository.findByEmail(email).get(0).getType();
+	}
+
+	@Override
+	public SystemUser findOne(Long id) {
+		return systemUserRepository.findOne(id);
 	}
 
 }

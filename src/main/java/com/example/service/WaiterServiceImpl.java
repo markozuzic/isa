@@ -14,6 +14,7 @@ import com.example.model.Manager;
 import com.example.model.OrderR;
 import com.example.model.Shift;
 import com.example.model.TableRestaurant;
+import com.example.model.User;
 import com.example.model.Restaurant;
 import com.example.model.SystemUser;
 import com.example.model.Waiter;
@@ -74,20 +75,29 @@ public class WaiterServiceImpl implements WaiterService {
 
 	@Override
 	public String updateWaiterProfile(Waiter waiter) {
-		if(waiterRepository.findByEmail(waiter.getEmail()).isEmpty()){
-			return "EmailError";
+		Waiter oldWaiter = (Waiter) httpSession.getAttribute("waiter");
+		SystemUser oldSystemUser = systemUserRepository.findByEmail(oldWaiter.getEmail()).get(0);
+		
+		List<SystemUser> sameEmail = systemUserRepository.findByEmail(waiter.getEmail()); //sa novim emailom
+		for(SystemUser su  : sameEmail) {
+			if(su.getId() != oldSystemUser.getId()) {
+				return "EmailError";
+			}
 		}
 		
-		Waiter oldWaiter = waiterRepository.findOne(waiter.getId());
+		//Waiter oldWaiter = waiterRepository.findOne(waiter.getId());
 		oldWaiter.setBirthDate(waiter.getBirthDate());
 		oldWaiter.setClothesSize(waiter.getClothesSize());
 		oldWaiter.setLastname(waiter.getLastname());
 		oldWaiter.setName(waiter.getName());
 		oldWaiter.setShoeSize(waiter.getShoeSize());
-		
+		oldWaiter.setEmail(waiter.getEmail());
+		oldWaiter.setPassword(waiter.getPassword());
 		waiterRepository.save(oldWaiter);
 		httpSession.setAttribute("waiter", oldWaiter);
-		
+		oldSystemUser.setEmail(waiter.getEmail());
+		oldSystemUser.setPassword(waiter.getPassword());
+		systemUserRepository.save(oldSystemUser);
 		return "OK";
 	}
 
@@ -109,6 +119,11 @@ public class WaiterServiceImpl implements WaiterService {
 		}
 		else {
 			Waiter waiter = waiters.get(0);
+			if(waiter.isFirstLogin()) {
+				List<SystemUser> systemUser = systemUserRepository.findByEmail(email);
+				long id = systemUser.get(0).getId();
+				return "firstLogin,"+id;
+			}
 			if (waiter.getPassword().equals(password)) {
 				httpSession.setAttribute("waiter", waiter);
 				return "waiter";
@@ -162,5 +177,22 @@ public class WaiterServiceImpl implements WaiterService {
 		
 		return waiterRepository.findByRestaurantId(r.getId());
 	}
+
+	@Override
+	public String firstLogin(SystemUser systemUser) {
+		Waiter waiter = waiterRepository.findByEmail(systemUser.getEmail()).get(0);
+		waiter.setPassword(systemUser.getPassword());
+		waiter.setFirstLogin(false);
+		waiterRepository.save(waiter);
+		systemUserRepository.save(systemUser);
+		return "OK";
+	}
+
+	@Override
+	public Waiter getLoggedIn() {
+		return (Waiter) httpSession.getAttribute("waiter");
+	}
+
+
 	
 }

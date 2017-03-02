@@ -88,6 +88,11 @@ public class ChefServiceImpl implements ChefService {
 		}
 		else {
 			Chef chef = chefs.get(0);
+			if(chef.isFirstLogin()) {
+				List<SystemUser> systemUser = systemUserRepository.findByEmail(email);
+				long id = systemUser.get(0).getId();
+				return "firstLogin,"+id;
+			}
 			if (chef.getPassword().equals(password)) {
 				httpSession.setAttribute("chef", chef);
 				return "chef";
@@ -96,6 +101,21 @@ public class ChefServiceImpl implements ChefService {
 				return "PasswordError";
 			}
 		}
+	}
+
+	@Override
+	public String firstLogin(SystemUser systemUser) {
+		Chef chef = chefRepository.findByEmail(systemUser.getEmail()).get(0);
+		chef.setPassword(systemUser.getPassword());
+		chef.setFirstLogin(false);
+		chefRepository.save(chef);
+		systemUserRepository.save(systemUser);
+		return "OK";
+	}
+
+	@Override
+	public Chef getLoggedIn() {
+		return (Chef) httpSession.getAttribute("chef");
 	}
 	
 }
