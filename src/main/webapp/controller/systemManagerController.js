@@ -65,5 +65,13 @@ systemManagerModule.controller('systemManagerController', ['$scope','$location',
 			alert(response.statusText);
 		});
 	}
+	$scope.clickLogOut = function() {
+		$http.get('/user/logout').then(function(response) {
+	   	  	$location.path("login");
+		}, function(response) {
+				alert(response.statusText);
+		});	
+		
+	}
 	
 }]);

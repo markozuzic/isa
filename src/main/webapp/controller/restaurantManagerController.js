@@ -504,4 +504,13 @@ restaurantManagerModule.controller('restaurantManagerController', ['$scope', '$l
 		});
 	} 
 	
+	$scope.clickLogOut = function() {
+		$http.get('/user/logout').then(function(response) {
+	   	  	$location.path("login");
+		}, function(response) {
+				alert(response.statusText);
+		});	
+		
+	}
+	
 }]);
