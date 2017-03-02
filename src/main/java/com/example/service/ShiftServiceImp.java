@@ -30,33 +30,34 @@ public class ShiftServiceImp implements ShiftService {
 
 	@Override
 	public String createShift(Shift newShift) {
-		if (shiftRepository.findOne(newShift.getId()) == null) {
-			shiftRepository.save(newShift);
-			return "OK";
-		}
-		return "Id error";
+		shiftRepository.save(newShift);
+		return "OK";
 	}
 
 	//ODRADI OVO
 	@Override
 	public List<Shift> getAllShifts() {
+		String employeeType = "";
+		long restaurantId = 0;
 		Waiter waiter = (Waiter) httpSession.getAttribute("waiter");
-		Chef chef = (Chef) httpSession.getAttribute("chef");
-		Bartender bartender = (Bartender) httpSession.getAttribute("bartender");
+		if(waiter != null) {
+			employeeType = "waiter";
+			restaurantId = waiter.getRestaurantId();
+		} else {
+			Chef chef = (Chef) httpSession.getAttribute("chef");
+			if(chef != null) {
+				employeeType = "chef";
+				restaurantId = chef.getRestaurantId();
+			} else {
+				Bartender bartender = (Bartender) httpSession.getAttribute("bartender");
+				if (bartender !=null){
+					employeeType = "bartender";
+					restaurantId = bartender.getRestaurantId();
+				}
+			}
+		}
 		
-		if(waiter!=null){
-			return shiftRepository.findByEmployeeType("waiter");
-		}
-		else if(chef!=null){
-			return shiftRepository.findByEmployeeType("chef");
-		}
-		else if(bartender!=null){
-			return shiftRepository.findByEmployeeType("bartender");
-		}
-		else{
-			return null;
-		}
-		
+		return shiftRepository.findByEmployeeTypeAndRestaurantId(employeeType, restaurantId);
 	}
 
 	@Override
@@ -128,6 +129,6 @@ public class ShiftServiceImp implements ShiftService {
 		return "OK";
 	}
 
-	
+
 	
 }

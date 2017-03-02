@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Chef {
 
@@ -21,6 +23,7 @@ public class Chef {
 	private String lastname;
 	
 	@Column
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date birthDate;
 	
 	@Column
@@ -34,6 +37,9 @@ public class Chef {
 	
 	@Column
 	private long restaurantId;
+	
+	@Column
+	private boolean firstLogin;
 	
 	@Column
 	public String email;
@@ -117,6 +123,14 @@ public class Chef {
 		this.restaurantId = restaurantId;
 	}
 
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
+	}
+	
 	public String getEmail() {
 		return email;
 	}

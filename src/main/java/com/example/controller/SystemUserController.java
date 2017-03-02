@@ -2,6 +2,7 @@ package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,5 +73,30 @@ public class SystemUserController {
 		else {
 			return "EmailError";
 		}
+	}
+	
+	@RequestMapping(
+			value = "/systemUser/firstLogin/{id}",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.TEXT_PLAIN_VALUE
+		)
+	public String firstLogin(@PathVariable("id") Long id, @RequestBody String password) {
+		SystemUser systemUser = systemUserService.findOne(id);
+		String type = systemUser.getType();
+		systemUser.setPassword(password);
+		if (type.equals("supplier")) {
+			return supplierService.firstLogin(systemUser);
+		}
+		else if (type.equals("waiter")){
+			return waiterService.firstLogin(systemUser);
+		}
+		else if (type.equals("bartender")) {
+			return bartenderService.firstLogin(systemUser);
+		}
+		else if (type.equals("chef")) {
+			return chefService.firstLogin(systemUser);
+		}
+		return "Error";
 	}
 }

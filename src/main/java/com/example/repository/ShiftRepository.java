@@ -17,7 +17,9 @@ public interface ShiftRepository extends Repository<Shift, Long> {
 	public Page<Shift> findAll(Pageable pageable);
 	
 	public List<Shift> findByEmployeeType(String employeeType);
-	
+
+	public List<Shift> findByEmployeeTypeAndRestaurantId(String employeeType, long restaurantId);
+
 	public List<Shift> findByEmployeeId(long id);
 
 }

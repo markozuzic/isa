@@ -20,6 +20,8 @@ public class PostData {
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	private Date dateEnd;
 	
+	private String tables;
+	
 	public PostData(){};
 
 	public String getItems() {
@@ -73,5 +75,13 @@ public class PostData {
 
 	public void setDateEnd(Date dateEnd) {
 		this.dateEnd = dateEnd;
+	}
+
+	public String getTables() {
+		return tables;
+	}
+
+	public void setTables(String tables) {
+		this.tables = tables;
 	}
 }

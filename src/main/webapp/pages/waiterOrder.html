@@ -1,0 +1,22 @@
+<h2>Moje porudzbine</h2>
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Sto</td>
+			<td>Stavke</td>
+			<td>Racun</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-ng-repeat="o in unfinishedOrders">
+			<td>{{o.tablesString}}</td>
+			<td>{{o.itemsString}}</td>
+			<td><input type="button" value="Racun" class="btn btn-info" data-ng-hide="o.finished" data-ng-click="createBill(o.id)">
+				{{o.bill}}
+			</td>
+		</tr>
+	</tbody>	
+</table>
+
+<input type="button" value="Nova porudzbina" class="btn btn-info"  data-ng-click="clickNewOrder()">

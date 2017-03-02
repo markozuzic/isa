@@ -213,7 +213,7 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				templateUrl : 'pages/guestReservationOrder.html',
 				controller : 'guestHomeController'
 		})
-
+		
 		.state('waiterHome', {
 				url: '/waiter',
 				templateUrl : 'pages/waiterHome.html',
@@ -236,6 +236,18 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 		.state('waiterHome.tables', {
 				url: '',
 				templateUrl : 'pages/waiterTables.html',
+				controller : 'waiterHomeController'
+		})
+		
+		.state('waiterHome.orders', {
+				url: '',
+				templateUrl : 'pages/waiterOrder.html',
+				controller : 'waiterHomeController'
+		})
+		
+		.state('waiterHome.orderNew', {
+				url: '/orderNew',
+				templateUrl : 'pages/waiterOrderNew.html',
 				controller : 'waiterHomeController'
 		})
 		
@@ -287,6 +299,13 @@ angular.module('restaurants', [ 'ui.router' ,'login.controller', 'guestHome.cont
 				url: '',
 				templateUrl : 'pages/drinksBartender.html',
 				controller : 'bartenderHomeController'
+
+		})
+		
+		.state('employeeChangePassword', {
+				url: '/employeeChangePassword/:systemUserId',
+				templateUrl : 'pages/employeeChangePassword.html',
+				controller : 'loginController'
 		})
 
 });

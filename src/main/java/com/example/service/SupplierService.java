@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import com.example.model.Demand;
 import com.example.model.Offer;
 import com.example.model.Supplier;
+import com.example.model.SystemUser;
 
 public interface SupplierService {
 
@@ -26,4 +27,5 @@ public interface SupplierService {
 
 	public String createOrUpdate(Offer offer);
 	
+	public String firstLogin(SystemUser systemUser);
 }

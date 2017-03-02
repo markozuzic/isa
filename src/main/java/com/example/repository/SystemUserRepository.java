@@ -12,4 +12,6 @@ public interface SystemUserRepository extends Repository<SystemUser, Long> {
 	
 	public List<SystemUser> findByEmail(String email);
 	
+	public SystemUser findOne(Long id);
+	
 }

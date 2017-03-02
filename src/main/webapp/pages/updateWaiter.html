@@ -1,15 +1,23 @@
 
 
-
-	<div class="order-block">
-		<div data-ng-app="myApp">
+	<div class="login-block">
 			<input type="text" placeholder="Ime" data-ng-model="waiter.name">
 			<input type="text" placeholder="Prezime" data-ng-model="waiter.lastname"><br>
-			<input type="text" placeholder="Datum rodjenja" data-ng-model="waiter.birthDate"><br>
+			<input type="text" placeholder="Prezime" data-ng-model="waiter.email"><br>
+			<!-- <input type="text" placeholder="Datum rodjenja" data-ng-model="waiter.birthDate"><br> -->
+			
+			<div class="input-group date" id="datetime" data-ng-init="initDateTimePicker()">
+
+			 	<input type="text" class="form-control" id="dateTextField" data-ng-model="waiter.birthDate"/> <span
+					class="input-group-addon"> <span
+					class="glyphicon glyphicon-calendar"></span>
+				</span> 
+			
+			</div>  
+			
 			<input type="text" placeholder="Konfekcijski broj" data-ng-model="waiter.clothesSize"><br>
 			<input type="text" placeholder="Velicina obuce" data-ng-model="waiter.shoeSize"><br>
 			<input type="password" placeholder="Lozinka" data-ng-model="waiter.password"><br>
 			<br>
 			<button data-ng-click="clickIzmeni()" class="btn btn-danger center-block">Izmeni!</button>
-		</div>
-	</div>
+	</div> 

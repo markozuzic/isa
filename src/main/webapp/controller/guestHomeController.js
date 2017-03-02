@@ -184,6 +184,17 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 			user.surname = $scope.prezime;
 			user.email = $scope.email;
 			
+			var emailRegex = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+			
+			
+			if(user.name == "" ){
+				toastr.error("Morate uneti ime!");
+			} else if(user.surname == "" ){
+				toastr.error("Morate uneti prezime!");
+			} else if(!emailRegex.test($scope.user.email)) {
+				toastr.error("Morate uneti validan e-mail!");
+			} else {
+			
 			$http.post('/user/updateUserInfo', user).then(function(response) {
 				if(response.data == "EmailError") {
 					toastr.error("Već postoji nalog sa tom email adresom.");
@@ -194,6 +205,7 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 				}, function(response) {
 					alert(response.statusText);
 			});
+			}
 		}
 	}
 	
@@ -535,13 +547,13 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 
          var postData = {latitude: pos.lat, longitude : pos.lng};
           $http.post('/user/setLatitudeAndLongitude', postData).then(function(response) {
-        	  toastr.info(response.data);
+        	  
 			}, function(response) {
 				alert(response.statusText);
 		  });
           
           infoWindow.setPosition(pos);
-          infoWindow.setContent('Location found.');
+          infoWindow.setContent('Vasa lokacija');
           map.setCenter(pos);
           
         }, function() {
@@ -698,7 +710,6 @@ guestHomeModule.controller('guestHomeController', ['$scope','$location', '$http'
 	
 	$scope.setRatingForVisit = function(visitId) {
 		$scope.ratingForVisit = visitId;
-		toastr.info($scope.ratingForVisit);
 	}
 	
 	$scope.clickLogOut = function() {

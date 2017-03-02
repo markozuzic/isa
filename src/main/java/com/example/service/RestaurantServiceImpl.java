@@ -1,16 +1,24 @@
 package com.example.service;
 
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+
 import org.springframework.stereotype.Service;
-import com.example.model.Manager;
-import com.example.model.Restaurant;
+
 import com.example.model.Bartender;
 import com.example.model.Chef;
+import com.example.model.MenuItem;
+import com.example.model.Restaurant;
+import com.example.model.Manager;
 import com.example.model.TableRestaurant;
 import com.example.model.Waiter;
+
 import com.example.repository.RestaurantRepository;
 import com.example.repository.TableRepository;
 import com.google.maps.GeoApiContext;
@@ -85,6 +93,41 @@ public class RestaurantServiceImpl implements RestaurantService {
 			restaurantId = c.getRestaurantId();
 		}
 		return tableRepository.findByRestaurant(restaurantId);
+	}
+
+	@Override
+	public Collection<MenuItem> getAllMenuItems() {
+		long restaurantId = 0;
+		if (httpSession.getAttribute("waiter") != null) {
+			Waiter w = (Waiter) httpSession.getAttribute("waiter");
+			restaurantId = w.getRestaurantId();
+		} else if (httpSession.getAttribute("bartender") != null) {
+			Bartender b = (Bartender) httpSession.getAttribute("bartender");
+			restaurantId = b.getRestaurantId();
+		} else if (httpSession.getAttribute("chef") != null) {
+			Chef c = (Chef) httpSession.getAttribute("chef");
+			restaurantId = c.getRestaurantId();
+		}
+		ArrayList<MenuItem> retVal = new ArrayList<MenuItem>();
+		retVal.addAll(restaurantRepository.findOne(restaurantId).getMenu());
+		retVal.addAll(restaurantRepository.findOne(restaurantId).getDrinks());
+		return retVal;
+	}
+
+	@Override
+	public Restaurant getRestaurantForEmployee() {
+		long restaurantId = 0;
+		if (httpSession.getAttribute("waiter") != null) {
+			Waiter w = (Waiter) httpSession.getAttribute("waiter");
+			restaurantId = w.getRestaurantId();
+		} else if (httpSession.getAttribute("bartender") != null) {
+			Bartender b = (Bartender) httpSession.getAttribute("bartender");
+			restaurantId = b.getRestaurantId();
+		} else if (httpSession.getAttribute("chef") != null) {
+			Chef c = (Chef) httpSession.getAttribute("chef");
+			restaurantId = c.getRestaurantId();
+		}
+		return restaurantRepository.findOne(restaurantId);
 	}
 
 }
