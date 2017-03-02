@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -17,16 +18,25 @@ public class OrderR {
 	private long id;
 	
 	@Column
-	private boolean doneImmediately;
+	private boolean doneImmediately = false;
 	
 	@ManyToOne
-	private Visit visit;	//Stavila sam ovde visit a ne reservation, jer visit ima referencu ka reservation, a trebace ti
-							//visit kad budes radila ocenjivanje
+	private Visit visit;
+							
 	@ManyToOne
 	private Waiter waiter;
 	
 	@ManyToMany
 	private List<MenuItem> menuItems;
+	
+	@Column
+	private Date date;
+	
+	@Column
+	private boolean finished = false;
+	
+	@Column
+	private long tableNumber = 0;
 	
 	public OrderR(){
 		
@@ -71,6 +81,30 @@ public class OrderR {
 
 	public void setReservation(Visit visit) {
 		this.visit = visit;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public boolean getFinished() {
+		return finished;
+	}
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+
+	public long getTableNumber() {
+		return tableNumber;
+	}
+
+	public void setTableNumber(long tableNumber) {
+		this.tableNumber = tableNumber;
 	}
 
 	

@@ -1,6 +1,10 @@
 package com.example.controller;
 
+
+import java.util.Collection;
+
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -8,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.model.OrderR;
+import com.example.model.TableRestaurant;
 import com.example.model.Waiter;
 import com.example.service.OrderService;
 import com.example.service.WaiterService;
@@ -29,7 +35,25 @@ public class WaiterController {
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
 		public Waiter createWaiter(@RequestBody Waiter waiter){
-		return waiterService.createWaiter(waiter);
+			return waiterService.createWaiter(waiter);
+	}
+	
+	@RequestMapping(
+			value = "/waiter/getReon",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public Collection<TableRestaurant> getReon(){
+		return waiterService.getReon();
+	}
+	
+	@RequestMapping(
+			value = "/waiter/getUnfinishedOrders",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public Collection<OrderR> getUnfinishedOrders(){
+		return waiterService.getUnfinishedOrders();
 	}
 	
 	@RequestMapping(
@@ -71,6 +95,15 @@ public class WaiterController {
 			)
 	public List<Waiter> getAllWaiters() {
 		return waiterService.getAllWaiters();
+	}
+	
+	@RequestMapping(
+			value = "/waiter/getLoggedIn",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public Waiter getLoggedIn() {
+		return waiterService.getLoggedIn();
 	}
 	
 }

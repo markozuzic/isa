@@ -197,15 +197,14 @@ public class ReservationServiceImpl implements ReservationService{
         MimeMessage mail = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
-            //helper.setTo(friend.getEmail());
-            helper.setTo("anja.stef@gmail.com");
+            helper.setTo(friend.getEmail());
+           // helper.setTo("anja.stef@gmail.com");
             helper.setReplyTo("someone@localhost");
             helper.setFrom("someone@localhost");
             helper.setSubject("Pozivnica");
             helper.setText(sender.getName()+" "+sender.getSurname()+" Vas je pozvao u restoran!"
             			+ "Kliknite na link da saznate vise o tome."
             			+ "http://localhost:8080/#/invitation/"+reservation.getId()+"/"+friend.getId());
-            //helper.setText("http://localhost:8080/#/activateAccount/" + emailAdress+ "/" + code );
         } catch (MessagingException e) {
             e.printStackTrace();
         } finally {}
@@ -237,11 +236,11 @@ public class ReservationServiceImpl implements ReservationService{
 		MimeMessage mail = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
-            //helper.setTo(friend.getEmail()); user.getEmail
-            helper.setTo("anja.stef@gmail.com");
+            helper.setTo(userEmail); 
+            //helper.setTo("anja.stef@gmail.com");
             helper.setReplyTo("someone@localhost");
             helper.setFrom("someone@localhost");
-            helper.setSubject("Pozivnica");
+            helper.setSubject("Re:Pozivnica");
             if(accepted){
             	helper.setText(friend.getName()+" "+friend.getSurname()+" je prihvatio Vas poziv!");
             } else {

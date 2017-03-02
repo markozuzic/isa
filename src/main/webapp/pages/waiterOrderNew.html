@@ -1,0 +1,38 @@
+<h2>Nova porudzbina</h2>
+
+<h3>Rezervisi stolove:</h3>
+<div class="checkbox" data-ng-repeat="t in reon">
+	<label><input type="checkbox" value="" data-ng-model="t.selected">{{t.tableNumber}}</label>
+</div>
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Oznaka stavke</td>
+			<td>Ime stavke</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-ng-repeat="mi in newOrderMenuItems">
+			<td>{{mi.id}}</td>
+			<td>{{mi.name}}</td>
+		</tr>
+	</tbody>	
+</table>
+
+
+<input type="text" class="form-control ng-valid ng-dirty" placeholder="Pretraga jelovnika i karte pica" data-ng-model="searchKeyword">
+							<table class="table table-bordered">
+								<tr data-ng-repeat="x in allMenuItems | filter:filterFn | filter:searchKeyword">
+									<td>{{x.name + " " + x.surname}}
+										
+									</td>
+									<td>
+										<button class="btn btn-primary" data-ng-click="addToOrder(x)" data-ng-hide="x.added">
+											Dodaj
+										</button>
+									</td>
+								</tr>
+							</table>
+							
+<button class="btn btn-primary" data-ng-click="createNewOrderFinish()">Napravi</button>

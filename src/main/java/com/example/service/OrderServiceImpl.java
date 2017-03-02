@@ -9,7 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import com.example.model.Bartender;
+import com.example.model.Chef;
 import com.example.model.Manager;
+
 import com.example.model.MenuItem;
 import com.example.model.OrderR;
 import com.example.model.User;
@@ -18,6 +22,9 @@ import com.example.model.Waiter;
 import com.example.model.pojo.PostData;
 import com.example.repository.MenuItemRepository;
 import com.example.repository.OrderRepository;
+import com.example.repository.ReservationRepository;
+import com.example.repository.RestaurantRepository;
+import com.example.repository.TableRepository;
 import com.example.repository.VisitRepository;
 import com.example.repository.WaiterRepository;
 
@@ -37,8 +44,17 @@ public class OrderServiceImpl implements OrderService {
 	private MenuItemRepository menuItemRepository;
 	
 	@Autowired
-	private WaiterRepository waiterRepository;
+	private TableRepository tableRepository;
 	
+	@Autowired
+	private ReservationRepository reservationRepository;
+	
+	@Autowired
+	private RestaurantRepository restaurantRepository;
+	
+	@Autowired
+	private WaiterRepository waiterRepository;
+
 	@Override
 	public String createOrder(OrderR newOrder) {
 		if(orderRepository.findById(newOrder.getId()).isEmpty()){
@@ -59,6 +75,7 @@ public class OrderServiceImpl implements OrderService {
 		OrderR order = orderRepository.save(new OrderR());
 		order.setMenuItems(new ArrayList<MenuItem>());
 		order.setReservation(visit);
+		order.setDate(visit.getReservation().getDateTime());
 		for (String string : tokens) {
 			MenuItem mi = menuItemRepository.findOne(Long.parseLong(string));
 			order.getMenuItems().add(mi);
@@ -71,6 +88,34 @@ public class OrderServiceImpl implements OrderService {
 		return "OK";
 	}
 
+	@Override
+	public ArrayList<OrderR> getUnfinishedOrders(){
+		long restaurantId = 0;
+		Waiter waiter = (Waiter) httpSession.getAttribute("waiter");
+		if(waiter != null) {
+			restaurantId = waiter.getRestaurantId();
+		} else {
+			Chef chef = (Chef) httpSession.getAttribute("chef");
+			if(chef != null) {
+				restaurantId = chef.getRestaurantId();
+			} else {
+				Bartender bartender = (Bartender) httpSession.getAttribute("bartender");
+				if (bartender !=null){
+					restaurantId = bartender.getRestaurantId();
+				}
+			}
+		}
+		List<OrderR> unfinishedOrders = orderRepository.findByFinished(false);
+		ArrayList<OrderR> retval = new ArrayList<OrderR>();
+		for (OrderR orderR : unfinishedOrders) {
+			if(orderR.getReservation().getReservation().getRestaurantId() == restaurantId){
+				retval.add(orderR);
+			}
+		}
+		return retval;
+	}
+	
+	
 	public ArrayList<MenuItem> getAllMeals() {
 		// TODO Auto-generated method stub
 		return null;
@@ -99,6 +144,39 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public String createBill(long orderId) {
+		OrderR order = orderRepository.findOne(orderId);
+		double bill = 0;
+		for (MenuItem mi : order.getMenuItems()) {
+			bill += mi.getPrice();
+		}
+		order.setFinished(true);
+		return ""+bill;
+	}
+
+	@Override
+	public OrderR createOrderFromPostData(PostData postData) {
+		String items = postData.getItems();
+		String tableString = postData.getTables();
+		
+		OrderR order = new OrderR();
+		order.setDate(new Date());
+		order.setWaiter((Waiter) httpSession.getAttribute("waiter"));
+		order.setFinished(false);
+		order.setIsDoneImmediately(false);
+		order.setTableNumber(Long.parseLong(tableString));
+		
+		ArrayList<MenuItem> itemsList = new ArrayList<MenuItem>();
+		String[] tokens = items.split(",");
+		for (String t : tokens) {
+			long id = Long.parseLong(t);
+			MenuItem mi = menuItemRepository.findOne(id);
+			itemsList.add(mi);
+		}
+		order.setMenuItems(itemsList);
+		return orderRepository.save(order);
+	}
+	
 	public String generateReport(PostData dates) {
 		Manager m = (Manager) httpSession.getAttribute("manager");
 		Waiter w = waiterRepository.findByRestaurantId(m.getRestaurantId()).get(0);

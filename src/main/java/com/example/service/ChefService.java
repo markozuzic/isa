@@ -3,7 +3,9 @@ package com.example.service;
 import java.util.List;
 
 import com.example.model.Chef;
+import com.example.model.SystemUser;
 import com.example.model.User;
+import com.example.model.Waiter;
 
 public interface ChefService {
 
@@ -17,4 +19,7 @@ public interface ChefService {
 	
 	public String logInChef(String email, String password);
 	
+	public String firstLogin(SystemUser systemUser);
+	
+	public Chef getLoggedIn();
 }

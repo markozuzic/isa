@@ -31,6 +31,9 @@ public class Shift {
 	@Column
 	private String employeeType;
 	
+	@Column
+	private long restaurantId;
+	
 	@ManyToMany
 	private List<TableRestaurant> reon;
 	
@@ -82,6 +85,15 @@ public class Shift {
 		this.shiftType = shiftType;
 	}
 
+
+	public long getRestaurantId() {
+		return restaurantId;
+	}
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
+	}
+	
 	public String getEmployeeType() {
 		return employeeType;
 	}

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.example.model.Chef;
 import com.example.model.Offer;
 import com.example.model.Supplier;
 import com.example.model.SystemUser;
@@ -74,6 +75,11 @@ public class SupplierServiceImp implements SupplierService {
 		}
 		
 		Supplier s = suppliers.get(0);
+		if(s.isFirstLogin()) {
+			List<SystemUser> systemUser = systemUserRepository.findByEmail(email);
+			long id = systemUser.get(0).getId();
+			return "firstLogin,"+id;
+		}
 		if (s.getPassword().equals(password)){
 			httpSession.setAttribute("supplier", s);
 			return "supplier";
@@ -82,6 +88,16 @@ public class SupplierServiceImp implements SupplierService {
 			return "PasswordError";
 		}
 		
+	}
+
+	@Override
+	public String firstLogin(SystemUser systemUser) {
+		Supplier supplier = supplierRepository.findByEmail(systemUser.getEmail()).get(0);
+		supplier.setPassword(systemUser.getPassword());
+		supplier.setFirstLogin(false);
+		supplierRepository.save(supplier);
+		systemUserRepository.save(systemUser);
+		return "OK";
 	}
 
 }

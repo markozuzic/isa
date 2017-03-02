@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Bartender;
+import com.example.model.Chef;
 import com.example.model.Manager;
 import com.example.model.Restaurant;
 import com.example.model.SystemUser;
@@ -89,6 +90,11 @@ public class BartenderServiceImpl implements BartenderService {
 		}
 		else {
 			Bartender bartender = bartenders.get(0);
+			if(bartender.isFirstLogin()) {
+				List<SystemUser> systemUser = systemUserRepository.findByEmail(email);
+				long id = systemUser.get(0).getId();
+				return "firstLogin,"+id;
+			}
 			if (bartender.getPassword().equals(password)) {
 				httpSession.setAttribute("bartender", bartender);
 				return "bartender";
@@ -97,6 +103,21 @@ public class BartenderServiceImpl implements BartenderService {
 				return "PasswordError";
 			}
 		}
+	}
+
+	@Override
+	public String firstLogin(SystemUser systemUser) {
+		Bartender bartender = bartenderRepository.findByEmail(systemUser.getEmail()).get(0);
+		bartender.setPassword(systemUser.getPassword());
+		bartender.setFirstLogin(false);
+		bartenderRepository.save(bartender);
+		systemUserRepository.save(systemUser);
+		return "OK";
+	}
+
+	@Override
+	public Bartender getLoggedIn() {
+		return (Bartender) httpSession.getAttribute("bartender");
 	}
 
 }

@@ -2,10 +2,22 @@
 	<div class="col-md-6 center-block">
 		<h3>Raspored rada</h3>
 		<table class="table table-hover">
-			<tr data-ng-repeat="x in shifts">
-				<td>{{x.employeeId + " " + x.date + " " + x.employeeType + " " + x.shiftType}}</td>
-				
-			</tr>
+			<thead>
+				<tr>
+					<td>Oznaka zaposlenog</td>
+					<td>Datum</td>
+					<td>Tip zaposlenog</td>
+					<td>Smena</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="x in shifts">
+					<td>{{x.employeeId}}</td>
+					<td>{{x.date}}</td>
+					<td>{{x.employeeType}}</td>
+					<td>{{x.shiftType}}</td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 </div>
